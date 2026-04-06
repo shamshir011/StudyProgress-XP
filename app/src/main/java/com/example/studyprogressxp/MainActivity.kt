@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.studyprogressxp.ui.navigation.bottombarnavigation.NavBarNavigation
 import com.example.studyprogressxp.ui.splashscreen.SplashScreen
 import com.example.studyprogressxp.ui.theme.StudyProgressXPTheme
 
@@ -14,13 +15,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             StudyProgressXPTheme {
 
-                SplashScreen()
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-//                }
+//                SplashScreen()
+                NavBarNavigation()
             }
         }
     }
