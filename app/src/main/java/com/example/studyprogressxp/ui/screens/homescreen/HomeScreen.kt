@@ -31,14 +31,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.navigation.bottombarnavigation.MyNavBar
 import com.example.studyprogressxp.ui.theme.DarkOrange
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable()
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
@@ -48,10 +49,10 @@ fun HomeScreen() {
         Text(
             text = "Good Evening",
             fontSize = 24.sp,
-            color = Color.Black
+            color = Color.Black,
+            fontWeight = FontWeight.Bold
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = "Ready for your next deep focus session?",
@@ -61,12 +62,13 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             
             Card(
                 modifier = Modifier
-                    .size(150.dp),
+                    .size(170.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = DarkOrange,
@@ -82,9 +84,12 @@ fun HomeScreen() {
                     Column(
                         verticalArrangement = Arrangement.Center
                     ) {
+
+                        Spacer(modifier = Modifier.height(8.dp))
                         Icon(
                             painter = painterResource(R.drawable.day_streak_icon),
-                            contentDescription = "Day Streak"
+                            contentDescription = "Day Streak",
+                            modifier = Modifier.size(40.dp)
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -106,11 +111,60 @@ fun HomeScreen() {
                         Spacer(modifier = Modifier.height(4.dp))
 
                         Text(
-                            text = "Keep the fire burning!"
+                            text = "Keep fire burning!"
+                        )
+                    }
+                }
+            }
+
+
+            Card(
+                modifier = Modifier
+                    .size(170.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 4.dp
+                ),
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(8.dp),
+                ){
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Icon(
+                            painter = painterResource(R.drawable.clock_icon),
+                            contentDescription = "Day Streak",
+                            tint = Color.DarkGray
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = "2.5 hrs",
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "Study time today",
+                            color = Color.DarkGray
                         )
                     }
                 }
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LevelUI()
     }
 }
