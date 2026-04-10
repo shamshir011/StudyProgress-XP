@@ -1,9 +1,6 @@
-package com.example.studyprogressxp.ui.component
+package com.example.studyprogressxp.ui.components
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,7 +17,7 @@ import com.example.studyprogressxp.ui.theme.Purple40
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun AppTopBar() {
+fun AppTopBarUI() {
     TopAppBar(
         title = { Text(text = "Mindful Scholar",
             fontWeight = FontWeight.SemiBold
@@ -31,7 +28,8 @@ fun AppTopBar() {
             IconButton(onClick = {}) {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "Search"
+                    contentDescription = "Search",
+                    tint = Color.DarkGray
 //                    tint = Color.Black
                 )
             }

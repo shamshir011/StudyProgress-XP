@@ -17,13 +17,12 @@ import com.example.studyprogressxp.ui.navigation.bottombarnavigation.MyNavBar
 @Composable
 fun StatsScreen(navController: NavHostController){
 
-    Scaffold(
-        bottomBar = {MyNavBar(navController, "Stats")}
-    ) { innerPadding->
+//    Scaffold(
+//        bottomBar = {MyNavBar(navController, "Stats")}
+//    ) { innerPadding->
 
         Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(innerPadding),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -33,5 +32,5 @@ fun StatsScreen(navController: NavHostController){
                 fontWeight = FontWeight.Bold
             )
         }
-    }
+//    }
 }

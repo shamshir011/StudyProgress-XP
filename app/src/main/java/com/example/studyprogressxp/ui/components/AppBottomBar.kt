@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.component
+package com.example.studyprogressxp.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -6,10 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,15 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.theme.Purple
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun AppBottomBar() {
+fun AppBottomBar(navController: NavController) {
     BottomAppBar(
         containerColor = Color.LightGray.copy(alpha = 0.2f),
-        contentColor = Color.Blue // Changed 'content' to 'contentColor'
+        contentColor = Purple // Changed 'content' to 'contentColor'
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -53,8 +53,8 @@ fun AppBottomBar() {
                 modifier = Modifier.size(48.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = "Search",
+                    painter = painterResource(R.drawable.stats_icon),
+                    contentDescription = "Stats",
                     modifier = Modifier.size(30.dp)
                 )
             }
@@ -67,7 +67,7 @@ fun AppBottomBar() {
             ) {
                 Icon(
                     imageVector = Icons.Default.Person,
-                    contentDescription = "Notifications",
+                    contentDescription = "Profile",
                     modifier = Modifier.size(30.dp)
                 )
             }

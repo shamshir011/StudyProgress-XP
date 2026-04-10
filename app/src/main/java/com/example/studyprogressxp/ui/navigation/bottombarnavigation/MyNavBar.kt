@@ -9,23 +9,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.theme.Purple
 
 @Composable
-fun MyNavBar(navController: NavHostController, key: String) {
+fun MyNavBar(navController: NavHostController) {
 
     val navItems = listOf(
-        NavItem("Home", R.drawable.home_icon, NavBarRoutes.Home),
+        NavItem("Home", R.drawable.home_icon,NavBarRoutes.Home),
         NavItem("Stats", R.drawable.stats_icon, NavBarRoutes.Stats),
         NavItem("Profile", R.drawable.profile_icon, NavBarRoutes.Profile)
     )
+
+    val currentDestination =
+        navController.currentBackStackEntryAsState().value?.destination
+
 
     NavigationBar {
 
         navItems.forEach { item ->
 
+            val isSelected = when (item.routes) {
+                is NavBarRoutes.Home ->
+                    currentDestination?.route?.contains("Home") == true
+
+                is NavBarRoutes.Stats ->
+                    currentDestination?.route?.contains("Stats") == true
+
+                is NavBarRoutes.Profile ->
+                    currentDestination?.route?.contains("Profile") == true
+            }
+
             NavigationBarItem(
-                selected = item.title == key,
+//                selected = item.title == key,
+                selected = isSelected,
                 onClick = {
                     navController.navigate(item.routes){
 //                        Its handling backStack
@@ -45,15 +63,14 @@ fun MyNavBar(navController: NavHostController, key: String) {
                 label = { Text(text = item.title) },
 //                alwaysShowLabel = false,
                 colors = NavigationBarItemDefaults.colors(
-                    selectedTextColor = Color.Blue,
-                    selectedIconColor = Color.Blue,
-                    indicatorColor = Color.Blue.copy(alpha = 0.1f),
+                    selectedTextColor = Purple,
+                    selectedIconColor = Purple,
+                    indicatorColor = Purple.copy(alpha = 0.1f),
                     unselectedTextColor = Color.DarkGray,
                     unselectedIconColor = Color.DarkGray
                 )
             )
         }
-
     }
 }
 
