@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.studyprogressxp.ui.theme.Purple
 import com.example.studyprogressxp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +38,7 @@ fun AppTopBarUI() {
 
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.White,
-            titleContentColor = Purple40,
+            titleContentColor = Purple,
             actionIconContentColor = Color.Black,
             navigationIconContentColor = Color.White
 
