@@ -2,6 +2,7 @@ package com.example.studyprogressxp.ui.screens.homescreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -31,7 +33,7 @@ import com.example.studyprogressxp.ui.theme.Purple
 @Composable
 fun CardItem(skill: Skill) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+        modifier = Modifier.fillMaxWidth().padding(8.dp),
 
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -76,14 +78,15 @@ fun CardItem(skill: Skill) {
 
             Spacer(modifier = Modifier.height(6.dp))
 
-
-            Card(
-                modifier = Modifier.fillMaxWidth()
-                    .height(8.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Purple
-                )
-            ) { }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .background(
+                        color = Purple,
+                        shape = RoundedCornerShape(50.dp)
+                    )
+            )
         }
     }
 }

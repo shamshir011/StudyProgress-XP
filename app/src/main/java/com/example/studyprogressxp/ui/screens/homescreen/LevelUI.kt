@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.Green
+import com.example.studyprogressxp.ui.theme.Purple
 
 @Preview(showBackground = true)
 @Composable
@@ -89,14 +90,15 @@ fun LevelUI() {
 
                             Spacer(modifier = Modifier.height(6.dp))
 
-                            Card(
+                            Box(
                                 modifier = Modifier
                                     .width(250.dp)
-                                    .height(8.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = Green
-                                )
-                            ) { }
+                                    .height(8.dp)
+                                    .background(
+                                        color = Green,
+                                        shape = RoundedCornerShape(50.dp)
+                                    )
+                            )
 
                             Spacer(modifier = Modifier.height(6.dp))
 
