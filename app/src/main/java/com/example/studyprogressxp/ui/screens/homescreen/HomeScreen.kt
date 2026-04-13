@@ -270,30 +270,29 @@ fun HomeScreen(navController: NavController) {
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp, bottom = 8.dp),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     IconButton(
                         onClick = {},
-                        modifier = Modifier
-                            .size(40.dp)
+                        modifier = Modifier.padding(8.dp)
+                            .size(35.dp)
                             .background(
                                 color = Color.White,
                                 shape = CircleShape
                             )
                     ) {
                         Icon(
+                            modifier = Modifier.size(24.dp),
                             painter = painterResource(R.drawable.start_icon),
                             contentDescription = "Start Session",
-                            modifier = Modifier.size(100.dp),
                             tint = Purple
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
                         text = "Start Study Session",
