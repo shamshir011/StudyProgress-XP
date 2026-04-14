@@ -41,7 +41,7 @@ fun DeepFocusUI() {
             .fillMaxWidth().height(150.dp)
             .background(
                 color = DarkPurple,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(24.dp)
             )
     ) {
 

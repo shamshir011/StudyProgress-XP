@@ -42,10 +42,10 @@ fun MainScreen(){
                 StatsScreen(navController)
             }
 
+
             composable<NavBarRoutes.Profile> {
                 ProfileScreen(navController)
             }
         }
-
     }
 }
