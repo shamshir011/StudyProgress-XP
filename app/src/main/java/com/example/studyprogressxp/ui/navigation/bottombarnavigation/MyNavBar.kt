@@ -6,6 +6,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
@@ -30,7 +31,10 @@ fun MyNavBar(navController: NavHostController) {
 
         navItems.forEach { item ->
 
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+
             val isSelected = when (item.routes) {
+
                 is NavBarRoutes.Home ->
                     currentDestination?.route?.contains("Home") == true
 
@@ -39,6 +43,9 @@ fun MyNavBar(navController: NavHostController) {
 
                 is NavBarRoutes.Profile ->
                     currentDestination?.route?.contains("Profile") == true
+
+                else -> false
+
             }
 
             NavigationBarItem(

@@ -50,7 +50,7 @@ fun CardItem(skill: Skill) {
             Icon(
                 painter = painterResource(skill.imageRes),
                 contentDescription = "Code Section",
-                modifier = Modifier.size(35.dp),
+                modifier = Modifier.size(30.dp),
                 tint = Purple
             )
         }
@@ -67,11 +67,12 @@ fun CardItem(skill: Skill) {
             ) {
                 Text(
                     text = skill.name,
-                    fontSize = 20.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = skill.duration,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
             }

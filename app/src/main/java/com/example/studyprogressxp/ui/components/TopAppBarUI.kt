@@ -1,6 +1,7 @@
 package com.example.studyprogressxp.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -11,14 +12,14 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import com.example.studyprogressxp.ui.navigation.bottombarnavigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.Purple
-import com.example.studyprogressxp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true, showSystemUi = true)
+//@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun AppTopBarUI() {
+fun AppTopBarUI(navController: NavController) {
     TopAppBar(
         title = { Text(text = "Mindful Scholar",
             fontWeight = FontWeight.SemiBold
@@ -26,7 +27,11 @@ fun AppTopBarUI() {
         },
 
         actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                navController.navigate(NavBarRoutes.Settings){
+                    launchSingleTop = true
+                }
+            }) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = "Search",
@@ -36,6 +41,35 @@ fun AppTopBarUI() {
             }
         },
 
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White,
+            titleContentColor = Purple,
+            actionIconContentColor = Color.Black,
+            navigationIconContentColor = Color.White
+
+        )
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingTopBar(navController: NavController) {
+    TopAppBar(
+        title = { Text(text = "Settings",
+            fontWeight = FontWeight.SemiBold
+        )
+                },
+
+        navigationIcon = {
+            IconButton(onClick = {navController.navigateUp()}) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Menu",
+                    tint = Color.Black
+                )
+            }
+        },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.White,
             titleContentColor = Purple,

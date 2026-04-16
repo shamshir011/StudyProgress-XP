@@ -13,4 +13,6 @@ sealed class NavBarRoutes{
     @Serializable
     object Profile : NavBarRoutes()
 
+    @Serializable
+    object Settings : NavBarRoutes()
 }
