@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.model.Skill
+import com.example.studyprogressxp.ui.navigation.bottombarnavigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
@@ -235,7 +236,7 @@ fun HomeScreen(navController: NavController) {
         }
 
 
-        item{
+        item {
             Card(
                 modifier = Modifier,
                 shape = RoundedCornerShape(16.dp),
@@ -244,9 +245,9 @@ fun HomeScreen(navController: NavController) {
                     contentColor = Color.Black
                 )
             ) {
-                        trackedSkill.forEach { product ->
-                            CardItem(product)
-                    }
+                trackedSkill.forEach { product ->
+                    CardItem(product)
+                }
             }
             Spacer(modifier = Modifier.height(36.dp))
         }
@@ -254,7 +255,10 @@ fun HomeScreen(navController: NavController) {
         item {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .clickable {
+                        navController.navigate(NavBarRoutes.Session)
+                    },
                 shape = RoundedCornerShape(50.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Purple,
@@ -273,7 +277,8 @@ fun HomeScreen(navController: NavController) {
 
                     Box(
 
-                        modifier = Modifier.padding(6.dp)
+                        modifier = Modifier
+                            .padding(6.dp)
                             .size(40.dp)
                             .background(
                                 color = Color.White,
@@ -282,7 +287,9 @@ fun HomeScreen(navController: NavController) {
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            modifier = Modifier.padding(4.dp).size(34.dp),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .size(34.dp),
                             painter = painterResource(R.drawable.play_arrow_icon),
                             contentDescription = "Start Session",
                             tint = Purple
@@ -303,31 +310,33 @@ fun HomeScreen(navController: NavController) {
         }
 
         item {
-                Row(
-                    modifier = Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
 //                    .clip(RoundedCornerShape(12.dp))
-                        .clickable{}.padding(12.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.square_dot_icon),
-                        contentDescription = "Last Session",
-                        tint = Purple
-                    )
+                    .clickable {}
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.square_dot_icon),
+                    contentDescription = "Last Session",
+                    tint = Purple
+                )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-                    Text(
-                        text = "Last Session: ",
-                        color = Color.Black
-                    )
+                Text(
+                    text = "Last Session: ",
+                    color = Color.Black
+                )
 
-                    Text(
-                        text = "Android Development",
-                        color = Color.Black
-                    )
-                }
+                Text(
+                    text = "Android Development",
+                    color = Color.Black
+                )
+            }
         }
     }
 }

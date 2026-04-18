@@ -15,4 +15,7 @@ sealed class NavBarRoutes{
 
     @Serializable
     object Settings : NavBarRoutes()
+
+    @Serializable
+    object Session : NavBarRoutes()
 }

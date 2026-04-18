@@ -22,18 +22,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
 
-@Preview
+
 @Composable
-fun SessionScreen() {
+fun SessionScreen(navController: NavController) {
 
     Column(
         modifier = Modifier.fillMaxSize().padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Box(
             modifier = Modifier.width(200.dp).height(50.dp).background(

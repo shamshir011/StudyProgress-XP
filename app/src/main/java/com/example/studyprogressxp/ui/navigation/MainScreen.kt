@@ -16,6 +16,7 @@ import com.example.studyprogressxp.ui.navigation.bottombarnavigation.MyNavBar
 import com.example.studyprogressxp.ui.navigation.bottombarnavigation.NavBarRoutes
 import com.example.studyprogressxp.ui.screens.homescreen.HomeScreen
 import com.example.studyprogressxp.ui.screens.profilescreen.ProfileScreen
+import com.example.studyprogressxp.ui.screens.sessionscreen.SessionScreen
 import com.example.studyprogressxp.ui.screens.settingscreen.SettingScreen
 import com.example.studyprogressxp.ui.screens.statsscreen.StatsScreen
 
@@ -23,7 +24,7 @@ import com.example.studyprogressxp.ui.screens.statsscreen.StatsScreen
 @Composable
 fun MainScreen(){
 
-    val hideRoutes = listOf("Settings")
+    val hideRoutes = listOf("Settings", "Session")
 
     val navController = rememberNavController()
 
@@ -31,9 +32,9 @@ fun MainScreen(){
     val currentRoute = navBackStackEntry?.destination?.route
 
 
-    val hideBottomBarRoutes = listOf(
-        NavBarRoutes.Settings::class.simpleName
-    )
+//    val hideBottomBarRoutes = listOf(
+//        NavBarRoutes.Settings::class.simpleName
+//    )
 
     Scaffold(
 
@@ -82,6 +83,10 @@ fun MainScreen(){
 
             composable<NavBarRoutes.Settings> {
                 SettingScreen(navController)
+            }
+
+            composable<NavBarRoutes.Session> {
+                SessionScreen(navController)
             }
         }
     }

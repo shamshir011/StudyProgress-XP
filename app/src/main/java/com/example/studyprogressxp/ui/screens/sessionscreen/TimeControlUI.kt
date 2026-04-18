@@ -91,7 +91,7 @@ fun TimeControlUI(){
                 contentAlignment = Alignment.Center
             ){
                 Icon(
-                    painter = painterResource(R.drawable.play_arrow_icon),
+                    painter = painterResource(R.drawable.stop_icon),
                     contentDescription = "Stop Icon",
                     tint = DarkerRed
                 )

@@ -35,7 +35,7 @@ import com.example.studyprogressxp.ui.theme.LowPurple
 fun ExpTarget() {
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
