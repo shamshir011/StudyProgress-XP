@@ -21,8 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.painterResource
@@ -31,10 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.theme.BlushPink
 import com.example.studyprogressxp.ui.theme.DarkGreen
 import com.example.studyprogressxp.ui.theme.DarkerRed
 import com.example.studyprogressxp.ui.theme.LightRed
 import com.example.studyprogressxp.ui.theme.LowPurple
+import kotlin.io.encoding.Base64
 
 //@Preview(showBackground = true)
 @Composable
@@ -45,6 +51,9 @@ fun SettingScreen(navController: NavController) {
             .fillMaxSize()
             .padding(8.dp),
     ) {
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             text = "Account",
             fontSize = 20.sp,
@@ -65,13 +74,15 @@ fun SettingScreen(navController: NavController) {
             ),
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Box(
                     modifier = Modifier
-                        .size(70.dp)
+                        .size(50.dp)
                         .background(
                             color = LowPurple,
                             shape = RoundedCornerShape(100.dp)
@@ -80,8 +91,7 @@ fun SettingScreen(navController: NavController) {
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.edit_icon),
-                        contentDescription = "Edit Profile Name",
-                        modifier = Modifier.size(32.dp)
+                        contentDescription = "Edit Profile Name"
                     )
                 }
 
@@ -112,7 +122,9 @@ fun SettingScreen(navController: NavController) {
         }
 
 
-        Spacer(modifier = Modifier.width(16.dp))
+//*********************************************     Support     ****************************************************************
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Support",
@@ -120,63 +132,96 @@ fun SettingScreen(navController: NavController) {
             fontWeight = FontWeight.Bold
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         Box(
-            modifier = Modifier.fillMaxWidth().height(300.dp)
+            modifier = Modifier
+                .fillMaxWidth()
                 .background(
-                    color = LightRed,
-                    shape = RoundedCornerShape(16.dp)
+                    color = BlushPink,
+                    shape = RoundedCornerShape(24.dp)
+                )
+            .drawBehind {
+            drawRoundRect(
+                color = Color(0xFFE5B5BB),
+                style = Stroke(
+                    width = 1.dp.toPx(),
+                    pathEffect = PathEffect.dashPathEffect(
+                        floatArrayOf(12f, 12f),
+                        0f
+                    )
                 ),
-        ){
+                cornerRadius = CornerRadius(24f, 24f)
+            )
+        }
+        ) {
             Row(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 8.dp, top = 24.dp, bottom = 24.dp)
             ) {
                 Box(
-                    modifier = Modifier.size(70.dp)
+                    modifier = Modifier
+                        .size(50.dp)
                         .background(
                             color = LightRed,
                             shape = RoundedCornerShape(100.dp)
                         ),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     Icon(
-                        painter = painterResource(R.drawable.alert_icon),
+                        painter = painterResource(R.drawable.dangerous_icon),
                         contentDescription = "Edit Profile Name",
-                        modifier = Modifier.size(32.dp)
+                        tint = Color(0xFF8E2F3C),
+                        modifier = Modifier.size(30.dp)
                     )
                 }
 
-                Text(
-                    text = "Danger Zone",
-                    color = DarkerRed,
-                    fontWeight = FontWeight.Bold
-                )
+                Spacer(modifier = Modifier.width(16.dp))
 
-                Text(
-                    text = "Once you delete your data, it cannot be recovered." +
-                            "This includes all XP, streaks and focus session.",
-                    color = Color.DarkGray
-                )
+                Column {
+                    Text(
+                        text = "Danger Zone",
+                        color = DarkerRed,
+                        fontWeight = FontWeight.Bold
+                    )
 
-                Box(
-                    modifier = Modifier.width(250.dp).height(50.dp).background(
-                        color = DarkerRed
-                    ),
-                    contentAlignment = Alignment.Center
-                ){
-                    Row(
-                        modifier = Modifier.padding(8.dp)
+                    Text(
+                        text = "Once you delete your data, it cannot be recovered." +
+                                "This includes all XP, streaks and focus session.",
+                        color = Color.DarkGray
+                    )
+
+
+//*******************************   Reset Button    ***************************************
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .width(220.dp)
+                            .height(50.dp)
+                            .background(
+                                color = DarkerRed,
+                                shape = RoundedCornerShape(50.dp)
+                            ),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            painter = painterResource(R.drawable.delete_forever_icon),
-                            contentDescription = "Reset All Data",
-                            tint = LightRed
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Row(
+                            modifier = Modifier.padding(8.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.delete_forever_icon),
+                                contentDescription = "Reset All Data",
+                                tint = LightRed
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
 
-                        Text(
-                            text = "Reset All Data",
-                            color = LightRed
-                        )
+                            Text(
+                                text = "Reset All Data",
+                                color = LightRed
+                            )
+                        }
                     }
                 }
             }

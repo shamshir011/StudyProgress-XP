@@ -283,7 +283,7 @@ fun HomeScreen(navController: NavController) {
                     ) {
                         Icon(
                             modifier = Modifier.padding(4.dp).size(34.dp),
-                            painter = painterResource(R.drawable.start_icon),
+                            painter = painterResource(R.drawable.play_arrow_icon),
                             contentDescription = "Start Session",
                             tint = Purple
                         )

@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.studyprogressxp.ui.navigation.MainScreen
+import com.example.studyprogressxp.ui.screens.sessionscreen.SessionScreen
 import com.example.studyprogressxp.ui.theme.StudyProgressXPTheme
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +16,8 @@ class MainActivity : ComponentActivity() {
             StudyProgressXPTheme {
 
 //                SplashScreen()
-                MainScreen()
+//                MainScreen()
+                SessionScreen()
             }
         }
     }
