@@ -30,7 +30,6 @@ fun HeadlineUI(){
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp)
-            .padding(16.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(
                 brush = Brush.horizontalGradient(
