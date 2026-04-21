@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.splashscreen
+package com.example.studyprogressxp.ui.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

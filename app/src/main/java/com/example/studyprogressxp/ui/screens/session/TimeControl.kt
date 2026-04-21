@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.screens.sessionscreen
+package com.example.studyprogressxp.ui.screens.session
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.CoralPink
 import com.example.studyprogressxp.ui.theme.DarkerRed
-import com.example.studyprogressxp.ui.theme.LightRed
 import com.example.studyprogressxp.ui.theme.LightRed1
 import com.example.studyprogressxp.ui.theme.Purple
 

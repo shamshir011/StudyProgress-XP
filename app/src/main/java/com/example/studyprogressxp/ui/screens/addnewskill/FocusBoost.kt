@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.studyprogressxp.R
-import com.example.studyprogressxp.ui.theme.DarkGreen
 import com.example.studyprogressxp.ui.theme.ForestGreen
 import com.example.studyprogressxp.ui.theme.Green
 import com.example.studyprogressxp.ui.theme.LowPurple

@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.navigation.bottombarnavigation
+package com.example.studyprogressxp.ui.components.bottomappbar
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -12,13 +12,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.Purple
 
 @Composable
 fun MyNavBar(navController: NavHostController) {
 
     val navItems = listOf(
-        NavItem("Home", R.drawable.home_icon,NavBarRoutes.Home),
+        NavItem("Home", R.drawable.home_icon, NavBarRoutes.Home),
         NavItem("Stats", R.drawable.stats_icon, NavBarRoutes.Stats),
         NavItem("Profile", R.drawable.profile_icon, NavBarRoutes.Profile)
     )

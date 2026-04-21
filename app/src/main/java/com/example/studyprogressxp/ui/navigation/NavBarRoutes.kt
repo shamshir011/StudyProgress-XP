@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.navigation.bottombarnavigation
+package com.example.studyprogressxp.ui.navigation
 
 import kotlinx.serialization.Serializable
 
@@ -8,7 +8,7 @@ sealed class NavBarRoutes{
     object Home : NavBarRoutes()
 
     @Serializable
-    object Stats: NavBarRoutes()
+    object Stats : NavBarRoutes()
 
     @Serializable
     object Profile : NavBarRoutes()
@@ -18,4 +18,7 @@ sealed class NavBarRoutes{
 
     @Serializable
     object Session : NavBarRoutes()
+
+    @Serializable
+    object AddNewSkill : NavBarRoutes()
 }

@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.screens.homescreen
+package com.example.studyprogressxp.ui.screens.home
 
 
 import androidx.compose.foundation.background
@@ -16,8 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.model.Skill
-import com.example.studyprogressxp.ui.navigation.bottombarnavigation.NavBarRoutes
+import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
@@ -251,6 +254,32 @@ fun HomeScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.height(36.dp))
         }
+
+        item {
+            Box(
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            ){
+                FloatingActionButton(onClick = {
+                    navController.navigate(NavBarRoutes.AddNewSkill){
+                        launchSingleTop = true
+                    }
+                },
+                    containerColor = Purple,
+                    contentColor = Color.White,
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add",
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+        }
+
 
         item {
             Card(

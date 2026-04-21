@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.screens.statsscreen
+package com.example.studyprogressxp.ui.screens.stats
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.Green
 import com.example.studyprogressxp.ui.theme.LowRed
-import com.example.studyprogressxp.ui.theme.Pink40
 
 @Preview
 @Composable

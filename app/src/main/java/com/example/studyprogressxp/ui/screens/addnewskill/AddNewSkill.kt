@@ -35,14 +35,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.studyprogressxp.R
-import com.example.studyprogressxp.ui.navigation.bottombarnavigation.NavBarRoutes
+import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
 
-@Preview
+
 @Composable
-fun AddNewSkill() {
+fun AddNewSkill(navController: NavController) {
 
     Column(
         modifier = Modifier.fillMaxSize().padding(8.dp)
@@ -83,8 +84,8 @@ fun AddNewSkill() {
                     unfocusedIndicatorColor = Color.Transparent,
                     unfocusedContainerColor = LowPurple,
                     focusedContainerColor = LowPurple,
-                    cursorColor = Color.LightGray,
-                    focusedTextColor = Color.White
+                    cursorColor = Purple,
+                    focusedTextColor = Color.Black
                 )
             )
         }
@@ -141,11 +142,9 @@ fun AddNewSkill() {
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         Row(){
             Box(
-                modifier = Modifier.background(
+                modifier = Modifier.padding(8.dp).background(
                     color = LowPurple,
                     shape = RoundedCornerShape(50.dp)
                 )
@@ -187,10 +186,11 @@ fun AddNewSkill() {
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(24.dp))
         FocusBoostUI()
 
-        Spacer(modifier = Modifier.height(16.dp))
+
+        Spacer(modifier = Modifier.weight(1f))
 
             Card(
                 modifier = Modifier

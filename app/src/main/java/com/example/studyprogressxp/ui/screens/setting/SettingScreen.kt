@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.screens.settingscreen
+package com.example.studyprogressxp.ui.screens.setting
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,16 +19,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
-import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,11 +32,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.BlushPink
-import com.example.studyprogressxp.ui.theme.DarkGreen
 import com.example.studyprogressxp.ui.theme.DarkerRed
 import com.example.studyprogressxp.ui.theme.LightRed
 import com.example.studyprogressxp.ui.theme.LowPurple
-import kotlin.io.encoding.Base64
 
 //@Preview(showBackground = true)
 @Composable

@@ -10,21 +10,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.studyprogressxp.ui.components.AppTopBarUI
-import com.example.studyprogressxp.ui.components.SettingTopBar
-import com.example.studyprogressxp.ui.navigation.bottombarnavigation.MyNavBar
-import com.example.studyprogressxp.ui.navigation.bottombarnavigation.NavBarRoutes
-import com.example.studyprogressxp.ui.screens.homescreen.HomeScreen
-import com.example.studyprogressxp.ui.screens.profilescreen.ProfileScreen
-import com.example.studyprogressxp.ui.screens.sessionscreen.SessionScreen
-import com.example.studyprogressxp.ui.screens.settingscreen.SettingScreen
-import com.example.studyprogressxp.ui.screens.statsscreen.StatsScreen
+import com.example.studyprogressxp.ui.components.topappbar.AddNewSkillTopAppBar
+import com.example.studyprogressxp.ui.components.topappbar.AppTopBarUI
+import com.example.studyprogressxp.ui.components.topappbar.SettingTopBar
+import com.example.studyprogressxp.ui.components.bottomappbar.MyNavBar
+import com.example.studyprogressxp.ui.components.topappbar.SessionTopAppBar
+import com.example.studyprogressxp.ui.screens.addnewskill.AddNewSkill
+import com.example.studyprogressxp.ui.screens.home.HomeScreen
+import com.example.studyprogressxp.ui.screens.profile.ProfileScreen
+import com.example.studyprogressxp.ui.screens.session.SessionScreen
+import com.example.studyprogressxp.ui.screens.setting.SettingScreen
+import com.example.studyprogressxp.ui.screens.stats.StatsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(){
 
-    val hideRoutes = listOf("Settings", "Session")
+    val hideRoutes = listOf("Settings", "Session", "AddNewSkill", "Session")
 
     val navController = rememberNavController()
 
@@ -32,9 +34,6 @@ fun MainScreen(){
     val currentRoute = navBackStackEntry?.destination?.route
 
 
-//    val hideBottomBarRoutes = listOf(
-//        NavBarRoutes.Settings::class.simpleName
-//    )
 
     Scaffold(
 
@@ -44,13 +43,18 @@ fun MainScreen(){
                 currentRoute?.contains("Settings") == true -> {
                     SettingTopBar(navController)
                 }
+
+                currentRoute?.contains("AddNewSkill") == true -> {
+                    AddNewSkillTopAppBar(navController)
+                }
+                currentRoute?.contains("Session") == true -> {
+                    SessionTopAppBar(navController)
+                }
                 else->{
-                    AppTopBarUI(navController)}
+                    AppTopBarUI(navController)
+                }
                 }
             },
-
-
-
         bottomBar = {
             val shouldHide = hideRoutes.any {
                 currentRoute?.contains(it) == true
@@ -87,6 +91,10 @@ fun MainScreen(){
 
             composable<NavBarRoutes.Session> {
                 SessionScreen(navController)
+            }
+
+            composable<NavBarRoutes.AddNewSkill>{
+                AddNewSkill(navController)
             }
         }
     }

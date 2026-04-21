@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.components
+package com.example.studyprogressxp.ui.components.bottomappbar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

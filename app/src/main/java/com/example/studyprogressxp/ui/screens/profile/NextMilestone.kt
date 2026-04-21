@@ -1,6 +1,5 @@
-package com.example.studyprogressxp.ui.screens.profilescreen
+package com.example.studyprogressxp.ui.screens.profile
 
-import android.graphics.Paint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

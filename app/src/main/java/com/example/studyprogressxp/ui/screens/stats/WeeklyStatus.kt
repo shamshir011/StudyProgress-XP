@@ -1,4 +1,4 @@
-package com.example.studyprogressxp.ui.screens.statsscreen
+package com.example.studyprogressxp.ui.screens.stats
 
 
 import androidx.compose.foundation.background
