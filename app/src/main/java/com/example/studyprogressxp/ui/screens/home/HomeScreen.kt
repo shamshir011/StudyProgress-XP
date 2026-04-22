@@ -46,7 +46,7 @@ import com.example.studyprogressxp.ui.theme.Purple
 
 
 @Composable()
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController){
 
     val trackedSkill = listOf(
         Skill(id = 1, "DSA", "45h tracked", R.drawable.code_icon),
@@ -77,116 +77,123 @@ fun HomeScreen(navController: NavController) {
         }
 
         item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                Card(
-                    modifier = Modifier
-                        .size(170.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = DarkOrange,
-                        contentColor = Color.Black
-                    ),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 4.dp
-                    ),
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Icon(
-                                painter = painterResource(R.drawable.day_streak_icon),
-                                contentDescription = "Day Streak",
-                                modifier = Modifier.size(40.dp)
-                            )
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = "7 Day",
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Spacer(modifier = Modifier.height(4.dp))
-
-                            Text(
-                                text = "Streak",
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Spacer(modifier = Modifier.height(4.dp))
-
-                            Text(
-                                text = "Keep fire burning!"
-                            )
-                        }
-                    }
-                }
-
-
-                Card(
-                    modifier = Modifier
-                        .size(170.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
-                    ),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 4.dp
-                    ),
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(8.dp),
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Icon(
-                                painter = painterResource(R.drawable.clock_icon),
-                                contentDescription = "Day Streak",
-                                tint = Color.DarkGray
-                            )
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = "2.5 hrs",
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Spacer(modifier = Modifier.height(4.dp))
-
-                            Text(
-                                text = "Study time today",
-                                color = Color.DarkGray
-                            )
-                        }
-                    }
-                }
-            }
-
+            CurrentStreak()
             Spacer(modifier = Modifier.height(16.dp))
         }
+
+//        item {
+//            Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//
+//                Card(
+//                    modifier = Modifier
+//                        .size(170.dp),
+//                    shape = RoundedCornerShape(16.dp),
+//                    colors = CardDefaults.cardColors(
+//                        containerColor = DarkOrange,
+//                        contentColor = Color.Black
+//                    ),
+//                    elevation = CardDefaults.cardElevation(
+//                        defaultElevation = 4.dp
+//                    ),
+//                ) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .padding(8.dp),
+//                    ) {
+//                        Column(
+//                            modifier = Modifier.fillMaxSize(),
+//                            verticalArrangement = Arrangement.Center
+//                        ) {
+//
+//                            Spacer(modifier = Modifier.height(8.dp))
+//                            Icon(
+//                                painter = painterResource(R.drawable.day_streak_icon),
+//                                contentDescription = "Day Streak",
+//                                modifier = Modifier.size(40.dp)
+//                            )
+//
+//                            Spacer(modifier = Modifier.height(8.dp))
+//
+//                            Text(
+//                                text = "7 Day",
+//                                fontSize = 24.sp,
+//                                fontWeight = FontWeight.Bold
+//                            )
+//
+//                            Spacer(modifier = Modifier.height(4.dp))
+//
+//                            Text(
+//                                text = "Streak",
+//                                fontSize = 24.sp,
+//                                fontWeight = FontWeight.Bold
+//                            )
+//
+//                            Spacer(modifier = Modifier.height(4.dp))
+//
+//                            Text(
+//                                text = "Keep fire burning!"
+//                            )
+//                        }
+//                    }
+//                }
+//
+//
+//                Card(
+//                    modifier = Modifier
+//                        .size(170.dp),
+//                    shape = RoundedCornerShape(16.dp),
+//                    colors = CardDefaults.cardColors(
+//                        containerColor = Color.White,
+//                        contentColor = Color.Black
+//                    ),
+//                    elevation = CardDefaults.cardElevation(
+//                        defaultElevation = 4.dp
+//                    ),
+//                ) {
+//                    Box(
+//                        modifier = Modifier
+//                            .fillMaxSize()
+//                            .padding(8.dp),
+//                    ) {
+//                        Column(
+//                            modifier = Modifier.fillMaxSize(),
+//                            verticalArrangement = Arrangement.Center
+//                        ) {
+//
+//                            Spacer(modifier = Modifier.height(8.dp))
+//                            Icon(
+//                                painter = painterResource(R.drawable.clock_icon),
+//                                contentDescription = "Day Streak",
+//                                tint = Color.DarkGray
+//                            )
+//
+//                            Spacer(modifier = Modifier.height(8.dp))
+//
+//                            Text(
+//                                text = "2.5 hrs",
+//                                fontSize = 24.sp,
+//                                fontWeight = FontWeight.Bold
+//                            )
+//
+//                            Spacer(modifier = Modifier.height(4.dp))
+//
+//                            Text(
+//                                text = "Study time today",
+//                                color = Color.DarkGray
+//                            )
+//                        }
+//                    }
+//                }
+//            }
+//
+//            Spacer(modifier = Modifier.height(16.dp))
+//        }
+
+
 
         item {
             LevelUI()

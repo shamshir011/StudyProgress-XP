@@ -76,7 +76,7 @@ fun MainScreen(){
                 HomeScreen(navController)
             }
 
-            composable<NavBarRoutes.Stats> {
+            composable<NavBarRoutes.Stats>{
                 StatsScreen(navController)
             }
 
