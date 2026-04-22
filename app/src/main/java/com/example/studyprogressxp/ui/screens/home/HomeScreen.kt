@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -39,19 +40,29 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.model.Skill
+import com.example.studyprogressxp.model.TrackedSkill
 import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.DarkOrange
+import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
 
 
 @Composable()
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController) {
+
+    val dailyQuests = listOf(
+        Skill(id = 1, "DSA", "2.5h/", R.drawable.code_icon, "+50 XP", "3hrs"),
+        Skill(id = 2, "Android", "1.5h/", R.drawable.android_icon, "+50 XP", "3hrs"),
+        Skill(id = 3, "Aptitude", "0.5h/", R.drawable.functions_icon, "+50 XP", "3hrs"),
+    )
 
     val trackedSkill = listOf(
-        Skill(id = 1, "DSA", "45h tracked", R.drawable.code_icon),
-        Skill(id = 2, "Android", "32h tracked", R.drawable.android_icon),
-        Skill(id = 3, "Aptitude", "12h tracked", R.drawable.functions_icon),
+        TrackedSkill(id = 1, R.drawable.code_icon, "DSA", "Level 3", ". 48%"),
+        TrackedSkill(id = 2, R.drawable.android_icon, "Android", "Level 4", ". 68%"),
+        TrackedSkill(id = 3, R.drawable.functions_icon, "Aptitude", "Level 4", ". 93%"),
+        TrackedSkill(id = 4, R.drawable.android_icon, "Web Development", "Level 2", ". 58%"),
+        TrackedSkill(id = 5, R.drawable.functions_icon, "Database", "Level 5", ". 70%")
     )
 
     LazyColumn(
@@ -81,120 +92,6 @@ fun HomeScreen(navController: NavController){
             Spacer(modifier = Modifier.height(16.dp))
         }
 
-//        item {
-//            Row(
-//                modifier = Modifier.fillMaxWidth(),
-//                horizontalArrangement = Arrangement.SpaceBetween
-//            ) {
-//
-//                Card(
-//                    modifier = Modifier
-//                        .size(170.dp),
-//                    shape = RoundedCornerShape(16.dp),
-//                    colors = CardDefaults.cardColors(
-//                        containerColor = DarkOrange,
-//                        contentColor = Color.Black
-//                    ),
-//                    elevation = CardDefaults.cardElevation(
-//                        defaultElevation = 4.dp
-//                    ),
-//                ) {
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .padding(8.dp),
-//                    ) {
-//                        Column(
-//                            modifier = Modifier.fillMaxSize(),
-//                            verticalArrangement = Arrangement.Center
-//                        ) {
-//
-//                            Spacer(modifier = Modifier.height(8.dp))
-//                            Icon(
-//                                painter = painterResource(R.drawable.day_streak_icon),
-//                                contentDescription = "Day Streak",
-//                                modifier = Modifier.size(40.dp)
-//                            )
-//
-//                            Spacer(modifier = Modifier.height(8.dp))
-//
-//                            Text(
-//                                text = "7 Day",
-//                                fontSize = 24.sp,
-//                                fontWeight = FontWeight.Bold
-//                            )
-//
-//                            Spacer(modifier = Modifier.height(4.dp))
-//
-//                            Text(
-//                                text = "Streak",
-//                                fontSize = 24.sp,
-//                                fontWeight = FontWeight.Bold
-//                            )
-//
-//                            Spacer(modifier = Modifier.height(4.dp))
-//
-//                            Text(
-//                                text = "Keep fire burning!"
-//                            )
-//                        }
-//                    }
-//                }
-//
-//
-//                Card(
-//                    modifier = Modifier
-//                        .size(170.dp),
-//                    shape = RoundedCornerShape(16.dp),
-//                    colors = CardDefaults.cardColors(
-//                        containerColor = Color.White,
-//                        contentColor = Color.Black
-//                    ),
-//                    elevation = CardDefaults.cardElevation(
-//                        defaultElevation = 4.dp
-//                    ),
-//                ) {
-//                    Box(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .padding(8.dp),
-//                    ) {
-//                        Column(
-//                            modifier = Modifier.fillMaxSize(),
-//                            verticalArrangement = Arrangement.Center
-//                        ) {
-//
-//                            Spacer(modifier = Modifier.height(8.dp))
-//                            Icon(
-//                                painter = painterResource(R.drawable.clock_icon),
-//                                contentDescription = "Day Streak",
-//                                tint = Color.DarkGray
-//                            )
-//
-//                            Spacer(modifier = Modifier.height(8.dp))
-//
-//                            Text(
-//                                text = "2.5 hrs",
-//                                fontSize = 24.sp,
-//                                fontWeight = FontWeight.Bold
-//                            )
-//
-//                            Spacer(modifier = Modifier.height(4.dp))
-//
-//                            Text(
-//                                text = "Study time today",
-//                                color = Color.DarkGray
-//                            )
-//                        }
-//                    }
-//                }
-//            }
-//
-//            Spacer(modifier = Modifier.height(16.dp))
-//        }
-
-
-
         item {
             LevelUI()
 
@@ -209,9 +106,10 @@ fun HomeScreen(navController: NavController){
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Tracked Skills",
+                    text = "DAILY QUESTS",
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Color.DarkGray
                 )
 
                 Box(
@@ -247,31 +145,48 @@ fun HomeScreen(navController: NavController){
 
 
         item {
-            Card(
-                modifier = Modifier,
-                shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = LowPurple,
-                    contentColor = Color.Black
-                )
-            ) {
-                trackedSkill.forEach { product ->
-                    CardItem(product)
+            dailyQuests.forEach { product ->
+                CardItem(product)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+
+
+        item {
+            Text(
+                text = "TRACKED SKILLS",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.DarkGray
+            )
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+            LazyRow {
+                item {
+                    trackedSkill.forEach { tracked ->
+                        TrackSkillCard(tracked)
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-            Spacer(modifier = Modifier.height(36.dp))
         }
 
         item {
             Box(
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
-            ){
-                FloatingActionButton(onClick = {
-                    navController.navigate(NavBarRoutes.AddNewSkill){
-                        launchSingleTop = true
-                    }
-                },
-                    containerColor = Purple,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                FloatingActionButton(
+                    onClick = {
+                        navController.navigate(NavBarRoutes.AddNewSkill) {
+                            launchSingleTop = true
+                        }
+                    },
+                    containerColor = ElectricPurple,
                     contentColor = Color.White,
                     modifier = Modifier.align(Alignment.BottomEnd)
                 ) {
@@ -297,7 +212,7 @@ fun HomeScreen(navController: NavController){
                     },
                 shape = RoundedCornerShape(50.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Purple,
+                    containerColor = ElectricPurple,
                     contentColor = Color.Black
                 ),
                 elevation = CardDefaults.cardElevation(
@@ -358,7 +273,7 @@ fun HomeScreen(navController: NavController){
                 Icon(
                     painter = painterResource(R.drawable.square_dot_icon),
                     contentDescription = "Last Session",
-                    tint = Purple
+                    tint = ElectricPurple
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))

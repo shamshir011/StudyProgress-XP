@@ -1,6 +1,7 @@
 package com.example.studyprogressxp.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,127 +20,94 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.colorspace.WhitePoint
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.Green
+import com.example.studyprogressxp.ui.theme.PrimaryOrange
 
 @Preview(showBackground = true)
 @Composable
 fun LevelUI() {
 
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp)
+            .height(100.dp)
     ) {
-        Card(
-            modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(16.dp),
-
-            colors = CardDefaults.cardColors(
-                contentColor = Color.White
-            ),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            ),
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .shadow(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(16.dp),
+                    ambientColor = Color.Blue.copy(alpha = 0.6f),
+                    spotColor = Color.Blue.copy(alpha = 0.6f)
+                )
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .padding(8.dp)
         ) {
-
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color(0xFF7B61C8),
-                                Color(0xFF9B8AE6)
-                            )
-                        )
-                    ),
-
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center
             ) {
 
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(8.dp),
-                ){
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.flash_icon),
+                        contentDescription = "Level up",
+                        tint = DarkOrange
+                    )
 
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column{
-                            Text(
-                                text = "LEVEL 3"
-                            )
+                    Text(
+                        text = "Level 3",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = PrimaryOrange
+                    )
 
-                            Text(
-                                text = "120 XP",
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                    Text(
+                        text = "-Focused Scholar",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = PrimaryOrange
+                    )
 
-                            Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.weight(1f))
 
-                            Box(
-                                modifier = Modifier
-                                    .width(250.dp)
-                                    .height(8.dp)
-                                    .background(
-                                        color = Green,
-                                        shape = RoundedCornerShape(50.dp)
-                                    )
-                            )
-
-                            Spacer(modifier = Modifier.height(6.dp))
-
-                            Text(
-                                text = "30 XPto Level 4"
-                            )
-                        }
-
-                        Column(
-                            modifier = Modifier
-                                .height(70.dp)
-                                .width(50.dp)
-                        ) {
-
-                            Card(
-                                modifier = Modifier.fillMaxSize(),
-                                shape = RoundedCornerShape(8.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = Color.White.copy(alpha = 0.3f),
-                                    contentColor = Color.White
-                                )
-                            ) {
-
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.star_icon),
-                                        contentDescription = "Star"
-                                    )
-
-                                    Spacer(modifier = Modifier.height(6.dp))
-
-                                    Text(
-                                        text = "PRO",
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                            }
-                        }
+                    Row {
+                        Text("820", color = Color.LightGray)
+                        Text("/", color = Color.LightGray)
+                        Text("1200 XP", color = Color.LightGray)
                     }
                 }
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(10.dp)
+                        .background(
+                            color = PrimaryOrange,
+                            shape = RoundedCornerShape(50.dp)
+                        )
+                )
             }
         }
     }
