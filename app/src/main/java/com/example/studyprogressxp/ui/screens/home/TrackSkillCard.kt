@@ -36,13 +36,19 @@ import com.example.studyprogressxp.ui.theme.Purple
 fun TrackSkillCard(trackedSkill: TrackedSkill) {
 
     Box(
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier
+            .padding(8.dp)
             .size(200.dp)
+            .border(
+                width = 1.dp,
+                color = ElectricPurple.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(16.dp)
+            )
             .shadow(
                 elevation = 8.dp,
                 shape = RoundedCornerShape(16.dp),
-                ambientColor = Color.Blue.copy(alpha = 0.6f),
-                spotColor = Color.Blue.copy(alpha = 0.6f)
+                ambientColor = ElectricPurple,
+                spotColor = ElectricPurple
             )
             .background(
                 color = Color.White,
@@ -51,7 +57,9 @@ fun TrackSkillCard(trackedSkill: TrackedSkill) {
     ) {
 
         Column(
-            modifier = Modifier.fillMaxSize().padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
             verticalArrangement = Arrangement.Center
         ) {
 
@@ -67,7 +75,7 @@ fun TrackSkillCard(trackedSkill: TrackedSkill) {
                             shape = RoundedCornerShape(16.dp)
                         ),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     Icon(
                         painter = painterResource(trackedSkill.image),
                         contentDescription = "DSA",

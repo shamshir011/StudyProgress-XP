@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.example.studyprogressxp.ui.navigation.NavBarRoutes
+import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.Purple
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,7 +42,7 @@ fun AppTopBarUI(navController: NavController) {
 
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.White,
-            titleContentColor = Purple,
+            titleContentColor = ElectricPurple,
             actionIconContentColor = Color.Black,
             navigationIconContentColor = Color.White
 

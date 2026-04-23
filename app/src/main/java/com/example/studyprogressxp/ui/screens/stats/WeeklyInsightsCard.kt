@@ -1,6 +1,7 @@
 package com.example.studyprogressxp.ui.screens.stats
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,12 +18,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.Green
 import com.example.studyprogressxp.ui.theme.LowRed
 
@@ -33,6 +36,11 @@ fun WeeklyInsightsCard() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = ElectricPurple.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(16.dp)
+            )
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(16.dp)
@@ -41,7 +49,7 @@ fun WeeklyInsightsCard() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 24.dp, top = 24.dp)
+                .padding(bottom = 16.dp, top = 16.dp)
         ) {
             IconButton(
                 onClick = {},
@@ -81,6 +89,12 @@ fun WeeklyInsightsCard() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .shadow(
+                elevation = 4.dp,
+                shape = RoundedCornerShape(16.dp),
+                ambientColor = ElectricPurple,
+                spotColor = ElectricPurple
+            )
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(16.dp)

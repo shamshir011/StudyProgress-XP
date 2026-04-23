@@ -65,228 +65,238 @@ fun HomeScreen(navController: NavController) {
         TrackedSkill(id = 5, R.drawable.functions_icon, "Database", "Level 5", ". 70%")
     )
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .background(
+                color = Color.White
+            )
     ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+                .background(
+                    color = Color.White
+                )
+        ) {
 
-        item {
-            Text(
-                text = "Good Evening",
-                fontSize = 24.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = "Ready for your next deep focus session?",
-                color = Color.DarkGray
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        item {
-            CurrentStreak()
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        item {
-            LevelUI()
-
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            item {
                 Text(
-                    text = "DAILY QUESTS",
+                    text = "Good Evening",
+                    fontSize = 24.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Text(
+                    text = "Ready for your next deep focus session?",
+                    color = Color.DarkGray
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            item {
+                CurrentStreak()
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            item {
+                LevelUI()
+
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "DAILY QUESTS",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.DarkGray
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clip(shape = RoundedCornerShape(50.dp))
+                            .background(color = Purple.copy(alpha = 0.1f))
+                            .drawBehind {
+                                drawRoundRect(
+                                    color = Color.DarkGray,
+                                    style = Stroke(
+                                        width = 2.dp.toPx(),
+                                        pathEffect = PathEffect.dashPathEffect(
+                                            floatArrayOf(9f, 9f),
+                                            0f
+                                        )
+                                    ),
+                                    cornerRadius = CornerRadius(50f, 50f)
+                                )
+                            }
+                            .padding(horizontal = 16.dp, vertical = 6.dp),
+                        contentAlignment = Alignment.Center,
+
+                        ) {
+                        Text(
+                            text = "View Details",
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                    }
+                }
+            }
+
+
+            item {
+                dailyQuests.forEach { product ->
+                    CardItem(product)
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+
+
+            item {
+                Text(
+                    text = "TRACKED SKILLS",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.DarkGray
                 )
+            }
 
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                LazyRow {
+                    item {
+                        trackedSkill.forEach { tracked ->
+                            TrackSkillCard(tracked)
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+            }
+
+            item {
                 Box(
                     modifier = Modifier
-                        .padding(8.dp)
-                        .clip(shape = RoundedCornerShape(50.dp))
-                        .background(color = Purple.copy(alpha = 0.1f))
-                        .drawBehind {
-                            drawRoundRect(
-                                color = Color.DarkGray,
-                                style = Stroke(
-                                    width = 2.dp.toPx(),
-                                    pathEffect = PathEffect.dashPathEffect(
-                                        floatArrayOf(9f, 9f),
-                                        0f
-                                    )
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    FloatingActionButton(
+                        onClick = {
+                            navController.navigate(NavBarRoutes.AddNewSkill) {
+                                launchSingleTop = true
+                            }
+                        },
+                        containerColor = ElectricPurple,
+                        contentColor = Color.White,
+                        modifier = Modifier.align(Alignment.BottomEnd)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add",
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+            }
+
+
+            item {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate(NavBarRoutes.Session)
+                        },
+                    shape = RoundedCornerShape(50.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = ElectricPurple,
+                        contentColor = Color.Black
+                    ),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 4.dp
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Box(
+
+                            modifier = Modifier
+                                .padding(6.dp)
+                                .size(40.dp)
+                                .background(
+                                    color = Color.White,
+                                    shape = RoundedCornerShape(100.dp)
                                 ),
-                                cornerRadius = CornerRadius(50f, 50f)
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .size(34.dp),
+                                painter = painterResource(R.drawable.play_arrow_icon),
+                                contentDescription = "Start Session",
+                                tint = Purple
                             )
                         }
-                        .padding(horizontal = 16.dp, vertical = 6.dp),
-                    contentAlignment = Alignment.Center,
 
-                    ) {
-                    Text(
-                        text = "View Details",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                }
-            }
-        }
+                        Spacer(modifier = Modifier.width(8.dp))
 
-
-        item {
-            dailyQuests.forEach { product ->
-                CardItem(product)
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-
-
-        item {
-            Text(
-                text = "TRACKED SKILLS",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.DarkGray
-            )
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyRow {
-                item {
-                    trackedSkill.forEach { tracked ->
-                        TrackSkillCard(tracked)
+                        Text(
+                            text = "Start Study Session",
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
-            }
-        }
 
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                FloatingActionButton(
-                    onClick = {
-                        navController.navigate(NavBarRoutes.AddNewSkill) {
-                            launchSingleTop = true
-                        }
-                    },
-                    containerColor = ElectricPurple,
-                    contentColor = Color.White,
-                    modifier = Modifier.align(Alignment.BottomEnd)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Add",
-                        modifier = Modifier.size(32.dp)
-                    )
-                }
+                Spacer(modifier = Modifier.height(16.dp))
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-        }
-
-
-        item {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        navController.navigate(NavBarRoutes.Session)
-                    },
-                shape = RoundedCornerShape(50.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = ElectricPurple,
-                    contentColor = Color.Black
-                ),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 4.dp
-                )
-            ) {
+            item {
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clickable {}
+                        .padding(12.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
-                    Box(
-
-                        modifier = Modifier
-                            .padding(6.dp)
-                            .size(40.dp)
-                            .background(
-                                color = Color.White,
-                                shape = RoundedCornerShape(100.dp)
-                            ),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .size(34.dp),
-                            painter = painterResource(R.drawable.play_arrow_icon),
-                            contentDescription = "Start Session",
-                            tint = Purple
-                        )
-                    }
+                    Icon(
+                        painter = painterResource(R.drawable.square_dot_icon),
+                        contentDescription = "Last Session",
+                        tint = ElectricPurple
+                    )
 
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
-                        text = "Start Study Session",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
+                        text = "Last Session: ",
+                        color = Color.Black
+                    )
+
+                    Text(
+                        text = "Android Development",
+                        color = Color.Black
                     )
                 }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-//                    .clip(RoundedCornerShape(12.dp))
-                    .clickable {}
-                    .padding(12.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.square_dot_icon),
-                    contentDescription = "Last Session",
-                    tint = ElectricPurple
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Text(
-                    text = "Last Session: ",
-                    color = Color.Black
-                )
-
-                Text(
-                    text = "Android Development",
-                    color = Color.Black
-                )
             }
         }
     }

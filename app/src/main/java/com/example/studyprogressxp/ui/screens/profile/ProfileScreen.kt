@@ -27,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -37,7 +38,10 @@ import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.DarkPurple
+import com.example.studyprogressxp.ui.theme.ElectricPurple
+import com.example.studyprogressxp.ui.theme.LightGreen
 import com.example.studyprogressxp.ui.theme.LowPurple
+import com.example.studyprogressxp.ui.theme.PrimaryOrange
 
 //@Preview(showBackground = true)
 @Composable
@@ -49,175 +53,274 @@ fun ProfileScreen(navController: NavController) {
             .verticalScroll(rememberScrollState())
             .padding(8.dp)
     ) {
-        Card(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .size(300.dp),
-            shape = RoundedCornerShape(32.dp),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            ),
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                Color(0xFF6A4FBF),
-                                Color(0xFF9B8AE6)
-                            )
+                .height(300.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Color(0xFF3A0CA3),
+                            Color(0xFF7209B7)
                         )
                     ),
-            ) {
+                    shape = RoundedCornerShape(24.dp)
+                ),
+        ) {
 
-                Column(
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .background(
+                            color = LowPurple,
+                            shape = RoundedCornerShape(100.dp)
+                        )
+                        .size(100.dp)
+                        .border(
+                            width = 2.dp,
+                            color = LowPurple,
+                            shape = RoundedCornerShape(100.dp)
+                        ),
                 ) {
+                    Image(
+                        painter = painterResource(R.drawable.pic),
+                        contentDescription = "Profile Image",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
+                    )
+
                     Box(
                         modifier = Modifier
+                            .size(26.dp)
+                            .align(Alignment.BottomEnd)
                             .background(
                                 color = LowPurple,
                                 shape = RoundedCornerShape(100.dp)
-                            )
-                            .size(100.dp)
-                            .border(
-                                width = 2.dp,
-                                color = LowPurple,
-                                shape = RoundedCornerShape(100.dp)
                             ),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Image(
-                            painter = painterResource(R.drawable.pic),
-                            contentDescription = "Profile Image",
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(CircleShape)
+                        Icon(
+                            painter = painterResource(R.drawable.edit_icon),
+                            contentDescription = "Edit Profile Image",
+                            modifier = Modifier.padding(4.dp)
                         )
-
-                        Box(
-                            modifier = Modifier
-                                .size(26.dp)
-                                .align(Alignment.BottomEnd)
-                                .background(
-                                    color = LowPurple,
-                                    shape = RoundedCornerShape(100.dp)
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.edit_icon),
-                                contentDescription = "Edit Profile Image",
-                                modifier = Modifier.padding(4.dp)
-                            )
-                        }
                     }
+                }
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
 
+                Text(
+                    text = "Md Shamshir Alam",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row {
                     Text(
-                        text = "Md Shamshir Alam",
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        text = "Lifelong Learner: ",
+                        color = Color.DarkGray
                     )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Level 3 Scholar",
+                        color = Color.DarkGray
+                    )
+                }
 
-                    Row {
-                        Text(
-                            text = "Lifelong Learner: ",
-                            color = Color.White
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Box(
+                        modifier = Modifier.background(
+                            color = LowPurple,
+                            shape = RoundedCornerShape(50.dp)
                         )
-
-                        Text(
-                            text = "Level 3 Scholar",
-                            color = Color.White
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Box(
-                            modifier = Modifier.background(
-                                color = LowPurple,
-                                shape = RoundedCornerShape(50.dp)
-                            )
+                        Row(
+                            modifier = Modifier
+                                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(
+                            Box(
                                 modifier = Modifier
-                                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .background(
-                                            color = DarkPurple,
-                                            shape = CircleShape
-                                        )
-                                        .padding(2.dp)
-                                ) {
-                                    Icon(
-                                        painter = painterResource(R.drawable.star_icon),
-                                        contentDescription = "XP",
-                                        tint = Color.White
+                                    .background(
+                                        color = DarkPurple,
+                                        shape = CircleShape
                                     )
-                                }
-
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                Text(
-                                    text = "120 XP",
-                                    fontWeight = FontWeight.Bold,
-                                    color = DarkPurple
-                                )
-                            }
-                        }
-
-
-                        Box(
-                            modifier = Modifier.background(
-                                color = DarkOrange,
-                                shape = RoundedCornerShape(50.dp)
-                            )
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
-                                horizontalArrangement = Arrangement.Center,
-                                verticalAlignment = Alignment.CenterVertically
+                                    .padding(2.dp)
                             ) {
                                 Icon(
-                                    modifier = Modifier.size(28.dp),
-                                    painter = painterResource(R.drawable.day_streak_icon),
-                                    contentDescription = "Longest Streak"
-                                )
-
-                                Spacer(modifier = Modifier.width(8.dp))
-
-                                Text(
-                                    text = "Longest Streak: 7",
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black
+                                    painter = painterResource(R.drawable.star_icon),
+                                    contentDescription = "XP Today",
+                                    tint = Color.White
                                 )
                             }
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            Text(
+                                text = "120 XP Today",
+                                fontWeight = FontWeight.Bold,
+                                color = DarkPurple
+                            )
+                        }
+                    }
+
+
+                    Box(
+                        modifier = Modifier.background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(50.dp)
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(28.dp),
+                                painter = painterResource(R.drawable.day_streak_icon),
+                                contentDescription = "Longest Streak",
+                                tint = DarkOrange
+                            )
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            Text(
+                                text = "Longest Streak: 7",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
                         }
                     }
                 }
             }
         }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Box(
+                modifier = Modifier.width(150.dp).height(100.dp)
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        ambientColor = ElectricPurple,
+                        spotColor = ElectricPurple
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = ElectricPurple.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(16.dp)
+                    ).background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(16.dp)
+                ),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Column {
+                    Text(
+                        text = "45.5h",
+                        fontSize = 22.sp,
+                        color = ElectricPurple
+                    )
+                    Text(
+                        text = "Total Focus",
+                        color = Color.DarkGray
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier.width(150.dp).height(100.dp)
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        ambientColor = ElectricPurple,
+                        spotColor = ElectricPurple
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = ElectricPurple.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(16.dp)
+                    ).background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(16.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Column {
+                    Text(
+                        text = "820",
+                        fontSize = 22.sp,
+                        color = PrimaryOrange
+                    )
+                    Text(
+                        text = "Total XP",
+                        color = Color.DarkGray
+                    )
+                }
+            }
+
+
+
+
+            Box(
+                modifier = Modifier.width(150.dp).height(100.dp)
+                    .shadow(
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        ambientColor = ElectricPurple,
+                        spotColor = ElectricPurple
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = ElectricPurple.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(16.dp)
+                    ).background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(16.dp)
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Column {
+                    Text(
+                        text = "4",
+                        fontSize = 22.sp,
+                        color = LightGreen
+                    )
+                    Text(
+                        text = "Skills",
+                        color = Color.DarkGray
+                    )
+                }
+            }
+        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 

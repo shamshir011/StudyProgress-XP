@@ -23,8 +23,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,61 +34,66 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.DarkOrange
+import com.example.studyprogressxp.ui.theme.ElectricPurple
+import com.example.studyprogressxp.ui.theme.LightPurple
+import com.example.studyprogressxp.ui.theme.LowPurple
 
 //@Preview(showBackground = true)
 @Composable
 fun StatsScreen(navController: NavController) {
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .background(
+                color = Color.White
+            )
     ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        ) {
 
-        item {
-            Text(
-                text = "Focus Flow",
-                fontSize = 24.sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Bold
-            )
+            item {
+                Text(
+                    text = "Focus Flow",
+                    fontSize = 24.sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold
+                )
 
-            Text(
-                text = "Ready for your next deep focus session?",
-                color = Color.DarkGray
-            )
+                Text(
+                    text = "Ready for your next deep focus session?",
+                    color = Color.DarkGray
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
 
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                Card(
-                    modifier = Modifier
-                        .size(height = 140.dp, width = 150.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        contentColor = Color.White
-                    ),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 4.dp
-                    ),
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .size(height = 180.dp, width = 200.dp)
+                            .border(
+                                width = 1.dp,
+                                color = ElectricPurple.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .shadow(
+                                elevation = 8.dp,
+                                shape = RoundedCornerShape(16.dp),
+                                ambientColor = ElectricPurple,
+                                spotColor = ElectricPurple
+                            )
                             .background(
-                                brush = Brush.horizontalGradient(
-                                    colors = listOf(
-                                        Color(0xFF6A4FBF),
-                                        Color(0xFF9B8AE6)
-                                    )
-                                )
-                            ),
+                                color = Color.White,
+                                shape = RoundedCornerShape(16.dp)
+                            )
                     ) {
                         Column(
                             modifier = Modifier
@@ -98,21 +105,20 @@ fun StatsScreen(navController: NavController) {
                         ) {
 
 
-                            IconButton(
-                                onClick = {},
+                            Box(
                                 modifier = Modifier
-                                    .padding(8.dp)
-                                    .size(30.dp)
+                                    .size(60.dp)
                                     .background(
-                                        color = Color.White.copy(alpha = 0.3f),
+                                        color = LowPurple,
                                         shape = CircleShape
-                                    )
-
+                                    ),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.clock_icon),
                                     contentDescription = "Day Streak",
-                                    modifier = Modifier.size(30.dp)
+                                    modifier = Modifier.size(30.dp),
+                                    tint = ElectricPurple
                                 )
                             }
 
@@ -121,7 +127,7 @@ fun StatsScreen(navController: NavController) {
 
                             Text(
                                 text = "18 hrs",
-                                fontSize = 24.sp,
+                                fontSize = 32.sp,
                                 fontWeight = FontWeight.Bold
                             )
 
@@ -129,28 +135,31 @@ fun StatsScreen(navController: NavController) {
 
                             Text(
                                 text = "this week",
+                                color = Color.DarkGray,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
-                }
 
 
-                Card(
-                    modifier = Modifier
-                        .size(height = 140.dp, width = 150.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
-                    ),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 4.dp
-                    ),
-                ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxSize()
+                            .size(height = 180.dp, width = 200.dp)
+                            .border(
+                                width = 1.dp,
+                                color = ElectricPurple.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .shadow(
+                                elevation = 8.dp,
+                                shape = RoundedCornerShape(16.dp),
+                                ambientColor = ElectricPurple,
+                                spotColor = ElectricPurple
+                            )
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(16.dp)
+                            )
                             .padding(8.dp),
                     ) {
                         Column(
@@ -160,7 +169,7 @@ fun StatsScreen(navController: NavController) {
 
                             Box(
                                 modifier = Modifier
-                                    .size(40.dp)
+                                    .size(60.dp)
                                     .border(
                                         width = 4.dp,
                                         color = DarkOrange,
@@ -169,7 +178,8 @@ fun StatsScreen(navController: NavController) {
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "85"
+                                    text = "85",
+                                    fontSize = 22.sp
                                 )
                             }
 
@@ -191,34 +201,35 @@ fun StatsScreen(navController: NavController) {
                     }
                 }
             }
-        }
 
 
 
-        item {
-            Spacer(modifier = Modifier.height(32.dp))
-            WeeklyStatus()
-        }
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
+                WeeklyStatus()
+            }
 
-        item {
+            item {
 
-            Spacer(modifier = Modifier.height(32.dp))
-            Text(
-                text=  "Weekly Insights",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
+                Spacer(modifier = Modifier.height(32.dp))
+                Text(
+                    text = "Weekly Insights",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
 
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            WeeklyInsightsCard()
-        }
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                WeeklyInsightsCard()
+            }
 
-        item {
+            item {
 
-            Spacer(modifier = Modifier.height(32.dp))
-            DeepFocusUI()
+                Spacer(modifier = Modifier.height(32.dp))
+                DeepFocusUI()
+            }
         }
     }
+
 }

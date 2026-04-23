@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.DarkOrange
+import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.Green
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
 
@@ -48,10 +49,10 @@ fun LevelUI() {
             modifier = Modifier
                 .fillMaxSize()
                 .shadow(
-                    elevation = 8.dp,
+                    elevation = 4.dp,
                     shape = RoundedCornerShape(16.dp),
-                    ambientColor = Color.Blue.copy(alpha = 0.6f),
-                    spotColor = Color.Blue.copy(alpha = 0.6f)
+                    ambientColor = ElectricPurple,
+                    spotColor = ElectricPurple
                 )
                 .background(
                     color = Color.White,

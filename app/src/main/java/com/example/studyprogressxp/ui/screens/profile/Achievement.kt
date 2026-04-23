@@ -2,6 +2,7 @@ package com.example.studyprogressxp.ui.screens.profile
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.PureWhite
 import com.example.studyprogressxp.ui.theme.SoftGrayLavender
 
@@ -44,7 +47,9 @@ fun AchievementUI() {
             )
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
             verticalArrangement = Arrangement.Center
         ) {
 
@@ -57,51 +62,69 @@ fun AchievementUI() {
                 //   *******************************         Early Bird        *************************
 
 
-                Card(
-                    modifier = Modifier.size(height = 140.dp, width = 150.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = PureWhite
-                    ),
-                    shape = RoundedCornerShape(24.dp),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 4.dp
-                    ),
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    Box(
+                        modifier = Modifier
+                            .size(height = 140.dp, width = 150.dp)
+                            .shadow(
+                                elevation = 8.dp,
+                                shape = RoundedCornerShape(16.dp),
+                                ambientColor = ElectricPurple,
+                                spotColor = ElectricPurple
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = ElectricPurple.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(24.dp)
+                            ),
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(70.dp)
-                                .background(
-                                    brush = Brush.linearGradient(
-                                        colors = listOf(
-                                            Color(0xFFF6C04D),
-                                            Color(0xFFF39C2D)
-                                        )
-                                    ),
-                                    shape = RoundedCornerShape(100.dp)
-                                ),
-                            contentAlignment = Alignment.Center
+
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Icon(
-                                painter = painterResource(R.drawable.award_icon),
-                                contentDescription = "Early Bird",
-                                tint = Color.White,
-                                modifier = Modifier.size(40.dp)
+                            Box(
+                                modifier = Modifier
+                                    .size(70.dp)
+                                    .background(
+                                        brush = Brush.linearGradient(
+                                            colors = listOf(
+                                                Color(0xFFF6C04D),
+                                                Color(0xFFF39C2D)
+                                            )
+                                        ),
+                                        shape = RoundedCornerShape(100.dp)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.award_icon),
+                                    contentDescription = "Early Bird",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(40.dp)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                text = "Early Bird",
+                                fontWeight = FontWeight.Bold
                             )
                         }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Text(
-                            text = "Early Bird",
-                            fontWeight = FontWeight.Bold
-                        )
                     }
-                }
+
+
+
+
+
+
+
 
 
 //   *******************************         Mindful Master         *************************

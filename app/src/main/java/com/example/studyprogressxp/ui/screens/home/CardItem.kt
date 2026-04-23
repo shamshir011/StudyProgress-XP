@@ -1,6 +1,7 @@
 package com.example.studyprogressxp.ui.screens.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,12 +37,11 @@ fun CardItem(skill: Skill) {
 
     Box(
         modifier = Modifier
-            .height(90.dp).padding(4.dp)
-            .shadow(
-                elevation = 2.dp,
-                shape = RoundedCornerShape(16.dp),
-                ambientColor = Color.Blue.copy(alpha = 0.6f),
-                spotColor = Color.Blue.copy(alpha = 0.6f)
+            .height(90.dp).padding(6.dp)
+            .border(
+                width = 1.dp,
+                color = ElectricPurple.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(16.dp)
             )
             .background(
                 color = Color.White,
