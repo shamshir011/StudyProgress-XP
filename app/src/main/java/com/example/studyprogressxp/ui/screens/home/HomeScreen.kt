@@ -133,8 +133,7 @@ fun HomeScreen(navController: NavController) {
                                     style = Stroke(
                                         width = 2.dp.toPx(),
                                         pathEffect = PathEffect.dashPathEffect(
-                                            floatArrayOf(9f, 9f),
-                                            0f
+                                            floatArrayOf(9f, 9f), 0f
                                         )
                                     ),
                                     cornerRadius = CornerRadius(50f, 50f)
@@ -145,7 +144,7 @@ fun HomeScreen(navController: NavController) {
 
                         ) {
                         Text(
-                            text = "View Details",
+                            text = "View All",
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
                         )

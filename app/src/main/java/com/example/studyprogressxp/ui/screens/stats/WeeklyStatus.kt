@@ -41,30 +41,12 @@ fun WeeklyStatus() {
                 .fillMaxSize()
                 .padding(start = 8.dp, end = 8.dp, top = 16.dp, bottom = 16.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Study Activity",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
 
-                Box(
-                    modifier = Modifier.background(
-                        color = Purple40,
-                        shape = RoundedCornerShape(50.dp)
-                    )
-                ) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = "Weekly",
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
+            Text(
+                text = "Weekly Study Activity",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 

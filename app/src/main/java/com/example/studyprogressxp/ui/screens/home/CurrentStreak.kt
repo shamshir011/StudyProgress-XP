@@ -115,7 +115,9 @@ fun CurrentStreak() {
                 Spacer(modifier = Modifier.height(44.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(end = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Box(
@@ -125,9 +127,9 @@ fun CurrentStreak() {
                         )
                     ) {
                         Column(
-                            modifier = Modifier.padding(
-                                8.dp
-                            )
+                            modifier = Modifier
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
                                 text = "120 XP",
@@ -151,10 +153,11 @@ fun CurrentStreak() {
                         Column(
                             modifier = Modifier.padding(
                                 8.dp
-                            )
+                            ),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "LEVEL 3",
+                                text = "Lv 3",
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
@@ -173,9 +176,9 @@ fun CurrentStreak() {
                         )
                     ) {
                         Column(
-                            modifier = Modifier.padding(
-                                8.dp
-                            )
+                            modifier = Modifier
+                                .padding(8.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
                                 text = "2.5hrs",

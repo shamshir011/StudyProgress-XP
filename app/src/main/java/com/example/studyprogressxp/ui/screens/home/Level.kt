@@ -43,7 +43,7 @@ fun LevelUI() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
+            .height(110.dp)
     ) {
         Box(
             modifier = Modifier

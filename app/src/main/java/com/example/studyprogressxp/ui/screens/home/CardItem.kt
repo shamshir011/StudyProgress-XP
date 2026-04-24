@@ -37,7 +37,7 @@ fun CardItem(skill: Skill) {
 
     Box(
         modifier = Modifier
-            .height(90.dp).padding(6.dp)
+            .height(100.dp).padding(6.dp)
             .border(
                 width = 1.dp,
                 color = ElectricPurple.copy(alpha = 0.1f),

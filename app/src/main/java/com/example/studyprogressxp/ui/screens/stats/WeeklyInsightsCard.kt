@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -35,7 +37,7 @@ fun WeeklyInsightsCard() {
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().height(100.dp)
             .border(
                 width = 1.dp,
                 color = ElectricPurple.copy(alpha = 0.1f),
@@ -48,8 +50,8 @@ fun WeeklyInsightsCard() {
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp, top = 16.dp)
+                .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
                 onClick = {},
@@ -88,12 +90,11 @@ fun WeeklyInsightsCard() {
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(16.dp),
-                ambientColor = ElectricPurple,
-                spotColor = ElectricPurple
+            .fillMaxWidth().height(100.dp)
+            .border(
+                width = 1.dp,
+                color = ElectricPurple.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(16.dp)
             )
             .background(
                 color = Color.White,
@@ -102,8 +103,8 @@ fun WeeklyInsightsCard() {
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp, top = 16.dp)
+                .fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
                 onClick = {},
