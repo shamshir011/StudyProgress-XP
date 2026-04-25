@@ -15,18 +15,20 @@ import com.example.studyprogressxp.ui.components.topappbar.AppTopBarUI
 import com.example.studyprogressxp.ui.components.topappbar.SettingTopBar
 import com.example.studyprogressxp.ui.components.bottomappbar.MyNavBar
 import com.example.studyprogressxp.ui.components.topappbar.SessionTopAppBar
+import com.example.studyprogressxp.ui.components.topappbar.SpecificSkillTopBar
 import com.example.studyprogressxp.ui.screens.addnewskill.AddNewSkill
 import com.example.studyprogressxp.ui.screens.home.HomeScreen
 import com.example.studyprogressxp.ui.screens.profile.ProfileScreen
 import com.example.studyprogressxp.ui.screens.session.SessionScreen
 import com.example.studyprogressxp.ui.screens.setting.SettingScreen
+import com.example.studyprogressxp.ui.screens.spacificskill.Skill
 import com.example.studyprogressxp.ui.screens.stats.StatsScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(){
 
-    val hideRoutes = listOf("Settings", "Session", "AddNewSkill", "Session")
+    val hideRoutes = listOf("Settings", "Session", "AddNewSkill", "Session", "Skills")
 
     val navController = rememberNavController()
 
@@ -49,6 +51,10 @@ fun MainScreen(){
                 }
                 currentRoute?.contains("Session") == true -> {
                     SessionTopAppBar(navController)
+                }
+
+                currentRoute?.contains("Skills") == true -> {
+                    SpecificSkillTopBar(navController)
                 }
                 else->{
                     AppTopBarUI(navController)
@@ -95,6 +101,10 @@ fun MainScreen(){
 
             composable<NavBarRoutes.AddNewSkill>{
                 AddNewSkill(navController)
+            }
+
+            composable<NavBarRoutes.Skills>{
+                Skill(navController)
             }
         }
     }

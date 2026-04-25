@@ -73,7 +73,7 @@ fun ProfileScreen(navController: NavController) {
                             )
                         ),
                         shape = RoundedCornerShape(24.dp)
-                    ),
+                    )
             ) {
 
                 Column(

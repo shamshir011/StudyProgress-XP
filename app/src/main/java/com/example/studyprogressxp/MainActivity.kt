@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import com.example.studyprogressxp.ui.navigation.MainScreen
 import com.example.studyprogressxp.ui.screens.home.CurrentStreak
 import com.example.studyprogressxp.ui.screens.home.TrackSkillCard
+import com.example.studyprogressxp.ui.screens.spacificskill.Skill
 import com.example.studyprogressxp.ui.theme.StudyProgressXPTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,8 +18,8 @@ class MainActivity : ComponentActivity() {
             StudyProgressXPTheme {
 
 
-                MainScreen()
-
+//                MainScreen()
+                Skill()
             }
         }
     }

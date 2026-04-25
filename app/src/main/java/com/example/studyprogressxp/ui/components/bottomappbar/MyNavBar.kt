@@ -45,6 +45,9 @@ fun MyNavBar(navController: NavHostController) {
                 is NavBarRoutes.Profile ->
                     currentDestination?.route?.contains("Profile") == true
 
+                is NavBarRoutes.Skills ->
+                    currentDestination?.route?.contains("Skills") == true
+
                 else -> false
 
             }

@@ -58,7 +58,7 @@ fun SessionScreen(navController: NavController) {
 //            Spacer(modifier = Modifier.weight(1f))
 //            ExpTarget()
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(42.dp))
 
 
             Box(
@@ -167,7 +167,7 @@ fun SessionScreen(navController: NavController) {
                             Spacer(modifier = Modifier.weight(1f))
 
                             Row {
-                                Text("62%", color = DarkGreen, fontSize = 22.sp)
+                                Text("62%", color = DarkGreen, fontSize = 22.sp, fontWeight = FontWeight.Bold)
                             }
                         }
 

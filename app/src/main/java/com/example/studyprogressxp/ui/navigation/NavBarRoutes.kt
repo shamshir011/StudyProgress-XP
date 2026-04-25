@@ -21,4 +21,7 @@ sealed class NavBarRoutes{
 
     @Serializable
     object AddNewSkill : NavBarRoutes()
+
+    @Serializable
+    object Skills : NavBarRoutes()
 }
