@@ -45,27 +45,30 @@ fun SubjectInfo() {
             )
     ) {
 
-        Column(modifier = Modifier){
+        Column(modifier = Modifier) {
 
             Spacer(modifier = Modifier.height(8.dp))
             Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text =  "Mastery Level",
+                    text = "Mastery Level",
                     color = Color.DarkGray
                 )
 
                 Text(
-                    text =  "Level 4 - Intermediate",
+                    text = "Level 4 - Intermediate",
                     color = ElectricPurple,
                     fontWeight = FontWeight.Bold
                 )
             }
 
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 8.dp, bottom = 8.dp),
                 thickness = 1.dp,
                 color = Color.LightGray
@@ -73,16 +76,18 @@ fun SubjectInfo() {
 
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text =  "Best Session",
+                    text = "Best Session",
                     color = Color.DarkGray
                 )
 
                 Text(
-                    text =  "3.0 hrs . Apr 20",
+                    text = "3.0 hrs . Apr 20",
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
@@ -90,7 +95,8 @@ fun SubjectInfo() {
 
 
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 8.dp, bottom = 8.dp),
                 thickness = 1.dp,
                 color = Color.LightGray
@@ -98,39 +104,44 @@ fun SubjectInfo() {
 
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text =  "Last Studied",
+                    text = "Last Studied",
                     color = Color.DarkGray
                 )
 
                 Text(
-                    text =  "Today, 7:15 PM",
+                    text = "Today, 7:15 PM",
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
             }
 
             HorizontalDivider(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 8.dp, bottom = 8.dp),
                 thickness = 1.dp,
                 color = Color.LightGray
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text =  "Daily Goal",
+                    text = "Daily Goal",
                     color = Color.DarkGray
                 )
 
                 Text(
-                    text =  "2hrs / day",
+                    text = "2hrs / day",
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )

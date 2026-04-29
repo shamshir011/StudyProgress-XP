@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -153,12 +154,27 @@ fun HomeScreen(navController: NavController) {
             }
 
 
-            item {
-                dailyQuests.forEach { product ->
-                    CardItem(product)
+//            item {
+//                dailyQuests.forEach { product ->
+//                    CardItem(skill = product, onClick = {
+//                        navController.navigate("Skills")
+//                    })
+//                }
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//            }
+
+
+                items(dailyQuests) { product ->
+                    CardItem(
+                        skill = product,
+                        onClick = {
+                            navController.navigate(NavBarRoutes.Skills)
+                        }
+                    )
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-            }
+
+
 
 
 

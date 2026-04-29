@@ -2,6 +2,7 @@ package com.example.studyprogressxp.ui.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,11 @@ import com.example.studyprogressxp.ui.theme.Purple
 
 
 @Composable
-fun CardItem(skill: Skill) {
+fun CardItem(
+    skill: Skill,
+    onClick: () -> Unit
+
+) {
 
     Box(
         modifier = Modifier
@@ -47,6 +52,7 @@ fun CardItem(skill: Skill) {
                 color = Color.White,
                 shape = RoundedCornerShape(16.dp)
             )
+            .clickable{onClick()}
     ) {
         Row(
             modifier = Modifier

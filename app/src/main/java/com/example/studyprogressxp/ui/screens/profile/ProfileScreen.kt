@@ -1,9 +1,13 @@
 package com.example.studyprogressxp.ui.screens.profile
 
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +28,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,11 +40,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.DarkPurple
@@ -43,10 +54,28 @@ import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.LightGreen
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
+import java.io.File
+import java.io.FileOutputStream
 
 //@Preview(showBackground = true)
 @Composable
 fun ProfileScreen(navController: NavController) {
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    var imagePath by remember { mutableStateOf<String?>(null) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+
+        uri?.let {
+
+            val path = saveImage(context, it)
+            imagePath = path
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -94,10 +123,17 @@ fun ProfileScreen(navController: NavController) {
                                 width = 2.dp,
                                 color = LowPurple,
                                 shape = RoundedCornerShape(100.dp)
-                            ),
+                            )
+                            .clickable{
+                                launcher.launch("image/*")
+                            },
                     ) {
                         Image(
-                            painter = painterResource(R.drawable.pic),
+                            painter = if (imagePath != null) {
+                                rememberAsyncImagePainter(File(imagePath!!))
+                            } else {
+                                painterResource(R.drawable.pic)
+                            },
                             contentDescription = "Profile Image",
                             modifier = Modifier
                                 .fillMaxSize()
@@ -246,4 +282,21 @@ fun ProfileScreen(navController: NavController) {
             NextMilestoneUI()
         }
     }
+}
+
+
+// This function copies selected image from gallery into app's internal storage
+fun saveImage(context: android.content.Context, uri: Uri): String {
+
+    val file = File(context.filesDir, "profile.jpg")
+
+    val inputStream = context.contentResolver.openInputStream(uri)
+
+    val outputStream = FileOutputStream(file)
+    inputStream?.copyTo(outputStream)
+
+    inputStream?.close()
+    outputStream.close()
+
+    return file.absolutePath
 }

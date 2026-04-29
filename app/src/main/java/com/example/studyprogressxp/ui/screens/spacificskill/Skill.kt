@@ -2,6 +2,7 @@ package com.example.studyprogressxp.ui.screens.spacificskill
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 
 
@@ -80,14 +82,14 @@ fun Skill(navController: NavController) {
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(70.dp)
+                                .size(60.dp)
                                 .border(
                                     width = 1.dp,
                                     color = Color.LightGray,
                                     shape = RoundedCornerShape(16.dp)
                                 )
                                 .background(
-                                    color = Color(0xFF0F0F49),
+                                    color = Color(0xFF10106E),
                                     shape = RoundedCornerShape(16.dp)
                                 ),
                             contentAlignment = Alignment.Center
@@ -96,7 +98,7 @@ fun Skill(navController: NavController) {
                                 painter = painterResource(R.drawable.settings_icon),
                                 contentDescription = "Setting Icon",
                                 tint = Color.White,
-                                modifier = Modifier.size(44.dp)
+                                modifier = Modifier.size(32.dp)
                             )
                         }
 
@@ -250,6 +252,10 @@ fun Skill(navController: NavController) {
                         color = ElectricPurple,
                         shape = RoundedCornerShape(50.dp)
                     )
+                    .clickable{
+                        navController.navigate(NavBarRoutes.Session)
+                    }
+
             ) {
                 Row(
                     modifier = Modifier.fillMaxSize(),
@@ -264,7 +270,6 @@ fun Skill(navController: NavController) {
 
                     Text(
                         text = "Start DSA Session",
-                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )

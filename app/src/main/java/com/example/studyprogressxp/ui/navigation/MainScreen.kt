@@ -86,12 +86,11 @@ fun MainScreen(){
                 StatsScreen(navController)
             }
 
-
-            composable<NavBarRoutes.Profile> {
+            composable<NavBarRoutes.Profile>{
                 ProfileScreen(navController)
             }
 
-            composable<NavBarRoutes.Settings> {
+            composable<NavBarRoutes.Settings>{
                 SettingScreen(navController)
             }
 
