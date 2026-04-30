@@ -153,18 +153,6 @@ fun HomeScreen(navController: NavController) {
                 }
             }
 
-
-//            item {
-//                dailyQuests.forEach { product ->
-//                    CardItem(skill = product, onClick = {
-//                        navController.navigate("Skills")
-//                    })
-//                }
-//
-//                Spacer(modifier = Modifier.height(16.dp))
-//            }
-
-
                 items(dailyQuests) { product ->
                     CardItem(
                         skill = product,
@@ -173,9 +161,6 @@ fun HomeScreen(navController: NavController) {
                         }
                     )
                 }
-
-
-
 
 
             item {

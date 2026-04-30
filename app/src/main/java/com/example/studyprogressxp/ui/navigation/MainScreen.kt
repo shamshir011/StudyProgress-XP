@@ -23,18 +23,18 @@ import com.example.studyprogressxp.ui.screens.session.SessionScreen
 import com.example.studyprogressxp.ui.screens.setting.SettingScreen
 import com.example.studyprogressxp.ui.screens.spacificskill.Skill
 import com.example.studyprogressxp.ui.screens.stats.StatsScreen
+import com.example.studyprogressxp.ui.screens.userentry.UserEntry
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(){
 
-    val hideRoutes = listOf("Settings", "Session", "AddNewSkill", "Session", "Skills")
+    val hideRoutes = listOf("Settings", "Session", "AddNewSkill", "Session", "Skills","UserEntry")
 
     val navController = rememberNavController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-
 
 
     Scaffold(
@@ -56,6 +56,10 @@ fun MainScreen(){
                 currentRoute?.contains("Skills") == true -> {
                     SpecificSkillTopBar(navController)
                 }
+
+//                currentRoute?.contains("UserEntry") == true -> {
+//                    UserEntry(navController)
+//                }
                 else->{
                     AppTopBarUI(navController)
                 }
@@ -105,6 +109,10 @@ fun MainScreen(){
             composable<NavBarRoutes.Skills>{
                 Skill(navController)
             }
+
+//            composable<NavBarRoutes.UserEntry>{
+//                UserEntry(navController)
+//            }
         }
     }
 }

@@ -112,6 +112,11 @@ fun ProfileScreen(navController: NavController) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+
+
+
+
+
                     Box(
                         modifier = Modifier
                             .background(
