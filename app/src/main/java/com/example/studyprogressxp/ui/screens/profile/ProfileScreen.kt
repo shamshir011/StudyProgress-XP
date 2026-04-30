@@ -1,6 +1,7 @@
 package com.example.studyprogressxp.ui.screens.profile
 
 
+import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -63,26 +65,17 @@ import com.example.studyprogressxp.ui.viewmodel.UserViewModelFactory
 import java.io.File
 import java.io.FileOutputStream
 
-//@Preview(showBackground = true)
+
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun ProfileScreen(navController: NavController, viewModel: UserViewModel) {
 
     val context = LocalContext.current
 
-    val prefs = UserPreferences(context)
-    val repo = UserRepository(prefs)
 
-    val viewModel: UserViewModel = viewModel(
-        factory = UserViewModelFactory(repo)
-    )
-
-    LaunchedEffect(Unit) {
+    LaunchedEffect(true) {
         viewModel.loadUser()
     }
 
-    val scope = rememberCoroutineScope()
-
-    var imagePath by remember { mutableStateOf<String?>(null) }
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -91,7 +84,8 @@ fun ProfileScreen(navController: NavController) {
         uri?.let {
 
             val path = saveImage(context, it)
-            imagePath = path
+            viewModel.setImage(path)
+            viewModel.saveUser()
         }
     }
 
@@ -147,22 +141,22 @@ fun ProfileScreen(navController: NavController) {
                                 launcher.launch("image/*")
                             },
                     ) {
-//                        Image(
-//                            painter = painterResource(R.drawable.pic),
-//                            contentDescription = "Profile Image",
-//                            modifier = Modifier
-//                                .fillMaxSize()
-//                                .clip(CircleShape)
-//                        )
+
 
                         if (viewModel.imagePath.isNotEmpty()) {
-                            Image(
-                                painter = rememberAsyncImagePainter(File(viewModel.imagePath)),
-                                contentDescription = "Profile Image",
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .clip(CircleShape)
-                            )
+
+                            key(viewModel.imagePath) {
+                                Image(
+                                    painter = rememberAsyncImagePainter(
+                                        model = File(viewModel.imagePath)
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(CircleShape)
+                                )
+                            }
+
                         } else {
                             Image(
                                 painter = painterResource(R.drawable.pic),
@@ -317,15 +311,13 @@ fun ProfileScreen(navController: NavController) {
     }
 }
 
-
-// This function copies selected image from gallery into app's internal storage
-fun saveImage(context: android.content.Context, uri: Uri): String {
-
-    val file = File(context.filesDir, "profile.jpg")
+fun saveImage(context: Context, uri: Uri): String {
+    val fileName = "profile_${System.currentTimeMillis()}.jpg"
+    val file = File(context.filesDir, fileName)
 
     val inputStream = context.contentResolver.openInputStream(uri)
-
     val outputStream = FileOutputStream(file)
+
     inputStream?.copyTo(outputStream)
 
     inputStream?.close()

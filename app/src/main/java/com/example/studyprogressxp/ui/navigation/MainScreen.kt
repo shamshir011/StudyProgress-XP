@@ -1,15 +1,24 @@
 package com.example.studyprogressxp.ui.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.studyprogressxp.data.local.datastore.UserPreferences
+import com.example.studyprogressxp.data.repository.UserRepository
 import com.example.studyprogressxp.ui.components.topappbar.AddNewSkillTopAppBar
 import com.example.studyprogressxp.ui.components.topappbar.AppTopBarUI
 import com.example.studyprogressxp.ui.components.topappbar.SettingTopBar
@@ -24,12 +33,28 @@ import com.example.studyprogressxp.ui.screens.setting.SettingScreen
 import com.example.studyprogressxp.ui.screens.spacificskill.Skill
 import com.example.studyprogressxp.ui.screens.stats.StatsScreen
 import com.example.studyprogressxp.ui.screens.userentry.UserEntry
+import com.example.studyprogressxp.ui.viewmodel.UserViewModel
+import com.example.studyprogressxp.ui.viewmodel.UserViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(){
+fun MainScreen() {
 
-    val hideRoutes = listOf("Settings", "Session", "AddNewSkill", "Session", "Skills","UserEntry")
+    val context = LocalContext.current
+
+    val prefs = UserPreferences(context)
+    val repo = UserRepository(prefs)
+
+    val userViewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(repo)
+    )
+
+// load once
+    LaunchedEffect(Unit) {
+        userViewModel.loadUser()
+    }
+
+    val hideRoutes = listOf("Settings", "Session", "AddNewSkill", "Session", "Skills", "UserEntry")
 
     val navController = rememberNavController()
 
@@ -41,7 +66,7 @@ fun MainScreen(){
 
         topBar = {
 
-            when{
+            when {
                 currentRoute?.contains("Settings") == true -> {
                     SettingTopBar(navController)
                 }
@@ -49,6 +74,7 @@ fun MainScreen(){
                 currentRoute?.contains("AddNewSkill") == true -> {
                     AddNewSkillTopAppBar(navController)
                 }
+
                 currentRoute?.contains("Session") == true -> {
                     SessionTopAppBar(navController)
                 }
@@ -57,14 +83,15 @@ fun MainScreen(){
                     SpecificSkillTopBar(navController)
                 }
 
-//                currentRoute?.contains("UserEntry") == true -> {
-//                    UserEntry(navController)
-//                }
-                else->{
+                currentRoute?.contains("UserEntry") == true -> {
+                    UserEntry(navController, userViewModel)
+                }
+
+                else -> {
                     AppTopBarUI(navController)
                 }
-                }
-            },
+            }
+        },
         bottomBar = {
             val shouldHide = hideRoutes.any {
                 currentRoute?.contains(it) == true
@@ -74,45 +101,67 @@ fun MainScreen(){
                 MyNavBar(navController)
             }
         }
-    ) { innerPadding->
+    ) { innerPadding ->
 
-        NavHost(
-            navController = navController,
-            startDestination = NavBarRoutes.Home,
-            modifier = Modifier.padding(innerPadding)
-        ){
 
-            composable<NavBarRoutes.Home>{
-                HomeScreen(navController)
+//        val startDestination = if (userViewModel.userName.isEmpty()) {
+//            NavBarRoutes.UserEntry
+//        } else {
+//            NavBarRoutes.Home
+//        }
+
+
+        if (!userViewModel.isLoaded) {
+            // show loading screen (simple)
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+
+            val startDestination = if (userViewModel.userName.isEmpty()) {
+                NavBarRoutes.UserEntry
+            } else {
+                NavBarRoutes.Home
             }
 
-            composable<NavBarRoutes.Stats>{
-                StatsScreen(navController)
-            }
+            NavHost(
+                navController = navController,
+                startDestination = startDestination,
+                modifier = Modifier.padding(innerPadding)
+            ) {
 
-            composable<NavBarRoutes.Profile>{
-                ProfileScreen(navController)
-            }
+                composable<NavBarRoutes.Home> {
+                    HomeScreen(navController)
+                }
 
-            composable<NavBarRoutes.Settings>{
-                SettingScreen(navController)
-            }
+                composable<NavBarRoutes.Stats> {
+                    StatsScreen(navController)
+                }
 
-            composable<NavBarRoutes.Session> {
-                SessionScreen(navController)
-            }
+                composable<NavBarRoutes.Profile> {
+                    ProfileScreen(navController, userViewModel)
+                }
 
-            composable<NavBarRoutes.AddNewSkill>{
-                AddNewSkill(navController)
-            }
+                composable<NavBarRoutes.Settings> {
+                    SettingScreen(navController, userViewModel)
+                }
 
-            composable<NavBarRoutes.Skills>{
-                Skill(navController)
-            }
+                composable<NavBarRoutes.Session> {
+                    SessionScreen(navController)
+                }
 
-//            composable<NavBarRoutes.UserEntry>{
-//                UserEntry(navController)
-//            }
+                composable<NavBarRoutes.AddNewSkill> {
+                    AddNewSkill(navController)
+                }
+
+                composable<NavBarRoutes.Skills> {
+                    Skill(navController)
+                }
+
+                composable<NavBarRoutes.UserEntry> {
+                    UserEntry(navController, userViewModel)
+                }
+            }
         }
     }
 }

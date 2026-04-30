@@ -12,6 +12,8 @@ class UserViewModel(
     private val repository: UserRepository
 ) : ViewModel() {
 
+    var isLoaded by mutableStateOf(false)
+
     var userName by mutableStateOf("")
     var imagePath by mutableStateOf("")
 
@@ -29,10 +31,12 @@ class UserViewModel(
         }
     }
 
+
     fun loadUser() {
         viewModelScope.launch {
             userName = repository.getUserName().first()
             imagePath = repository.getImagePath().first()
+            isLoaded = true
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.studyprogressxp.ui.screens.userentry
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,25 +65,29 @@ import java.io.File
 
 
 @Composable
-fun UserEntry() {
+fun UserEntry(navController: NavController, viewModel: UserViewModel) {
+
+    var isFirstTime by remember { mutableStateOf(true) }
+    LaunchedEffect(Unit) {
+        viewModel.loadUser()
+        if (viewModel.userName.isNotEmpty()) {
+            isFirstTime = false
+        }
+    }
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
-    val prefs = UserPreferences(context)
-    val repo = UserRepository(prefs)
-    val viewModel = remember { UserViewModel(repo) }
-
-    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
-
-    // Image Picker
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
         uri?.let {
-            selectedImageUri = it
             val path = saveImageToInternalStorage(context, it)
             viewModel.setImage(path)
+
+            scope.launch {
+                viewModel.saveUser()
+            }
         }
     }
 
@@ -133,7 +139,7 @@ fun UserEntry() {
                         shape = RoundedCornerShape(100.dp)
                     )
                     .size(100.dp)
-                    .clickable{
+                    .clickable {
                         launcher.launch("image/*")
                     }
                     .align(Alignment.CenterHorizontally)
@@ -152,22 +158,25 @@ fun UserEntry() {
                     },
                 contentAlignment = Alignment.Center
             ) {
-//                Image(
-//                    painter = painterResource(R.drawable.person_icon),
-//                    contentDescription = "Profile Image",
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .clip(CircleShape),
-//                    contentScale = ContentScale.Fit
-//                )
+
                 if (viewModel.imagePath.isNotEmpty()) {
                     Image(
                         painter = rememberAsyncImagePainter(File(viewModel.imagePath)),
                         contentDescription = null,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape)
                     )
                 } else {
-                    Icon(Icons.Default.Person, contentDescription = null)
+//                    Icon(Icons.Default.Person, contentDescription = null)
+                    Image(
+                        painter = painterResource(R.drawable.person_icon),
+                        contentDescription = "Profile Image",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Fit
+                    )
                 }
 
                 Box(
@@ -198,11 +207,11 @@ fun UserEntry() {
 
             ) {
                 TextField(
-//                    value = searchText,
-//                    onValueChange = {searchText = it},
                     value = viewModel.userName,
                     onValueChange = { viewModel.onNameChange(it) },
-                    placeholder ={Text(text = "Enter your name", color = Color.Gray)},
+
+
+                    placeholder = { Text(text = "Enter your name", color = Color.Gray) },
                     leadingIcon = {
                         Icon(
                             painter = painterResource(R.drawable.profile_icons),
@@ -231,10 +240,32 @@ fun UserEntry() {
             Spacer(modifier = Modifier.weight(1f))
 
             Button(
-                modifier = Modifier.width(220.dp).height(58.dp).align(Alignment.CenterHorizontally),
-                onClick = {scope.launch {
-                    viewModel.saveUser()
-                }},
+                modifier = Modifier
+                    .width(220.dp)
+                    .height(58.dp)
+                    .align(Alignment.CenterHorizontally),
+
+                onClick = {
+                    scope.launch {
+                        viewModel.saveUser()
+
+                        Toast.makeText(
+                            context,
+                            if (isFirstTime) "Profile saved" else "Profile updated",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        if (isFirstTime) {
+                            // First time → go to Home
+                            navController.navigate(NavBarRoutes.Home) {
+                                popUpTo(NavBarRoutes.UserEntry) { inclusive = true }
+                            }
+                        } else {
+                            // Edit mode → just go back
+                            navController.popBackStack()
+                        }
+                    }
+                },
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = ElectricPurple,
