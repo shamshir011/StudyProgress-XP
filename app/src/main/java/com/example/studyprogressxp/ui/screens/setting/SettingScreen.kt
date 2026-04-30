@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -25,20 +26,39 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.data.local.datastore.UserPreferences
+import com.example.studyprogressxp.data.repository.UserRepository
 import com.example.studyprogressxp.ui.theme.BlushPink
 import com.example.studyprogressxp.ui.theme.DarkerRed
 import com.example.studyprogressxp.ui.theme.LightRed
 import com.example.studyprogressxp.ui.theme.LowPurple
+import com.example.studyprogressxp.ui.viewmodel.UserViewModel
+import com.example.studyprogressxp.ui.viewmodel.UserViewModelFactory
 
 //@Preview(showBackground = true)
 @Composable
 fun SettingScreen(navController: NavController) {
+
+
+    val context = LocalContext.current
+
+    val prefs = UserPreferences(context)
+    val repo = UserRepository(prefs)
+
+    val viewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(repo)
+    )
+    LaunchedEffect(Unit) {
+        viewModel.loadUser()
+    }
 
     Column(
         modifier = Modifier
@@ -101,8 +121,17 @@ fun SettingScreen(navController: NavController) {
                             text = "Name",
                         )
 
+//                        Text(
+//                            text = "Md Shamshir Alam",
+//                            fontWeight = FontWeight.Bold
+//                        )
+
                         Text(
-                            text = "Md Shamshir Alam",
+                            text = if (viewModel.userName.isNotEmpty()) {
+                                viewModel.userName
+                            } else {
+                                "Your Name"
+                            },
                             fontWeight = FontWeight.Bold
                         )
                     }

@@ -28,6 +28,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,15 +46,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.data.local.datastore.UserPreferences
+import com.example.studyprogressxp.data.repository.UserRepository
 import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.DarkPurple
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.LightGreen
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
+import com.example.studyprogressxp.ui.viewmodel.UserViewModel
+import com.example.studyprogressxp.ui.viewmodel.UserViewModelFactory
 import java.io.File
 import java.io.FileOutputStream
 
@@ -62,6 +68,18 @@ import java.io.FileOutputStream
 fun ProfileScreen(navController: NavController) {
 
     val context = LocalContext.current
+
+    val prefs = UserPreferences(context)
+    val repo = UserRepository(prefs)
+
+    val viewModel: UserViewModel = viewModel(
+        factory = UserViewModelFactory(repo)
+    )
+
+    LaunchedEffect(Unit) {
+        viewModel.loadUser()
+    }
+
     val scope = rememberCoroutineScope()
 
     var imagePath by remember { mutableStateOf<String?>(null) }
@@ -113,10 +131,6 @@ fun ProfileScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-
-
-
-
                     Box(
                         modifier = Modifier
                             .background(
@@ -129,21 +143,35 @@ fun ProfileScreen(navController: NavController) {
                                 color = LowPurple,
                                 shape = RoundedCornerShape(100.dp)
                             )
-                            .clickable{
+                            .clickable {
                                 launcher.launch("image/*")
                             },
                     ) {
-                        Image(
-                            painter = if (imagePath != null) {
-                                rememberAsyncImagePainter(File(imagePath!!))
-                            } else {
-                                painterResource(R.drawable.pic)
-                            },
-                            contentDescription = "Profile Image",
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(CircleShape)
-                        )
+//                        Image(
+//                            painter = painterResource(R.drawable.pic),
+//                            contentDescription = "Profile Image",
+//                            modifier = Modifier
+//                                .fillMaxSize()
+//                                .clip(CircleShape)
+//                        )
+
+                        if (viewModel.imagePath.isNotEmpty()) {
+                            Image(
+                                painter = rememberAsyncImagePainter(File(viewModel.imagePath)),
+                                contentDescription = "Profile Image",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape)
+                            )
+                        } else {
+                            Image(
+                                painter = painterResource(R.drawable.pic),
+                                contentDescription = "Default Image",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(CircleShape)
+                            )
+                        }
 
                         Box(
                             modifier = Modifier

@@ -64,4 +64,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
     // Used to load and display images from File, URI, or URL (e.g., profile image from gallery)
     implementation("io.coil-kt:coil-compose:2.6.0")
+
+//    Its for DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 }

@@ -1,7 +1,11 @@
 package com.example.studyprogressxp.ui.screens.userentry
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +18,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -24,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,21 +41,49 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.studyprogressxp.R
+import com.example.studyprogressxp.data.local.datastore.UserPreferences
+import com.example.studyprogressxp.data.repository.UserRepository
 import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
+import com.example.studyprogressxp.ui.viewmodel.UserViewModel
+import com.example.studyprogressxp.utils.saveImageToInternalStorage
+import kotlinx.coroutines.launch
+import java.io.File
 
 
 @Composable
 fun UserEntry() {
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    val prefs = UserPreferences(context)
+    val repo = UserRepository(prefs)
+    val viewModel = remember { UserViewModel(repo) }
+
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+
+    // Image Picker
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            selectedImageUri = it
+            val path = saveImageToInternalStorage(context, it)
+            viewModel.setImage(path)
+        }
+    }
 
     Spacer(modifier = Modifier.height(8.dp))
 
@@ -98,6 +133,9 @@ fun UserEntry() {
                         shape = RoundedCornerShape(100.dp)
                     )
                     .size(100.dp)
+                    .clickable{
+                        launcher.launch("image/*")
+                    }
                     .align(Alignment.CenterHorizontally)
                     .drawBehind {
                         drawRoundRect(
@@ -114,14 +152,23 @@ fun UserEntry() {
                     },
                 contentAlignment = Alignment.Center
             ) {
-                Image(
-                    painter = painterResource(R.drawable.person_icon),
-                    contentDescription = "Profile Image",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Fit
-                )
+//                Image(
+//                    painter = painterResource(R.drawable.person_icon),
+//                    contentDescription = "Profile Image",
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .clip(CircleShape),
+//                    contentScale = ContentScale.Fit
+//                )
+                if (viewModel.imagePath.isNotEmpty()) {
+                    Image(
+                        painter = rememberAsyncImagePainter(File(viewModel.imagePath)),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    Icon(Icons.Default.Person, contentDescription = null)
+                }
 
                 Box(
                     modifier = Modifier
@@ -151,8 +198,10 @@ fun UserEntry() {
 
             ) {
                 TextField(
-                    value = searchText,
-                    onValueChange = {searchText = it},
+//                    value = searchText,
+//                    onValueChange = {searchText = it},
+                    value = viewModel.userName,
+                    onValueChange = { viewModel.onNameChange(it) },
                     placeholder ={Text(text = "Enter your name", color = Color.Gray)},
                     leadingIcon = {
                         Icon(
@@ -183,7 +232,9 @@ fun UserEntry() {
 
             Button(
                 modifier = Modifier.width(220.dp).height(58.dp).align(Alignment.CenterHorizontally),
-                onClick = {},
+                onClick = {scope.launch {
+                    viewModel.saveUser()
+                }},
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = ElectricPurple,
@@ -201,7 +252,6 @@ fun UserEntry() {
                     tint = Color.White
                 )
             }
-
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
