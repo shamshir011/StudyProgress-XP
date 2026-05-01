@@ -66,7 +66,9 @@ fun SettingScreen(navController: NavController, viewModel: UserViewModel) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().clickable {
+                navController.navigate(NavBarRoutes.UserEntry)
+            },
             shape = RoundedCornerShape(16.dp),
 
             colors = CardDefaults.cardColors(
@@ -102,10 +104,7 @@ fun SettingScreen(navController: NavController, viewModel: UserViewModel) {
 
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            navController.navigate(NavBarRoutes.UserEntry)
-                        },
+                        .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {

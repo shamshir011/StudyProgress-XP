@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -132,6 +133,15 @@ fun UserEntry(navController: NavController, viewModel: UserViewModel) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
+
+
+
+
+
+
+
+
+
             Box(
                 modifier = Modifier
                     .background(
@@ -201,40 +211,52 @@ fun UserEntry(navController: NavController, viewModel: UserViewModel) {
             Spacer(modifier = Modifier.height(32.dp))
 
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-
-            ) {
-                TextField(
-                    value = viewModel.userName,
-                    onValueChange = { viewModel.onNameChange(it) },
-
-
-                    placeholder = { Text(text = "Enter your name", color = Color.Gray) },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(R.drawable.profile_icons),
-                            contentDescription = "Profile icon",
-                            modifier = Modifier.size(32.dp),
-                            tint = Color.DarkGray
-                        )
-                    },
-
-                    shape = RoundedCornerShape(16.dp),
-                    singleLine = true,
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(58.dp),
-                    colors = TextFieldDefaults.colors(
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        unfocusedContainerColor = LowPurple,
-                        focusedContainerColor = LowPurple,
-                        cursorColor = Purple,
-                        focusedTextColor = Color.Black
+            Box(
+                modifier = Modifier
+                    .border(
+                        width = 1.dp,
+                        color = ElectricPurple.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(16.dp)
+                    ).background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(16.dp)
                     )
-                )
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+                    TextField(
+                        value = viewModel.userName,
+                        onValueChange = { viewModel.onNameChange(it) },
+
+
+                        placeholder = { Text(text = "Enter your name", color = Color.Gray) },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.profile_icons),
+                                contentDescription = "Profile icon",
+                                modifier = Modifier.size(32.dp),
+                                tint = Color.DarkGray
+                            )
+                        },
+
+                        shape = RoundedCornerShape(16.dp),
+                        singleLine = true,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp),
+                        colors = TextFieldDefaults.colors(
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White,
+                            cursorColor = Purple,
+                            focusedTextColor = Color.Black
+                        )
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))

@@ -1,8 +1,12 @@
 package com.example.studyprogressxp.ui.screens.addnewskill
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -21,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.studyprogressxp.ui.theme.PrimaryOrange
 
 @Preview
 @Composable
@@ -29,19 +34,18 @@ fun HeadlineUI(){
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(210.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        Color(0xFF5B4BBA), // dark purple
-                        Color(0xFF8A6FE8)  // light purple
+                        Color(0xFF3A0CA3),
+                        Color(0xFF7209B7)
                     )
                 )
             )
     ) {
 
-        // 🔵 Soft circle overlay
         Box(
             modifier = Modifier
                 .size(150.dp)
@@ -53,24 +57,34 @@ fun HeadlineUI(){
                 )
         )
 
-        // ✨ Text content
         Column(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(start = 20.dp, end = 80.dp)
+            modifier = Modifier.fillMaxHeight()
+                .padding(start = 8.dp),
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Master a New",
+                text = "Master a",
                 color = Color.White,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.SemiBold
+                fontSize = 42.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
+            Text(
+                text = "New",
+                color = PrimaryOrange,
+                fontSize = 42.sp,
+                fontWeight = FontWeight.ExtraBold
             )
 
             Text(
-                text = "Craft Today.",
+                text = "Craft Today-",
                 color = Color.White,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.SemiBold
+                fontSize = 42.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
+
+            Text(
+                text = "Every skill you add boosts your daily XP potential",
+                color = Color.LightGray
             )
         }
     }
