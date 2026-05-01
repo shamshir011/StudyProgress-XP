@@ -150,9 +150,9 @@ fun MainScreen() {
                     SessionScreen(navController)
                 }
 
-//                composable<NavBarRoutes.AddNewSkill> {
-//                    AddNewSkill(navController)
-//                }
+                composable<NavBarRoutes.AddNewSkill> {
+                    AddNewSkill(navController)
+                }
 
                 composable<NavBarRoutes.Skills> {
                     Skill(navController)

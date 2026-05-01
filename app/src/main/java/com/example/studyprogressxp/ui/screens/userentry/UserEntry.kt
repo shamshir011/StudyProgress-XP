@@ -213,11 +213,13 @@ fun UserEntry(navController: NavController, viewModel: UserViewModel) {
 
             Box(
                 modifier = Modifier
+                    .height(56.dp)
                     .border(
                         width = 1.dp,
                         color = ElectricPurple.copy(alpha = 0.1f),
                         shape = RoundedCornerShape(16.dp)
-                    ).background(
+                    )
+                    .background(
                         color = Color.White,
                         shape = RoundedCornerShape(16.dp)
                     )
@@ -228,11 +230,19 @@ fun UserEntry(navController: NavController, viewModel: UserViewModel) {
 
                 ) {
                     TextField(
+                        modifier = Modifier
+                            .fillMaxSize(),
                         value = viewModel.userName,
                         onValueChange = { viewModel.onNameChange(it) },
 
 
-                        placeholder = { Text(text = "Enter your name", color = Color.Gray) },
+                        placeholder = {
+                            Text(
+                                text = "Enter your name",
+                                color = Color.Gray,
+                                fontSize = 18.sp
+                            )
+                        },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(R.drawable.profile_icons),
@@ -244,9 +254,7 @@ fun UserEntry(navController: NavController, viewModel: UserViewModel) {
 
                         shape = RoundedCornerShape(16.dp),
                         singleLine = true,
-                        modifier = Modifier
-                            .weight(1f)
-                            .height(50.dp),
+
                         colors = TextFieldDefaults.colors(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,

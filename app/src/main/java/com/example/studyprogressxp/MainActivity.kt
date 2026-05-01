@@ -16,8 +16,8 @@ class MainActivity : ComponentActivity() {
             StudyProgressXPTheme {
 
 
-//                MainScreen()
-                AddNewSkill()
+                MainScreen()
+//                AddNewSkill()
             }
         }
     }
