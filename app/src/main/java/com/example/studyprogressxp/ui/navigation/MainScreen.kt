@@ -137,7 +137,7 @@ fun MainScreen() {
             ) {
 
                 composable<NavBarRoutes.Home> {
-                    HomeScreen(navController)
+                    HomeScreen(navController,skillViewModel)
                 }
 
                 composable<NavBarRoutes.Stats> {

@@ -26,6 +26,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,16 +49,22 @@ import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
+import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
 
 
 @Composable()
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    skillViewModel: SkillViewModel
+) {
 
-    val dailyQuests = listOf(
-        Skill(id = 1, "DSA", "2.5h/", R.drawable.code_icon, "+50 XP", "3hrs"),
-        Skill(id = 2, "Android", "1.5h/", R.drawable.android_icon, "+50 XP", "3hrs"),
-        Skill(id = 3, "Aptitude", "0.5h/", R.drawable.functions_icon, "+50 XP", "3hrs"),
-    )
+    val skills by skillViewModel.skills.collectAsState()
+
+//    val dailyQuests = listOf(
+//        Skill(id = 1, "DSA", "2.5h/", R.drawable.code_icon, "+50 XP", "3hrs"),
+//        Skill(id = 2, "Android", "1.5h/", R.drawable.android_icon, "+50 XP", "3hrs"),
+//        Skill(id = 3, "Aptitude", "0.5h/", R.drawable.functions_icon, "+50 XP", "3hrs"),
+//    )
 
     val trackedSkill = listOf(
         TrackedSkill(id = 1, R.drawable.code_icon, "DSA", "Level 3", ". 48%"),
@@ -153,14 +161,22 @@ fun HomeScreen(navController: NavController) {
                 }
             }
 
-                items(dailyQuests) { product ->
-                    CardItem(
-                        skill = product,
-                        onClick = {
-                            navController.navigate(NavBarRoutes.Skills)
-                        }
-                    )
-                }
+//                items(dailyQuests) { product ->
+//                    CardItem(
+//                        skill = product,
+//                        onClick = {
+//                            navController.navigate(NavBarRoutes.Skills)
+//                        }
+//                    )
+//                }
+            items(skills) { skill ->
+                CardItem(
+                    skill = skill,
+                    onClick = {
+                        navController.navigate(NavBarRoutes.Skills)
+                    }
+                )
+            }
 
 
             item {

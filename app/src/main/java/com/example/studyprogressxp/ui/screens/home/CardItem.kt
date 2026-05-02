@@ -16,18 +16,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.example.studyprogressxp.data.local.room.SkillEntity
 import com.example.studyprogressxp.model.Skill
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.Purple
@@ -35,14 +34,14 @@ import com.example.studyprogressxp.ui.theme.Purple
 
 @Composable
 fun CardItem(
-    skill: Skill,
-    onClick: () -> Unit
+    skill: SkillEntity, onClick: () -> Unit
 
 ) {
 
     Box(
         modifier = Modifier
-            .height(100.dp).padding(6.dp)
+            .height(100.dp)
+            .padding(6.dp)
             .border(
                 width = 1.dp,
                 color = ElectricPurple.copy(alpha = 0.1f),
@@ -52,29 +51,47 @@ fun CardItem(
                 color = Color.White,
                 shape = RoundedCornerShape(16.dp)
             )
-            .clickable{onClick()}
+            .clickable { onClick() }
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize().padding(8.dp),
+                .fillMaxSize()
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
 
-            IconButton(
-                onClick = {},
+//            IconButton(
+//                onClick = {},
+//                modifier = Modifier
+//                    .size(55.dp)
+//                    .background(
+//                        color = Color.White,
+//                        shape = CircleShape
+//                    )
+//            )
+            Box(
                 modifier = Modifier
-                    .size(55.dp)
+                    .size(50.dp)
                     .background(
                         color = Color.White,
                         shape = CircleShape
-                    )
-            ) {
-                Icon(
-                    painter = painterResource(skill.imageRes),
-                    contentDescription = "Code Section",
-                    modifier = Modifier.size(30.dp),
-                    tint = Purple
+                    ),
+                contentAlignment = Alignment.Center
+            )
+            {
+//                Icon(
+//                    painter = painterResource(skill.imagePath),
+//                    contentDescription = "Code Section",
+//                    modifier = Modifier.size(30.dp),
+//                    tint = Purple
+//                )
+
+                AsyncImage(
+                    model = skill.imagePath,
+                    contentDescription = "Skill Icon",
+                    contentScale = ContentScale.Crop
                 )
+
             }
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -96,20 +113,20 @@ fun CardItem(
                         )
                         Row {
                             Text(
-                                text = skill.duration,
+                                text = skill.goal,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text = skill.target,
+                                text = skill.goal,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
                     Text(
-                        text = skill.xp,
+                        text = "${skill.xp} XP",
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
                         color = ElectricPurple
