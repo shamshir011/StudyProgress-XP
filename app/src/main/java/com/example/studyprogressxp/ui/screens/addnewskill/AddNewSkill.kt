@@ -1,5 +1,8 @@
 package com.example.studyprogressxp.ui.screens.addnewskill
 
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,12 +52,39 @@ import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
+import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
+import com.example.studyprogressxp.utils.saveImageToInternalStorage
 import java.io.File
 
 
 @Composable
-fun AddNewSkill(navController: NavController) {
+fun AddNewSkill(
+    navController: NavController,
+    skillViewModel: SkillViewModel
+) {
 
+    var savedImagePath by remember { mutableStateOf("") }
+    var selectedGoal by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            val path = saveImageToInternalStorage(context, it)
+            savedImagePath = path   // ✅ VERY IMPORTANT
+        }
+    }
+
+
+
+    val xp = when (selectedGoal) {
+        "30m" -> 20
+        "1h" -> 50
+        "2h" -> 100
+        else -> 0
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -89,31 +120,28 @@ fun AddNewSkill(navController: NavController) {
                         shape = RoundedCornerShape(100.dp)
                     )
                     .size(100.dp)
-//                .clickable {
-//                    launcher.launch("image/*")
-//                }
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
+                    .clickable {
+                    launcher.launch("image/*")
+                },
 
                 contentAlignment = Alignment.Center
             ) {
 
-//            if (viewModel.imagePath.isNotEmpty()) {
-//                Image(
-//                    painter = rememberAsyncImagePainter(File(viewModel.imagePath)),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .clip(CircleShape)
-//                )
-//            } else {
-////                    Icon(Icons.Default.Person, contentDescription = null)
-                Image(
-                    painter = painterResource(R.drawable.add_image_icon),
-                    contentDescription = "Profile Image",
-                    modifier = Modifier
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Fit
-                )
+
+                if (savedImagePath.isNotEmpty()) {
+                    Image(
+                        painter = rememberAsyncImagePainter(File(savedImagePath)),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize().clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(R.drawable.add_image_icon),
+                        contentDescription = null
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -125,7 +153,6 @@ fun AddNewSkill(navController: NavController) {
                 fontWeight = FontWeight.Bold
             )
 
-//    }
 
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -197,14 +224,45 @@ fun AddNewSkill(navController: NavController) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            DailyGoal()
+            DailyGoal(onSelected = {
+                selectedGoal = it
+            })
 
             Spacer(modifier = Modifier.weight(1f))
 
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp),
+                    .height(50.dp)
+                    .clickable{
+
+                            val imagePath = savedImagePath   // from your picker
+                            val goal = selectedGoal          // "30m", "1h", "2h"
+
+                        if (searchText.isEmpty() || selectedGoal.isEmpty() || savedImagePath.isEmpty()) {
+                            Toast.makeText(context, "Fill all fields", Toast.LENGTH_SHORT).show()
+                            return@clickable
+                        }
+
+//                        skillViewModel.addSkill(
+//                            name = searchText,
+//                            imagePath = savedImagePath,
+//                            goal = selectedGoal,
+//                            xp = xp
+//                        )
+//
+//                            navController.popBackStack()
+                        skillViewModel.addSkill(
+                            name = searchText,
+                            imagePath = savedImagePath,
+                            goal = selectedGoal,
+                            xp = xp
+                        ) {
+                            Toast.makeText(context, "Skill added successfully", Toast.LENGTH_SHORT).show()
+                            navController.popBackStack()
+                        }
+
+                    },
                 shape = RoundedCornerShape(50.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = ElectricPurple

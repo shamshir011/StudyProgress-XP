@@ -17,7 +17,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
 import com.example.studyprogressxp.data.local.datastore.UserPreferences
+import com.example.studyprogressxp.data.local.room.AppDatabase
+import com.example.studyprogressxp.data.repository.SkillRepository
 import com.example.studyprogressxp.data.repository.UserRepository
 import com.example.studyprogressxp.ui.components.topappbar.AddNewSkillTopAppBar
 import com.example.studyprogressxp.ui.components.topappbar.AppTopBarUI
@@ -33,6 +36,8 @@ import com.example.studyprogressxp.ui.screens.setting.SettingScreen
 import com.example.studyprogressxp.ui.screens.spacificskill.Skill
 import com.example.studyprogressxp.ui.screens.stats.StatsScreen
 import com.example.studyprogressxp.ui.screens.userentry.UserEntry
+import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
+import com.example.studyprogressxp.ui.viewmodel.SkillViewModelFactory
 import com.example.studyprogressxp.ui.viewmodel.UserViewModel
 import com.example.studyprogressxp.ui.viewmodel.UserViewModelFactory
 
@@ -47,6 +52,13 @@ fun MainScreen() {
 
     val userViewModel: UserViewModel = viewModel(
         factory = UserViewModelFactory(repo)
+    )
+
+    val db = AppDatabase.getDatabase(context)
+    val skillRepo = SkillRepository(db.skillDao())
+
+    val skillViewModel: SkillViewModel = viewModel(
+        factory = SkillViewModelFactory(skillRepo)
     )
 
 // load once
@@ -104,15 +116,9 @@ fun MainScreen() {
     ) { innerPadding ->
 
 
-//        val startDestination = if (userViewModel.userName.isEmpty()) {
-//            NavBarRoutes.UserEntry
-//        } else {
-//            NavBarRoutes.Home
-//        }
 
 
         if (!userViewModel.isLoaded) {
-            // show loading screen (simple)
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
@@ -151,7 +157,7 @@ fun MainScreen() {
                 }
 
                 composable<NavBarRoutes.AddNewSkill> {
-                    AddNewSkill(navController)
+                    AddNewSkill(navController, skillViewModel)
                 }
 
                 composable<NavBarRoutes.Skills> {
