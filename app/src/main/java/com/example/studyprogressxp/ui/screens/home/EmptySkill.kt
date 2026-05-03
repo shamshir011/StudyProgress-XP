@@ -63,7 +63,7 @@ fun EmptySkill(NavController: NavController) {
                 )
                 .border(
                     width = 2.dp,
-                    color = ElectricPurple,
+                    color = ElectricPurple.copy(alpha = 0.1f),
                     shape = RoundedCornerShape(16.dp)
                 )
                 .clickable{

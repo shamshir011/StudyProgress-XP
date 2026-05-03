@@ -244,18 +244,10 @@ fun AddNewSkill(
                             return@clickable
                         }
 
-//                        Convert goal → minutes HERE
-                        val minutes = when (selectedGoal) {
-                            "30m" -> 30
-                            "1h" -> 60
-                            "2h" -> 120
-                            else -> 0
-                        }
-
                         skillViewModel.addSkill(
                             name = searchText,
                             imagePath = savedImagePath,
-                            goalMinutes = minutes,
+                            goal = selectedGoal,
                             xp = xp
                         ) {
                             Toast.makeText(context, "Skill added successfully", Toast.LENGTH_SHORT).show()

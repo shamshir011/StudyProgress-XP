@@ -10,4 +10,9 @@ class SkillRepository(private val dao: SkillDao) {
     }
 
     fun getSkills() = dao.getAllSkills()
+    fun getSkillById(id: Int) = dao.getSkillById(id)
+
+    suspend fun updateXp(id: Int, xpToAdd: Int) {
+        dao.updateXp(id, xpToAdd)
+    }
 }

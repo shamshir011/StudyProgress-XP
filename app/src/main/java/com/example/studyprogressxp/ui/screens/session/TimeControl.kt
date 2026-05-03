@@ -33,9 +33,11 @@ import com.example.studyprogressxp.ui.theme.LightRed1
 import com.example.studyprogressxp.ui.theme.Purple
 import com.example.studyprogressxp.ui.theme.VeryLowPurple
 
-@Preview
+
 @Composable
-fun TimeControlUI() {
+fun TimeControlUI(
+    onSessionComplete: () -> Unit
+) {
 
     Box(
         modifier = Modifier

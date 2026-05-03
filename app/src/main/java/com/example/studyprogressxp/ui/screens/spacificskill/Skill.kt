@@ -1,5 +1,6 @@
 package com.example.studyprogressxp.ui.screens.spacificskill
 
+import android.R.attr.data
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,9 +18,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -28,14 +32,35 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.ElectricPurple
+import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
 
 
 @Composable
-fun Skill(navController: NavController) {
+fun Skill(
+    navController: NavController,
+    skillId: Int,
+    viewModel: SkillViewModel
+) {
+
+    val skill by viewModel.getSkillById(skillId)
+        .collectAsState(initial = null)
+
+
+    if (skill == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
 
     Column(
         modifier = Modifier
@@ -94,25 +119,31 @@ fun Skill(navController: NavController) {
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                painter = painterResource(R.drawable.settings_icon),
-                                contentDescription = "Setting Icon",
-                                tint = Color.White,
-                                modifier = Modifier.size(32.dp)
+//                            Icon(
+//                                painter = painterResource(R.drawable.settings_icon),
+//                                contentDescription = "Setting Icon",
+//                                tint = Color.White,
+//                                modifier = Modifier.size(32.dp)
+//                            )
+
+                            AsyncImage(
+                                model = skill!!.imagePath,
+                                contentDescription = null,
+                                modifier = Modifier.size(60.dp)
                             )
                         }
 
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
-                                text = "DSA",
+                                text = skill!!.name,
                                 fontSize = 22.sp,
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text = "Level 4. Intermediate",
+                                text = "Level ${skill!!.level}",
                                 color = Color.LightGray,
                                 fontWeight = FontWeight.Bold
                             )
@@ -141,7 +172,7 @@ fun Skill(navController: NavController) {
 
 
                                 Text(
-                                    text = "Progress to Level 5",
+                                    text = "Goal: ${skill!!.goal}",
                                     fontSize = 22.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White
@@ -151,14 +182,14 @@ fun Skill(navController: NavController) {
 
                                 Row {
                                     Text(
-                                        "820 / ",
+                                        text ="${skill!!.xp} XP",
                                         color = Color.White
                                     )
 
-                                    Text(
-                                        "1200 XP",
-                                        color = Color.White
-                                    )
+//                                    Text(
+//                                        "1200 XP",
+//                                        color = Color.White
+//                                    )
                                 }
                             }
 
@@ -252,8 +283,8 @@ fun Skill(navController: NavController) {
                         color = ElectricPurple,
                         shape = RoundedCornerShape(50.dp)
                     )
-                    .clickable{
-                        navController.navigate(NavBarRoutes.Session)
+                    .clickable {
+                        navController.navigate(NavBarRoutes.Session(skillId))
                     }
 
             ) {
@@ -269,7 +300,7 @@ fun Skill(navController: NavController) {
                     )
 
                     Text(
-                        text = "Start DSA Session",
+                        text = "Start ${skill!!.name} Session",
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )

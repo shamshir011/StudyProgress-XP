@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import androidx.room.Room
 import com.example.studyprogressxp.data.local.datastore.UserPreferences
 import com.example.studyprogressxp.data.local.room.AppDatabase
@@ -115,9 +116,6 @@ fun MainScreen() {
         }
     ) { innerPadding ->
 
-
-
-
         if (!userViewModel.isLoaded) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
@@ -152,16 +150,31 @@ fun MainScreen() {
                     SettingScreen(navController, userViewModel)
                 }
 
-                composable<NavBarRoutes.Session> {
-                    SessionScreen(navController)
+                composable<NavBarRoutes.Session> {backStackEntry ->
+
+                    val route = backStackEntry.toRoute<NavBarRoutes.Session>()
+                    val skillId = route.skillId
+
+                    Skill(
+                        navController,
+                        skillId = skillId,
+                        viewModel = skillViewModel
+                    )
                 }
 
                 composable<NavBarRoutes.AddNewSkill> {
                     AddNewSkill(navController, skillViewModel)
                 }
 
-                composable<NavBarRoutes.Skills> {
-                    Skill(navController)
+                composable<NavBarRoutes.Skills> {backStackEntry ->
+                    val route = backStackEntry.toRoute<NavBarRoutes.Skills>()
+                    val skillId = route.skillId
+
+                    Skill(
+                        navController,
+                        skillId = skillId,
+                        viewModel = skillViewModel
+                    )
                 }
 
                 composable<NavBarRoutes.UserEntry> {

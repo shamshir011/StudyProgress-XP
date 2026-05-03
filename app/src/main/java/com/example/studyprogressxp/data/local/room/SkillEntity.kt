@@ -11,6 +11,6 @@ data class SkillEntity(
     val imagePath: String?,
     val xp: Int,
     val level: Int,
-    val dailyGoalMinutes: Int,
+    val goal: String,
     val streakDays: Int
 )

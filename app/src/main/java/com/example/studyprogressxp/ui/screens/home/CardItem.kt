@@ -100,13 +100,13 @@ fun CardItem(
                         )
                         Row {
                             Text(
-                                text = "${skill.dailyGoalMinutes}/",
+                                text = "${skill.goal}/",
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text = skill.dailyGoalMinutes.toString(),
+                                text = skill.goal,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )

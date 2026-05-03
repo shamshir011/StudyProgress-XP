@@ -182,7 +182,7 @@ fun HomeScreen(
                     CardItem(
                         skill = skill,
                         onClick = {
-                            navController.navigate(NavBarRoutes.Skills)
+                            navController.navigate(NavBarRoutes.Skills(skill.id))
                         }
                     )
                 }
