@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +30,7 @@ import coil.compose.AsyncImage
 import com.example.studyprogressxp.data.local.room.SkillEntity
 import com.example.studyprogressxp.model.Skill
 import com.example.studyprogressxp.ui.theme.ElectricPurple
+import com.example.studyprogressxp.ui.theme.PrimaryOrange
 import com.example.studyprogressxp.ui.theme.Purple
 
 
@@ -58,38 +60,23 @@ fun CardItem(
                 .fillMaxSize()
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
-        ){
-
-//            IconButton(
-//                onClick = {},
-//                modifier = Modifier
-//                    .size(55.dp)
-//                    .background(
-//                        color = Color.White,
-//                        shape = CircleShape
-//                    )
-//            )
+        ) {
             Box(
                 modifier = Modifier
                     .size(50.dp)
+                    .clip(RoundedCornerShape(16.dp))
                     .background(
                         color = Color.White,
-                        shape = CircleShape
+                        shape = RoundedCornerShape(16.dp)
                     ),
                 contentAlignment = Alignment.Center
             )
             {
-//                Icon(
-//                    painter = painterResource(skill.imagePath),
-//                    contentDescription = "Code Section",
-//                    modifier = Modifier.size(30.dp),
-//                    tint = Purple
-//                )
-
                 AsyncImage(
                     model = skill.imagePath,
                     contentDescription = "Skill Icon",
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
                 )
 
             }
@@ -113,13 +100,13 @@ fun CardItem(
                         )
                         Row {
                             Text(
-                                text = skill.goal,
+                                text = "${skill.dailyGoalMinutes}/",
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text = skill.goal,
+                                text = skill.dailyGoalMinutes.toString(),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -129,7 +116,7 @@ fun CardItem(
                         text = "${skill.xp} XP",
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
-                        color = ElectricPurple
+                        color = PrimaryOrange
                     )
                 }
 

@@ -22,12 +22,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +58,7 @@ import com.example.studyprogressxp.ui.theme.Purple
 import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable()
 fun HomeScreen(
     navController: NavController,
@@ -59,6 +66,9 @@ fun HomeScreen(
 ) {
 
     val skills by skillViewModel.skills.collectAsState()
+
+    val sheetState = rememberModalBottomSheetState()
+    var showSheet by remember { mutableStateOf(false) }
 
 //    val dailyQuests = listOf(
 //        Skill(id = 1, "DSA", "2.5h/", R.drawable.code_icon, "+50 XP", "3hrs"),
@@ -148,6 +158,7 @@ fun HomeScreen(
                                     cornerRadius = CornerRadius(50f, 50f)
                                 )
                             }
+                            .clickable { showSheet = true }
                             .padding(horizontal = 16.dp, vertical = 6.dp),
                         contentAlignment = Alignment.Center,
 
@@ -155,27 +166,26 @@ fun HomeScreen(
                         Text(
                             text = "View All",
                             fontWeight = FontWeight.Bold,
-                            color = Color.Black
+                            color = ElectricPurple
                         )
                     }
                 }
             }
 
-//                items(dailyQuests) { product ->
-//                    CardItem(
-//                        skill = product,
-//                        onClick = {
-//                            navController.navigate(NavBarRoutes.Skills)
-//                        }
-//                    )
-//                }
-            items(skills) { skill ->
-                CardItem(
-                    skill = skill,
-                    onClick = {
-                        navController.navigate(NavBarRoutes.Skills)
-                    }
-                )
+
+            if (skills.isEmpty()) {
+                item {
+                    EmptySkill(navController)
+                }
+            } else {
+                items(skills.take(3)) { skill ->
+                    CardItem(
+                        skill = skill,
+                        onClick = {
+                            navController.navigate(NavBarRoutes.Skills)
+                        }
+                    )
+                }
             }
 
 
@@ -311,6 +321,29 @@ fun HomeScreen(
                     Text(
                         text = "Android Development",
                         color = Color.Black
+                    )
+                }
+            }
+        }
+    }
+
+    //            Bottom Sheet
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false },
+            sheetState = sheetState,
+            containerColor = Color.White
+        ) {
+            LazyColumn(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                items(skills) { skill -> // your DB data
+                    CardItem(
+                        skill = skill,
+                        onClick = {
+                            showSheet = false
+                            navController.navigate(NavBarRoutes.Session)
+                        }
                     )
                 }
             }

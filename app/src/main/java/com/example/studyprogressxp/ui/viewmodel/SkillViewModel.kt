@@ -16,24 +16,10 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
         emptyList()
     )
 
-//    fun addSkill(name: String, imagePath: String, goal: String, xp: Int) {
-//        viewModelScope.launch {
-//            repo.insertSkill(
-//                SkillEntity(
-//                    name = name,
-//                    imagePath = imagePath,
-//                    goal = goal,
-//                    xp = xp
-//                )
-//            )
-//        }
-//    }
-
-
     fun addSkill(
         name: String,
         imagePath: String,
-        goal: String,
+        goalMinutes: Int,
         xp: Int,
         onDone: () -> Unit
     ) {
@@ -42,11 +28,13 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
                 SkillEntity(
                     name = name,
                     imagePath = imagePath,
-                    goal = goal,
-                    xp = xp
+                    xp = xp,
+                    level = 1,                 // default start
+                    dailyGoalMinutes = goalMinutes, // convert if needed
+                    streakDays = 0             // start fresh
                 )
             )
-            onDone() // 👈 after insert completes
+            onDone() //  after insert completes
         }
     }
 }
