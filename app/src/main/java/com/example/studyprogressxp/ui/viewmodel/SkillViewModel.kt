@@ -25,55 +25,57 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
     val sessionState = _sessionState.asStateFlow()
 
 
+fun toggleTimer() {
+    val current = _sessionState.value
+    val newRunning = !current.isRunning
 
-    fun toggleTimer() {
-        val current = _sessionState.value
-        _sessionState.value = current.copy(isRunning = !current.isRunning)
+    _sessionState.value = current.copy(isRunning = newRunning)
 
-        if (_sessionState.value.isRunning) {
-            runTimer()
-        }
+    if (newRunning) {
+        runTimer()
     }
-
-
-
-
+}
     private fun runTimer() {
         viewModelScope.launch {
-            while (_sessionState.value.isRunning &&
-                _sessionState.value.timeLeft > 0) {
 
-                delay(1000)
+            while (true) {
 
                 val state = _sessionState.value
+
+                if (!state.isRunning || state.timeLeft <= 0) break
+
                 val newTime = state.timeLeft - 1
 
-                val progress = 1f - (newTime.toFloat() / state.totalSeconds)
-                val percent = (progress * 100).toInt()
+                val elapsedSeconds = state.totalSeconds - newTime
 
-                val sessionMinutes = (state.totalSeconds * progress / 60).toInt()
-                val totalMinutes = state.baseMinutes + sessionMinutes
+                val sessionMinutes = elapsedSeconds / 60   // ✅ safe conversion
+
+                val progress = elapsedSeconds.toFloat() / state.totalSeconds
+                val percent = (progress * 100).toInt()
 
                 _sessionState.value = state.copy(
                     timeLeft = newTime,
                     progress = progress,
                     percent = percent,
                     sessionMinutes = sessionMinutes,
-                    studiedMinutes = totalMinutes
+                    studiedMinutes = state.baseMinutes + sessionMinutes
                 )
+
 
                 if (newTime == 0) {
                     completeSession(
                         id = state.skillId,
-                        minutes = state.studiedMinutes,
-                        xp = 30
+//                        minutes = state.sessionMinutes,
+                        minutes = sessionMinutes,
+                        xp = state.rewardXp
                     )
+                    break
                 }
+
+                delay(1000)
             }
         }
     }
-
-
 
     fun addSkill(
         name: String,
@@ -88,13 +90,13 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
                     name = name,
                     imagePath = imagePath,
                     xp = xp,
-                    level = 1,                 // default start
-                    goal = goal, // convert if needed
-                    streakDays = 0,             // start fresh
+                    level = 1,
+                    goal = goal,
+                    streakDays = 0,
                     studiedMinutes = 0
                 )
             )
-            onDone() //  after insert completes
+            onDone()
         }
     }
 
@@ -106,21 +108,17 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
         }
     }
 
-//    fun completeSession(id: Int, minutes: Int, xp: Int) {
-//        viewModelScope.launch {
-//            repo.updateSession(id, minutes, xp)
-//        }
-//    }
 
     fun completeSession(id: Int, minutes: Int, xp: Int) {
+        val state = _sessionState.value
+
+        if (!state.isRunning && state.sessionMinutes == 0) return
+
         viewModelScope.launch {
-
-            val state = _sessionState.value
-
-            // prevent double save
-            if (!state.isRunning) return@launch
-
-            _sessionState.value = state.copy(isRunning = false)
+            _sessionState.value = state.copy(
+                isRunning = false,
+                sessionMinutes = 0
+            )
 
             repo.updateSession(id, minutes, xp)
         }
@@ -128,9 +126,9 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
 
 
     fun startSession(skill: SkillEntity) {
+
         val current = _sessionState.value
 
-        //  Prevent re-initializing same skill
         if (current.skillId == skill.id) return
 
         val totalSeconds = goalToMinutes(skill.goal) * 60
@@ -141,14 +139,17 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
             goal = skill.goal,
             totalSeconds = totalSeconds,
             timeLeft = totalSeconds,
+            baseMinutes = skill.studiedMinutes,
             studiedMinutes = skill.studiedMinutes,
-            baseMinutes = skill.studiedMinutes
+            sessionMinutes = 0,
+            rewardXp = skill.xp
         )
     }
 
+
+
     fun resetTimer() {
         val state = _sessionState.value
-
 
         _sessionState.value = state.copy(
             isRunning = false,
@@ -156,7 +157,7 @@ class SkillViewModel(private val repo: SkillRepository) : ViewModel() {
             progress = 0f,
             percent = 0,
             sessionMinutes = 0,
-            studiedMinutes = state.baseMinutes //  keep DB progress
+            studiedMinutes = state.baseMinutes
         )
     }
 }

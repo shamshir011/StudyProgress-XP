@@ -68,7 +68,7 @@ fun DailyGoal(onSelected: (String) -> Unit) {
                     )
                     .clickable {
                         selectedIndex = 0
-                        onSelected("30m")
+                        onSelected("1m")
                     },
             ) {
 
@@ -93,7 +93,7 @@ fun DailyGoal(onSelected: (String) -> Unit) {
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "30m",
+                            text = "1m",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color.Black

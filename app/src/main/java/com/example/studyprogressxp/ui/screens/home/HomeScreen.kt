@@ -336,7 +336,8 @@ fun HomeScreen(
                         skill = skill,
                         onClick = {
                             showSheet = false
-                            navController.navigate(NavBarRoutes.Session)
+//                            navController.navigate(NavBarRoutes.Session)
+                            navController.navigate(NavBarRoutes.Skills(skill.id))
                         }
                     )
                 }

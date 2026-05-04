@@ -11,5 +11,6 @@ data class SessionUiState(
     val studiedMinutes: Int = 0,
     val isRunning: Boolean = false,
     val baseMinutes: Int = 0,
-    val sessionMinutes: Int = 0
+    val sessionMinutes: Int = 0,
+    val rewardXp: Int = 0
 )

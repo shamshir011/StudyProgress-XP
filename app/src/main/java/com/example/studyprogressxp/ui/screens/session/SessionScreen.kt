@@ -21,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -54,7 +55,24 @@ fun SessionScreen(
     val skill by viewModel.getSkillById(skillId)
         .collectAsState(initial = null)
 
+
+
     val uiState by viewModel.sessionState.collectAsState()
+
+    DisposableEffect(Unit) {
+        onDispose {
+            if (uiState.sessionMinutes > 0 && uiState.percent < 100) {
+                viewModel.completeSession(
+                    id = uiState.skillId,
+                    minutes = uiState.sessionMinutes,
+                    xp = 0
+                )
+            }
+        }
+    }
+
+    val xpPerMinute = 2
+    val earnedXp = uiState.sessionMinutes * xpPerMinute
 
     val animatedProgress by animateFloatAsState(
         targetValue = uiState.progress,
@@ -98,8 +116,8 @@ fun SessionScreen(
                     onStop = {
                         viewModel.completeSession(
                             id = uiState.skillId,
-                            minutes = uiState.sessionMinutes, // ✅ correct
-                            xp = 30
+                            minutes = uiState.sessionMinutes,
+                            xp = if (uiState.percent == 100) uiState.rewardXp else 0
                         )
                     }
                 )
@@ -143,8 +161,11 @@ fun SessionScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Column() {
+
+
+                                val earnedXp = if (uiState.percent == 100) uiState.rewardXp else 0
                                 Text(
-                                    text = "30 XP",
+                                    text = "$earnedXp XP",
                                     fontWeight = FontWeight.Bold,
                                     color = ElectricPurple,
                                     fontSize = 22.sp
@@ -173,11 +194,6 @@ fun SessionScreen(
 
 
                 Spacer(modifier = Modifier.height(8.dp))
-
-
-
-
-
 
                 Row(
                     modifier = Modifier
