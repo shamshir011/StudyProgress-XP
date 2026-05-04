@@ -1,5 +1,7 @@
 package com.example.studyprogressxp.ui.screens.session
 
+import android.R.attr.data
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -19,12 +21,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,10 +39,9 @@ import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.DarkGreen
 import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.ElectricPurple
-import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
-import com.example.studyprogressxp.ui.theme.Purple
 import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
+import com.example.studyprogressxp.utils.goalToMinutes
 
 
 @Composable
@@ -51,25 +54,25 @@ fun SessionScreen(
     val skill by viewModel.getSkillById(skillId)
         .collectAsState(initial = null)
 
+    val uiState by viewModel.sessionState.collectAsState()
+
+    val animatedProgress by animateFloatAsState(
+        targetValue = uiState.progress,
+        label = "progress_anim"
+    )
+
+    LaunchedEffect(skillId, skill) {
+        skill?.let {
+            viewModel.startSession(it)
+        }
+    }
+
+
+
 
 
 
     skill?.let { data ->
-
-        val goalText = data.goal // "2h", "1h", etc.
-
-        val goalMinutes = when (goalText) {
-            "30m" -> 30
-            "1h" -> 60
-            "2h" -> 120
-            else -> 60
-        }
-
-        val studiedMinutes = data.xp / 10   // example logic
-
-        val progress = (studiedMinutes.toFloat() / goalMinutes).coerceIn(0f, 1f)
-        val percent = (progress * 100).toInt()
-
 
 
         Column(
@@ -85,15 +88,22 @@ fun SessionScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
+
                 TimeControlUI(
-                    onSessionComplete = {
-                        viewModel.updateXp(data.id, 30)
+                    skillName = uiState.skillName,
+                    timeLeft = uiState.timeLeft,
+                    isRunning = uiState.isRunning,
+                    onStartPause = { viewModel.toggleTimer() },
+                    onReset = { viewModel.resetTimer() },
+                    onStop = {
+                        viewModel.completeSession(
+                            id = uiState.skillId,
+                            minutes = uiState.sessionMinutes, // ✅ correct
+                            xp = 30
+                        )
                     }
                 )
 
-
-//            Spacer(modifier = Modifier.weight(1f))
-//            ExpTarget()
 
                 Spacer(modifier = Modifier.height(42.dp))
 
@@ -164,6 +174,11 @@ fun SessionScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+
+
+
+
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -205,7 +220,8 @@ fun SessionScreen(
 
                                 Row {
                                     Text(
-                                        text = "$percent%",
+//                                        text = "$percent%",
+                                        text = "${uiState.percent}%",
                                         color = DarkGreen,
                                         fontSize = 22.sp,
                                         fontWeight = FontWeight.Bold
@@ -217,17 +233,21 @@ fun SessionScreen(
 
                             Box(
                                 modifier = Modifier
-                                    .fillMaxWidth(progress)
+                                    .fillMaxWidth()
                                     .height(10.dp)
-                                    .background(
-                                        color = DarkGreen,
-                                        shape = RoundedCornerShape(50.dp)
-                                    )
-                            )
+                                    .background(Color.LightGray, RoundedCornerShape(50.dp))
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth(animatedProgress)
+                                        .height(10.dp)
+                                        .background(DarkGreen, RoundedCornerShape(50.dp))
+                                )
+                            }
 
                             Row() {
                                 Text(
-                                    text = "${studiedMinutes} min studied. ",
+                                    text = "${uiState.studiedMinutes} min studied",
                                     color = Color.DarkGray
                                 )
 

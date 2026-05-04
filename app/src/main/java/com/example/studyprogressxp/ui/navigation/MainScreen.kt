@@ -155,7 +155,7 @@ fun MainScreen() {
                     val route = backStackEntry.toRoute<NavBarRoutes.Session>()
                     val skillId = route.skillId
 
-                    Skill(
+                    SessionScreen(
                         navController,
                         skillId = skillId,
                         viewModel = skillViewModel

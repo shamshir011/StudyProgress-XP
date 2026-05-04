@@ -20,4 +20,12 @@ interface SkillDao {
 
     @Query("UPDATE skills SET xp = xp + :xpToAdd WHERE id = :id")
     suspend fun updateXp(id: Int, xpToAdd: Int)
+
+    @Query("""
+UPDATE skills 
+SET xp = xp + :xp,
+    studiedMinutes = studiedMinutes + :minutes
+WHERE id = :id
+""")
+    suspend fun updateSession(id: Int, minutes: Int, xp: Int)
 }

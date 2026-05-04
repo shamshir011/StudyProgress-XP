@@ -2,6 +2,7 @@ package com.example.studyprogressxp.ui.screens.session
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,22 +23,30 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.studyprogressxp.R
-import com.example.studyprogressxp.ui.theme.CoralPink
 import com.example.studyprogressxp.ui.theme.DarkerRed
 import com.example.studyprogressxp.ui.theme.ElectricPurple
-import com.example.studyprogressxp.ui.theme.LightRed1
 import com.example.studyprogressxp.ui.theme.Purple
 import com.example.studyprogressxp.ui.theme.VeryLowPurple
 
 
 @Composable
 fun TimeControlUI(
-    onSessionComplete: () -> Unit
+    skillName: String,
+    timeLeft: Int,
+    isRunning: Boolean,
+    onStartPause: () -> Unit,
+    onReset: () -> Unit,
+    onStop: () -> Unit
 ) {
+
+    val hours = timeLeft / 3600
+    val minutes = (timeLeft % 3600) / 60
+    val seconds = timeLeft % 60
+
+
 
     Box(
         modifier = Modifier
@@ -88,7 +97,7 @@ fun TimeControlUI(
                         Spacer(modifier = Modifier.width(8.dp))
 
                         Text(
-                            text = "ACTIVE",
+                            text = if (isRunning) "ACTIVE" else "PAUSED",
                             color = ElectricPurple
                         )
                     }
@@ -96,12 +105,10 @@ fun TimeControlUI(
             }
 
 
-
-
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Data Structures & Algorithms",
+                text = skillName,
                 color = Color.Black,
                 fontWeight = FontWeight.Medium,
                 fontSize = 24.sp
@@ -113,13 +120,16 @@ fun TimeControlUI(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
+
                 Text(
-                    modifier = Modifier,
-                    text = "00:45:00",
-                    color = Color.Black,
+                    text = String.format("%02d:%02d:%02d", hours, minutes, seconds),
+                    fontSize = 64.sp,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 64.sp
+                    color = Color.Black
                 )
+
+
                 Text(
                     text = "REMAINING FOCUS TIME",
                     color = Color.DarkGray
@@ -137,7 +147,7 @@ fun TimeControlUI(
                 horizontalArrangement = Arrangement.Center
             ) {
 
-//*********************************************     PAUSE   ****************************************
+//*********************************************     Reset Button   ****************************************
 
                 Column {
                     Box(
@@ -151,12 +161,14 @@ fun TimeControlUI(
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(16.dp)
-                            ),
+                            )
+
+                            .clickable { onReset() },
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.time_reset_icon),
-                            contentDescription = "Play Icon"
+                            contentDescription = "Reset"
                         )
                     }
                 }
@@ -184,12 +196,16 @@ fun TimeControlUI(
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(16.dp)
-                            ),
+                            )
+                            .clickable { onStartPause() },
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.play_arrow_icon),
-                            contentDescription = "Play Icon",
+                            painter = painterResource(
+                                if (isRunning) R.drawable.clock_pause_icon
+                                else R.drawable.play_arrow_icon
+                            ),
+                            contentDescription = if (isRunning) "Pause Icon" else "Play Icon",
                             tint = ElectricPurple
                         )
                     }
@@ -211,7 +227,8 @@ fun TimeControlUI(
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(16.dp)
-                            ),
+                            )
+                            .clickable { onStop() },
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(

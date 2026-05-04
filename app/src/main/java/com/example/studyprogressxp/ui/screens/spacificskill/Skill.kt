@@ -26,8 +26,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -47,6 +49,7 @@ fun Skill(
     skillId: Int,
     viewModel: SkillViewModel
 ) {
+
 
     val skill by viewModel.getSkillById(skillId)
         .collectAsState(initial = null)
@@ -108,6 +111,7 @@ fun Skill(
                         Box(
                             modifier = Modifier
                                 .size(60.dp)
+                                .clip(RoundedCornerShape(16.dp))
                                 .border(
                                     width = 1.dp,
                                     color = Color.LightGray,
@@ -119,17 +123,12 @@ fun Skill(
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
-//                            Icon(
-//                                painter = painterResource(R.drawable.settings_icon),
-//                                contentDescription = "Setting Icon",
-//                                tint = Color.White,
-//                                modifier = Modifier.size(32.dp)
-//                            )
 
                             AsyncImage(
                                 model = skill!!.imagePath,
                                 contentDescription = null,
-                                modifier = Modifier.size(60.dp)
+                                modifier = Modifier.size(60.dp),
+                                contentScale = ContentScale.Crop
                             )
                         }
 

@@ -70,12 +70,6 @@ fun HomeScreen(
     val sheetState = rememberModalBottomSheetState()
     var showSheet by remember { mutableStateOf(false) }
 
-//    val dailyQuests = listOf(
-//        Skill(id = 1, "DSA", "2.5h/", R.drawable.code_icon, "+50 XP", "3hrs"),
-//        Skill(id = 2, "Android", "1.5h/", R.drawable.android_icon, "+50 XP", "3hrs"),
-//        Skill(id = 3, "Aptitude", "0.5h/", R.drawable.functions_icon, "+50 XP", "3hrs"),
-//    )
-
     val trackedSkill = listOf(
         TrackedSkill(id = 1, R.drawable.code_icon, "DSA", "Level 3", ". 48%"),
         TrackedSkill(id = 2, R.drawable.android_icon, "Android", "Level 4", ". 68%"),

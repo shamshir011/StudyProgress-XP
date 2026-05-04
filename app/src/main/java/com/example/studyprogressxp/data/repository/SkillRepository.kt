@@ -15,4 +15,8 @@ class SkillRepository(private val dao: SkillDao) {
     suspend fun updateXp(id: Int, xpToAdd: Int) {
         dao.updateXp(id, xpToAdd)
     }
+
+    suspend fun updateSession(id: Int, minutes: Int, xp: Int) {
+        dao.updateSession(id, minutes, xp)
+    }
 }
