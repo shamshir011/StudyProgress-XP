@@ -1,13 +1,19 @@
-package com.example.studyprogressxp.data.local.room
+package com.example.studyprogressxp.data.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.studyprogressxp.data.local.dao.SkillDao
+import com.example.studyprogressxp.data.local.entity.SkillEntity
+import com.example.studyprogressxp.data.local.entity.SessionEntity
 
-@Database(entities = [SkillEntity::class], version = 5, exportSchema = false)
+
+@Database(
+    entities = [SkillEntity::class, SessionEntity::class],
+    version = 6,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun skillDao(): SkillDao
@@ -15,6 +21,28 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
+
+
+
+        fun getDatabase(context: Context): AppDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "app_db"
+                )
+
+                    .fallbackToDestructiveMigration()
+                    .build()
+
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+}
+
+
 
 //        val MIGRATION_3_4 = object : Migration(3, 4) {
 //            override fun migrate(db: SupportSQLiteDatabase) {
@@ -59,20 +87,7 @@ abstract class AppDatabase : RoomDatabase() {
 //            }
 //        }
 
-        fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "app_db"
-                )
-//                    .addMigrations(MIGRATION_3_4)
-                    .fallbackToDestructiveMigration()
-                    .build()
 
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
-}
+
+
+//                    .addMigrations(MIGRATION_3_4)

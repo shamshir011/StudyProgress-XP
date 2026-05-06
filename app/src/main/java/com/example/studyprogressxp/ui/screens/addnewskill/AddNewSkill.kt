@@ -54,6 +54,7 @@ import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
 import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
 import com.example.studyprogressxp.utils.saveImageToInternalStorage
+import kotlinx.coroutines.Job
 import java.io.File
 
 
@@ -68,12 +69,13 @@ fun AddNewSkill(
 
     val context = LocalContext.current
 
+
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri ->
         uri?.let {
             val path = saveImageToInternalStorage(context, it)
-            savedImagePath = path   // ✅ VERY IMPORTANT
+            savedImagePath = path
         }
     }
 

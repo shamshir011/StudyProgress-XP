@@ -81,7 +81,7 @@ fun SessionScreen(
 
     LaunchedEffect(skillId, skill) {
         skill?.let {
-            viewModel.startSession(it)
+            viewModel.restoreSavedSession(it)
         }
     }
 
@@ -114,13 +114,19 @@ fun SessionScreen(
                     onStartPause = { viewModel.toggleTimer() },
                     onReset = { viewModel.resetTimer() },
                     onStop = {
-                        viewModel.completeSession(
-                            id = uiState.skillId,
-                            minutes = uiState.sessionMinutes,
-                            xp = if (uiState.percent == 100) uiState.rewardXp else 0
-                        )
+                        viewModel.stopSession()
                     }
+
                 )
+
+
+                //                    onStop = {
+//                        viewModel.completeSession(
+//                            id = uiState.skillId,
+//                            minutes = uiState.sessionMinutes,
+//                            xp = if (uiState.percent == 100) uiState.rewardXp else 0
+//                        )
+//                    }
 
 
                 Spacer(modifier = Modifier.height(42.dp))
@@ -262,8 +268,15 @@ fun SessionScreen(
                             }
 
                             Row() {
+
+                                val studiedSeconds =
+                                    uiState.totalSeconds - uiState.timeLeft
+
+                                val minutes = studiedSeconds / 60
+                                val seconds = studiedSeconds % 60
+
                                 Text(
-                                    text = "${uiState.studiedMinutes} min studied",
+                                    text = "$minutes min $seconds sec studied",
                                     color = Color.DarkGray
                                 )
 

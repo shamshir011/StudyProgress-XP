@@ -7,7 +7,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 fun saveImageToInternalStorage(context: Context, uri: Uri): String {
-    val fileName = "profile_${System.currentTimeMillis()}.jpg"  // ✅ unique name
+    val fileName = "profile_${System.currentTimeMillis()}.jpg"  // unique name
     val file = File(context.filesDir, fileName)
 
     val input = context.contentResolver.openInputStream(uri)

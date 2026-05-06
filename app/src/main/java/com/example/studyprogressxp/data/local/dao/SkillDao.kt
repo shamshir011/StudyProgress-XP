@@ -1,8 +1,10 @@
-package com.example.studyprogressxp.data.local.room
+package com.example.studyprogressxp.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.studyprogressxp.data.local.entity.SessionEntity
+import com.example.studyprogressxp.data.local.entity.SkillEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -28,4 +30,21 @@ SET xp = xp + :xp,
 WHERE id = :id
 """)
     suspend fun updateSession(id: Int, minutes: Int, xp: Int)
+
+
+
+    @Insert
+    suspend fun insertSession(session: SessionEntity)
+
+    @Query("SELECT SUM(xp) FROM sessions WHERE date = :today")
+    fun getTodayXp(today: String): Flow<Int?>
+
+    @Query("SELECT SUM(minutes) FROM sessions WHERE date = :today")
+    fun getTodayStudiedMinutes(today: String): Flow<Int?>
+
+    @Query("SELECT SUM(xp) FROM skills")
+    fun getTotalXp(): Flow<Int?>
+
+    @Query("SELECT DISTINCT date FROM sessions ORDER BY date DESC")
+    suspend fun getAllSessionDates(): List<String>
 }

@@ -9,3 +9,7 @@ fun goalToMinutes(goal: String): Int {
         else -> 60
     }
 }
+
+fun getTodayDate(): String {
+    return java.time.LocalDate.now().toString()
+}

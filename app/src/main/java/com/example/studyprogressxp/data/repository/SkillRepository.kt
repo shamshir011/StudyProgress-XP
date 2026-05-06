@@ -1,7 +1,9 @@
 package com.example.studyprogressxp.data.repository
 
-import com.example.studyprogressxp.data.local.room.SkillDao
-import com.example.studyprogressxp.data.local.room.SkillEntity
+import com.example.studyprogressxp.data.local.dao.SkillDao
+import com.example.studyprogressxp.data.local.entity.SessionEntity
+import com.example.studyprogressxp.data.local.entity.SkillEntity
+import com.example.studyprogressxp.utils.getTodayDate
 
 class SkillRepository(private val dao: SkillDao) {
 
@@ -16,7 +18,31 @@ class SkillRepository(private val dao: SkillDao) {
         dao.updateXp(id, xpToAdd)
     }
 
+//    suspend fun updateSession(id: Int, minutes: Int, xp: Int) {
+//        dao.updateSession(id, minutes, xp)
+//    }
+
     suspend fun updateSession(id: Int, minutes: Int, xp: Int) {
         dao.updateSession(id, minutes, xp)
+
+        dao.insertSession(
+            SessionEntity(
+                skillId = id,
+                date = getTodayDate(),
+                minutes = minutes,
+                xp = xp
+            )
+        )
     }
+
+
+    fun getTodayXp(today: String) = dao.getTodayXp(today)
+
+    fun getTodayStudiedMinutes(today: String) = dao.getTodayStudiedMinutes(today)
+
+    fun getTotalXp() = dao.getTotalXp()
+
+//    fun getStreakDays() = dao.getStreakDays()
+
+    suspend fun getAllSessionDates() = dao.getAllSessionDates()
 }

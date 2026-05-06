@@ -21,6 +21,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,9 +38,17 @@ import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.DarkPurple2
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
 
-@Preview
+
 @Composable
-fun CurrentStreak() {
+fun CurrentStreak(
+    todayXp: Int,
+    todayMinutes: Int,
+    level: Int,
+    streakDays: Int
+) {
+
+
+    val studyHours = String.format("%.1f", todayMinutes / 60f)
 
     Column(
         modifier = Modifier
@@ -85,14 +95,21 @@ fun CurrentStreak() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.day_streak_icon),
+//                        painter = painterResource(R.drawable.day_streak_icon),
+                        painter = painterResource(
+                            id = if (streakDays > 0) {
+                                R.drawable.day_streak_icon
+                            } else {
+                                R.drawable.fire_with_point
+                            }
+                        ),
                         contentDescription = "Day Streak",
                         tint = DarkOrange,
                         modifier = Modifier.size(48.dp)
                     )
 
                     Text(
-                        text = "7",
+                        text = "$streakDays",
                         fontSize = 44.sp,
                         fontWeight = FontWeight.Bold,
                         color = PrimaryOrange
@@ -132,7 +149,7 @@ fun CurrentStreak() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "120 XP",
+                                text = "$todayXp XP",
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
@@ -157,7 +174,7 @@ fun CurrentStreak() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "Lv 3",
+                                text = "Lv $level",
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
@@ -181,7 +198,7 @@ fun CurrentStreak() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "2.5hrs",
+                                text = "$studyHours hrs",
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White

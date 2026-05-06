@@ -18,9 +18,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import androidx.room.Room
+import com.example.studyprogressxp.data.local.datastore.SessionPreferences
 import com.example.studyprogressxp.data.local.datastore.UserPreferences
-import com.example.studyprogressxp.data.local.room.AppDatabase
+import com.example.studyprogressxp.data.local.database.AppDatabase
 import com.example.studyprogressxp.data.repository.SkillRepository
 import com.example.studyprogressxp.data.repository.UserRepository
 import com.example.studyprogressxp.ui.components.topappbar.AddNewSkillTopAppBar
@@ -58,8 +58,10 @@ fun MainScreen() {
     val db = AppDatabase.getDatabase(context)
     val skillRepo = SkillRepository(db.skillDao())
 
+    val sessionPrefs = SessionPreferences(context)
+
     val skillViewModel: SkillViewModel = viewModel(
-        factory = SkillViewModelFactory(skillRepo)
+        factory = SkillViewModelFactory(skillRepo, sessionPrefs)
     )
 
 // load once

@@ -27,8 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.studyprogressxp.data.local.room.SkillEntity
-import com.example.studyprogressxp.model.Skill
+import com.example.studyprogressxp.data.local.entity.SkillEntity
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
 import com.example.studyprogressxp.ui.theme.Purple
