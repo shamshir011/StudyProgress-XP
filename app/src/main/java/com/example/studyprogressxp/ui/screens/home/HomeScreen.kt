@@ -78,6 +78,11 @@ fun HomeScreen(
     val streakDays by skillViewModel.streakDays.collectAsState()
 
 
+    val totalXp by skillViewModel.totalXp.collectAsState()
+    val levelTitle by skillViewModel.levelTitle.collectAsState()
+    val nextLevelXp by skillViewModel.nextLevelXp.collectAsState()
+
+
 
     val trackedSkill = listOf(
         TrackedSkill(id = 1, R.drawable.code_icon, "DSA", "Level 3", ". 48%"),
@@ -130,7 +135,18 @@ fun HomeScreen(
             }
 
             item {
-                LevelUI()
+//                LevelUI(
+//                    totalXp = totalXp,
+//                    level = level,
+//                    levelTitle = levelTitle,
+//                    nextLevelXp = nextLevelXp
+//                )
+
+                LevelUI(
+                    totalXp = totalXp,
+                    level = level,
+                    levelTitle = levelTitle
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -350,7 +366,6 @@ fun HomeScreen(
                         skill = skill,
                         onClick = {
                             showSheet = false
-//                            navController.navigate(NavBarRoutes.Session)
                             navController.navigate(NavBarRoutes.Skills(skill.id))
                         }
                     )

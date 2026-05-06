@@ -34,11 +34,22 @@ import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.Green
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
+import com.example.studyprogressxp.utils.getRequiredXpForLevel
 
-@Preview(showBackground = true)
 @Composable
-fun LevelUI() {
+fun LevelUI(
+    totalXp: Int,
+    level: Int,
+    levelTitle: String
+) {
+    val currentLevelStartXp = getRequiredXpForLevel(level)
+    val nextLevelXpValue = getRequiredXpForLevel(level + 1)
 
+    val levelXp = totalXp - currentLevelStartXp
+    val xpNeededForThisLevel = nextLevelXpValue - currentLevelStartXp
+
+    val progress = (levelXp.toFloat() / xpNeededForThisLevel.toFloat())
+        .coerceIn(0f, 1f)
 
     Row(
         modifier = Modifier
@@ -76,14 +87,14 @@ fun LevelUI() {
                     )
 
                     Text(
-                        text = "Level 3",
+                        text = "Level $level ",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = PrimaryOrange
                     )
 
                     Text(
-                        text = "-Focused Scholar",
+                        text = "- $levelTitle",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = PrimaryOrange
@@ -91,11 +102,10 @@ fun LevelUI() {
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    Row {
-                        Text("820", color = Color.LightGray)
-                        Text("/", color = Color.LightGray)
-                        Text("1200 XP", color = Color.LightGray)
-                    }
+                    Text(
+                        text = "$levelXp/$xpNeededForThisLevel XP",
+                        color = Color.LightGray
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(6.dp))
@@ -105,10 +115,20 @@ fun LevelUI() {
                         .fillMaxWidth()
                         .height(10.dp)
                         .background(
-                            color = PrimaryOrange,
+                            color = Color.LightGray.copy(alpha = 0.4f),
                             shape = RoundedCornerShape(50.dp)
                         )
-                )
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(progress)
+                            .height(10.dp)
+                            .background(
+                                color = PrimaryOrange,
+                                shape = RoundedCornerShape(50.dp)
+                            )
+                    )
+                }
             }
         }
     }

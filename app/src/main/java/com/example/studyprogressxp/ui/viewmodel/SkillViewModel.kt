@@ -18,6 +18,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import com.example.studyprogressxp.utils.calculateStreak
+import com.example.studyprogressxp.utils.getLevelFromXp
+import com.example.studyprogressxp.utils.getRequiredXpForLevel
+import com.example.studyprogressxp.utils.getLevelTitle
 
 
 class SkillViewModel(
@@ -48,18 +51,9 @@ class SkillViewModel(
         .map { it ?: 0 }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
-    val level = totalXp
-        .map { xp -> (xp / 500) + 1 }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1)
-
-
-//    val streakDays = repo.getStreakDays()
-//        .map { it ?: 0 }
-//        .stateIn(
-//            viewModelScope,
-//            SharingStarted.WhileSubscribed(5000),
-//            0
-//        )
+//    val level = totalXp
+//        .map { xp -> (xp / 500) + 1 }
+//        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1)
 
 
     private val _streakDays = MutableStateFlow(0)
@@ -68,6 +62,19 @@ class SkillViewModel(
     init {
         loadStreak()
     }
+
+
+    val level = totalXp
+        .map { xp -> getLevelFromXp(xp) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1)
+
+    val levelTitle = level
+        .map { currentLevel -> getLevelTitle(currentLevel) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "Beginner Scholar")
+
+    val nextLevelXp = level
+        .map { currentLevel -> getRequiredXpForLevel(currentLevel + 1) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 500)
 
 
 fun toggleTimer() {
