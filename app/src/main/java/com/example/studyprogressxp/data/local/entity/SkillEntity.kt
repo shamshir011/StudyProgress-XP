@@ -14,5 +14,6 @@ data class SkillEntity(
     val level: Int,
     val goal: String,
     val streakDays: Int,
-    val studiedMinutes: Int
+    val studiedMinutes: Int,
+    val goalXp: Int,
 )

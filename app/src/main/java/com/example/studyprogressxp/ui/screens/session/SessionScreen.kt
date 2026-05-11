@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +44,8 @@ import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
 import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
 import com.example.studyprogressxp.utils.goalToMinutes
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 
 
 @Composable
@@ -56,20 +59,10 @@ fun SessionScreen(
         .collectAsState(initial = null)
 
 
-
     val uiState by viewModel.sessionState.collectAsState()
 
-    DisposableEffect(Unit) {
-        onDispose {
-            if (uiState.sessionMinutes > 0 && uiState.percent < 100) {
-                viewModel.completeSession(
-                    id = uiState.skillId,
-                    minutes = uiState.sessionMinutes,
-                    xp = 0
-                )
-            }
-        }
-    }
+    val streakDays by viewModel.streakDays.collectAsState()
+
 
     val xpPerMinute = 2
     val earnedXp = uiState.sessionMinutes * xpPerMinute
@@ -79,12 +72,31 @@ fun SessionScreen(
         label = "progress_anim"
     )
 
-    LaunchedEffect(skillId, skill) {
-        skill?.let {
-            viewModel.restoreSavedSession(it)
-        }
-    }
+//    Just Commented (11-05-26)
+//    LaunchedEffect(skillId, skill) {
+//        skill?.let {
+//            viewModel.restoreSavedSession(it)
+//        }
+//    }
 
+//    First New added
+
+//    LaunchedEffect(skillId) {
+//        snapshotFlow { skill }
+//            .filterNotNull()
+//            .first()
+//            .let { viewModel.restoreSavedSession(it) }
+//    }
+
+
+
+//    New Added
+    LaunchedEffect(skillId) {
+        snapshotFlow { skill }
+            .filterNotNull()
+            .first()
+            .let { viewModel.restoreSavedSession(it) }
+    }
 
 
 
@@ -118,15 +130,6 @@ fun SessionScreen(
                     }
 
                 )
-
-
-                //                    onStop = {
-//                        viewModel.completeSession(
-//                            id = uiState.skillId,
-//                            minutes = uiState.sessionMinutes,
-//                            xp = if (uiState.percent == 100) uiState.rewardXp else 0
-//                        )
-//                    }
 
 
                 Spacer(modifier = Modifier.height(42.dp))
@@ -184,7 +187,7 @@ fun SessionScreen(
 
                             Column() {
                                 Text(
-                                    text = "${data.streakDays}",
+                                    text = "$streakDays",
                                     fontWeight = FontWeight.Bold,
                                     color = PrimaryOrange,
                                     fontSize = 22.sp

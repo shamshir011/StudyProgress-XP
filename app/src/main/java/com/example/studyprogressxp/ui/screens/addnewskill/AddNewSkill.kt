@@ -82,7 +82,7 @@ fun AddNewSkill(
 
 
     val xp = when (selectedGoal) {
-        "1m" -> 20
+        "1m" -> 400
         "1h" -> 50
         "2h" -> 100
         else -> 0

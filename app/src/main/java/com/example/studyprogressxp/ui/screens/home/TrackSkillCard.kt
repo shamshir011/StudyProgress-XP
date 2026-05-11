@@ -21,16 +21,135 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.example.studyprogressxp.data.local.entity.SkillEntity
 import com.example.studyprogressxp.model.TrackedSkill
+import com.example.studyprogressxp.ui.screens.session.SessionUiState
 import com.example.studyprogressxp.ui.theme.ElectricPurple
+import com.example.studyprogressxp.utils.getLevelFromXp
+import com.example.studyprogressxp.utils.goalToMinutes
+
+
+//@Composable
+//fun TrackSkillCard(trackedSkill: TrackedSkill) {
+//
+//    Box(
+//        modifier = Modifier
+//            .padding(8.dp)
+//            .size(200.dp)
+//            .border(
+//                width = 1.dp,
+//                color = ElectricPurple.copy(alpha = 0.1f),
+//                shape = RoundedCornerShape(16.dp)
+//            )
+//            .shadow(
+//                elevation = 8.dp,
+//                shape = RoundedCornerShape(16.dp),
+//                ambientColor = ElectricPurple,
+//                spotColor = ElectricPurple
+//            )
+//            .background(
+//                color = Color.White,
+//                shape = RoundedCornerShape(16.dp)
+//            )
+//    ) {
+//
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(8.dp),
+//            verticalArrangement = Arrangement.Center
+//        ) {
+//
+//            Column(
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//
+//                Box(
+//                    modifier = Modifier
+//                        .size(70.dp)
+//                        .clip(RoundedCornerShape(16.dp)),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    Icon(
+//                        painter = painterResource(trackedSkill.image),
+//                        contentDescription = "DSA",
+//                        modifier = Modifier.size(32.dp)
+//                    )
+//                }
+//
+//                Spacer(modifier = Modifier.height(6.dp))
+//
+//                Text(
+//                    text = trackedSkill.name,
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Bold
+//                )
+//            }
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Row {
+//                Text(
+//                    text = trackedSkill.level,
+//                    color = Color.DarkGray
+//                )
+//
+//                Text(
+//                    text = trackedSkill.percentage,
+//                    color = Color.DarkGray
+//                )
+//            }
+//
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(6.dp)
+//                    .background(
+//                        color = ElectricPurple,
+//                        shape = RoundedCornerShape(50.dp)
+//                    )
+//            )
+//        }
+//    }
+//}
 
 
 @Composable
-fun TrackSkillCard(trackedSkill: TrackedSkill) {
+fun TrackSkillCard(
+    skill: SkillEntity,
+    uiState: SessionUiState
+) {
+
+    val goalMinutes = goalToMinutes(skill.goal)
+
+    val liveStudiedMinutes =
+        if (uiState.skillId == skill.id) {
+            uiState.studiedMinutes
+        } else {
+            skill.studiedMinutes
+        }
+
+    val studiedMinutes = liveStudiedMinutes.coerceIn(0, goalMinutes)
+
+    val progress =
+        if (uiState.skillId == skill.id) {
+            uiState.progress
+        } else {
+            (studiedMinutes.toFloat() / goalMinutes.toFloat())
+                .coerceIn(0f, 1f)
+        }
+
+    val percentage = (progress * 100).toInt()
+
+
+
+
+    val skillLevel = getLevelFromXp(skill.xp)
 
     Box(
         modifier = Modifier
@@ -47,12 +166,8 @@ fun TrackSkillCard(trackedSkill: TrackedSkill) {
                 ambientColor = ElectricPurple,
                 spotColor = ElectricPurple
             )
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(16.dp)
-            )
+            .background(Color.White, RoundedCornerShape(16.dp))
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -60,41 +175,38 @@ fun TrackSkillCard(trackedSkill: TrackedSkill) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
+            Box(
+                modifier = Modifier
+                    .size(70.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+                contentAlignment = Alignment.Center
             ) {
-
-                Box(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .clip(RoundedCornerShape(16.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(trackedSkill.image),
-                        contentDescription = "DSA",
-                        modifier = Modifier.size(32.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                Text(
-                    text = trackedSkill.name,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                AsyncImage(
+                    model = skill.imagePath,
+                    contentDescription = skill.name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
 
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = skill.name,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             Spacer(modifier = Modifier.height(8.dp))
+
             Row {
                 Text(
-                    text = trackedSkill.level,
+                    text = "Level $skillLevel. ",
                     color = Color.DarkGray
                 )
 
                 Text(
-                    text = trackedSkill.percentage,
+                    text = "$percentage%",
                     color = Color.DarkGray
                 )
             }
@@ -104,10 +216,39 @@ fun TrackSkillCard(trackedSkill: TrackedSkill) {
                     .fillMaxWidth()
                     .height(6.dp)
                     .background(
-                        color = ElectricPurple,
+                        color = ElectricPurple.copy(alpha = 0.2f),
                         shape = RoundedCornerShape(50.dp)
                     )
-            )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(progress)
+                        .height(6.dp)
+                        .background(
+                            color = ElectricPurple,
+                            shape = RoundedCornerShape(50.dp)
+                        )
+                )
+            }
         }
     }
 }
+
+
+
+
+//    val goalMinutes = goalToMinutes(skill.goal)
+//
+//    val liveStudiedMinutes =
+//        if (uiState.skillId == skill.id) {
+//            uiState.studiedMinutes
+//        } else {
+//            skill.studiedMinutes
+//        }
+//
+//    val studiedMinutes = liveStudiedMinutes.coerceIn(0, goalMinutes)
+//
+//    val progress = (studiedMinutes.toFloat() / goalMinutes.toFloat())
+//        .coerceIn(0f, 1f)
+//
+//    val percentage = (progress * 100).toInt()

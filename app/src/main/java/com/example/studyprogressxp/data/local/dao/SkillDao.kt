@@ -24,12 +24,11 @@ interface SkillDao {
     suspend fun updateXp(id: Int, xpToAdd: Int)
 
     @Query("""
-UPDATE skills 
-SET xp = xp + :xp,
-    studiedMinutes = studiedMinutes + :minutes
+UPDATE skills
+SET xp = xp + :xp
 WHERE id = :id
 """)
-    suspend fun updateSession(id: Int, minutes: Int, xp: Int)
+    suspend fun updateSession(id: Int, xp: Int)
 
 
 
@@ -47,4 +46,12 @@ WHERE id = :id
 
     @Query("SELECT DISTINCT date FROM sessions ORDER BY date DESC")
     suspend fun getAllSessionDates(): List<String>
+
+
+    @Query("UPDATE skills SET studiedMinutes = 0 WHERE id = :id")
+    suspend fun resetSkillProgress(id: Int)
+
+    @Query("UPDATE skills SET studiedMinutes = :minutes WHERE id = :id")
+    suspend fun updateSkillProgress(id: Int, minutes: Int)
+
 }

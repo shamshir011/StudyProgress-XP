@@ -50,9 +50,7 @@ import androidx.navigation.NavController
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.model.TrackedSkill
 import com.example.studyprogressxp.ui.navigation.NavBarRoutes
-import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.ElectricPurple
-import com.example.studyprogressxp.ui.theme.LowPurple
 import com.example.studyprogressxp.ui.theme.Purple
 import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
 
@@ -81,6 +79,8 @@ fun HomeScreen(
     val totalXp by skillViewModel.totalXp.collectAsState()
     val levelTitle by skillViewModel.levelTitle.collectAsState()
     val nextLevelXp by skillViewModel.nextLevelXp.collectAsState()
+
+    val uiState by skillViewModel.sessionState.collectAsState()
 
 
 
@@ -131,6 +131,7 @@ fun HomeScreen(
                     level = level,
                     streakDays = streakDays
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
@@ -224,12 +225,21 @@ fun HomeScreen(
 
             item {
                 Spacer(modifier = Modifier.height(16.dp))
+//                LazyRow {
+//                    item {
+//                        trackedSkill.forEach { tracked ->
+//                            TrackSkillCard(tracked)
+//                        }
+//                        Spacer(modifier = Modifier.height(16.dp))
+//                    }
+//                }
+
                 LazyRow {
-                    item {
-                        trackedSkill.forEach { tracked ->
-                            TrackSkillCard(tracked)
-                        }
-                        Spacer(modifier = Modifier.height(16.dp))
+                    items(skills) { skill ->
+                        TrackSkillCard(
+                            skill = skill,
+                            uiState = uiState
+                        )
                     }
                 }
             }

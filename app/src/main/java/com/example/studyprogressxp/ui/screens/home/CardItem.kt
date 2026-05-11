@@ -31,6 +31,8 @@ import com.example.studyprogressxp.data.local.entity.SkillEntity
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
 import com.example.studyprogressxp.ui.theme.Purple
+import com.example.studyprogressxp.utils.formatMinutes
+import com.example.studyprogressxp.utils.goalToMinutes
 
 
 @Composable
@@ -38,6 +40,15 @@ fun CardItem(
     skill: SkillEntity, onClick: () -> Unit
 
 ) {
+
+    val goalMinutes = goalToMinutes(skill.goal)
+
+    val remainingMinutes =
+        (goalMinutes - skill.studiedMinutes).coerceAtLeast(0)
+
+    val progress =
+        (skill.studiedMinutes.toFloat() / goalMinutes.toFloat())
+            .coerceIn(0f, 1f)
 
     Box(
         modifier = Modifier
@@ -77,9 +88,7 @@ fun CardItem(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize(),
                 )
-
             }
-
             Spacer(modifier = Modifier.width(12.dp))
 
             Column(
@@ -99,20 +108,20 @@ fun CardItem(
                         )
                         Row {
                             Text(
-                                text = "${skill.goal}/",
+                                text = "${formatMinutes(remainingMinutes)}/",
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )
 
                             Text(
-                                text = skill.goal,
+                                text = formatMinutes(goalMinutes),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
                     }
                     Text(
-                        text = "${skill.xp} XP",
+                        text = "+${skill.goalXp} XP",
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
                         color = PrimaryOrange
@@ -126,10 +135,21 @@ fun CardItem(
                         .fillMaxWidth()
                         .height(6.dp)
                         .background(
-                            color = ElectricPurple,
+                            color = ElectricPurple.copy(alpha = 0.2f),
                             shape = RoundedCornerShape(50.dp)
                         )
-                )
+                ) {
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(progress)
+                            .height(6.dp)
+                            .background(
+                                color = ElectricPurple,
+                                shape = RoundedCornerShape(50.dp)
+                            )
+                    )
+                }
             }
         }
     }

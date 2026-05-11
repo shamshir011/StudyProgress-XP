@@ -122,7 +122,7 @@ fun DailyGoal(onSelected: (String) -> Unit) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = "+20 XP",
+                                text = "+400 XP",
                                 color = if (isSelected) Color.White else ElectricPurple
                             )
 
