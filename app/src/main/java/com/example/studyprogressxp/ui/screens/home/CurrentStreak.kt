@@ -37,6 +37,7 @@ import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.theme.DarkOrange
 import com.example.studyprogressxp.ui.theme.DarkPurple2
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
+import com.example.studyprogressxp.utils.formatStudyTime
 
 
 @Composable
@@ -47,8 +48,7 @@ fun CurrentStreak(
     streakDays: Int
 ) {
 
-
-    val studyHours = String.format("%.1f", todayMinutes / 60f)
+    val studyHours = formatStudyTime(todayMinutes)
 
     Column(
         modifier = Modifier
@@ -112,7 +112,11 @@ fun CurrentStreak(
                         text = "$streakDays",
                         fontSize = 44.sp,
                         fontWeight = FontWeight.Bold,
-                        color = PrimaryOrange
+                        color = if (streakDays > 0) {
+                            PrimaryOrange
+                        } else {
+                            Color.Gray
+                        }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
 
@@ -198,7 +202,7 @@ fun CurrentStreak(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "$studyHours hrs",
+                                text = studyHours,
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
