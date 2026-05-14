@@ -54,4 +54,11 @@ WHERE id = :id
     @Query("UPDATE skills SET studiedMinutes = :minutes WHERE id = :id")
     suspend fun updateSkillProgress(id: Int, minutes: Int)
 
+    @Query("UPDATE skills SET timeLeftSeconds = :timeLeft, studiedMinutes = :studiedMinutes WHERE id = :id")
+    suspend fun updateSkillTimerProgress(
+        id: Int,
+        timeLeft: Int,
+        studiedMinutes: Int
+    )
+
 }

@@ -72,25 +72,7 @@ fun SessionScreen(
         label = "progress_anim"
     )
 
-//    Just Commented (11-05-26)
-//    LaunchedEffect(skillId, skill) {
-//        skill?.let {
-//            viewModel.restoreSavedSession(it)
-//        }
-//    }
 
-//    First New added
-
-//    LaunchedEffect(skillId) {
-//        snapshotFlow { skill }
-//            .filterNotNull()
-//            .first()
-//            .let { viewModel.restoreSavedSession(it) }
-//    }
-
-
-
-//    New Added
     LaunchedEffect(skillId) {
         snapshotFlow { skill }
             .filterNotNull()
@@ -98,9 +80,16 @@ fun SessionScreen(
             .let { viewModel.restoreSavedSession(it) }
     }
 
+    DisposableEffect(Unit) {
 
+        onDispose {
 
+            if (uiState.isRunning || uiState.sessionMinutes > 0) {
 
+                viewModel.stopSession()
+            }
+        }
+    }
 
     skill?.let { data ->
 

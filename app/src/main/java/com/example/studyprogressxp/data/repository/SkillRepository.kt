@@ -18,24 +18,6 @@ class SkillRepository(private val dao: SkillDao) {
         dao.updateXp(id, xpToAdd)
     }
 
-//    suspend fun updateSession(id: Int, minutes: Int, xp: Int) {
-//        dao.updateSession(id, minutes, xp)
-//    }
-
-
-//    Just Commented        *****************************
-//    suspend fun updateSession(id: Int, minutes: Int, xp: Int) {
-//        dao.updateSession(id, minutes, xp)
-//
-//        dao.insertSession(
-//            SessionEntity(
-//                skillId = id,
-//                date = getTodayDate(),
-//                minutes = minutes,
-//                xp = xp
-//            )
-//        )
-//    }
 
     suspend fun updateSession(id: Int, minutes: Int, xp: Int) {
         dao.updateSession(id, xp)
@@ -67,5 +49,21 @@ class SkillRepository(private val dao: SkillDao) {
 
     suspend fun updateSkillProgress(id: Int, minutes: Int) {
         dao.updateSkillProgress(id, minutes)
+    }
+
+    suspend fun updateSkillTimerProgress(id: Int, timeLeft: Int, studiedMinutes: Int) {
+        dao.updateSkillTimerProgress(id, timeLeft, studiedMinutes)
+    }
+
+
+    suspend fun insertStudySession(skillId: Int, minutes: Int, xp: Int) {
+        dao.insertSession(
+            SessionEntity(
+                skillId = skillId,
+                date = getTodayDate(),
+                minutes = minutes,
+                xp = xp
+            )
+        )
     }
 }
