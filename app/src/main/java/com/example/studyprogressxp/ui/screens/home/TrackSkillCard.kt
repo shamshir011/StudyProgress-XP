@@ -1,5 +1,6 @@
 package com.example.studyprogressxp.ui.screens.home
 
+import android.R.attr.data
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -41,30 +42,7 @@ fun TrackSkillCard(
     uiState: SessionUiState
 ) {
 
-//    val goalMinutes = goalToMinutes(skill.goal)
-//
-//    val liveStudiedMinutes =
-//        if (uiState.skillId == skill.id) {
-//            uiState.studiedMinutes
-//        } else {
-//            skill.studiedMinutes
-//        }
-//
-//    val studiedMinutes = liveStudiedMinutes.coerceIn(0, goalMinutes)
-//
-//    val progress =
-//        if (uiState.skillId == skill.id) {
-//            uiState.progress
-//        } else {
-//            (studiedMinutes.toFloat() / goalMinutes.toFloat())
-//                .coerceIn(0f, 1f)
-//        }
-//
-//    val percentage = (progress * 100).toInt()
 
-
-
-//    New Added
     val goalSeconds = goalToMinutes(skill.goal) * 60
 
     val timeLeft = if (skill.timeLeftSeconds > 0) {
@@ -80,12 +58,11 @@ fun TrackSkillCard(
 
     val percentage = (progress * 100).toInt()
 
-    val skillLevel = getLevelFromXp(skill.xp)
-
-
-
-
 //    val skillLevel = getLevelFromXp(skill.xp)
+    val level = skill.level
+
+
+
 
     Box(
         modifier = Modifier
@@ -137,7 +114,7 @@ fun TrackSkillCard(
 
             Row {
                 Text(
-                    text = "Level $skillLevel. ",
+                    text = "Level $level. ",
                     color = Color.DarkGray
                 )
 

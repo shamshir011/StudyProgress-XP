@@ -23,10 +23,17 @@ import androidx.compose.ui.unit.sp
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.theme.LightGreen
 import com.example.studyprogressxp.ui.theme.PrimaryOrange
+import com.example.studyprogressxp.utils.formatStudyTime
 
-@Preview
+
 @Composable
-fun TotalStudy() {
+fun TotalStudy(
+    streakDays: Int,
+    studiedMinutes: Int,
+    sessions: Int
+) {
+
+    val totalStudy = formatStudyTime(studiedMinutes)
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -56,7 +63,7 @@ fun TotalStudy() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "12",
+                    text = "$streakDays",
                     fontSize = 22.sp,
                     color = ElectricPurple,
                     fontWeight = FontWeight.Bold
@@ -91,7 +98,7 @@ fun TotalStudy() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "4.5hrs",
+                    text = totalStudy,
                     fontSize = 22.sp,
                     color = PrimaryOrange,
                     fontWeight = FontWeight.Bold
@@ -129,7 +136,7 @@ fun TotalStudy() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "4",
+                    text = "$sessions",
                     fontSize = 22.sp,
                     color = LightGreen,
                     fontWeight = FontWeight.Bold

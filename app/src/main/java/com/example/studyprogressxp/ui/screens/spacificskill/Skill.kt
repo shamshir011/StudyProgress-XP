@@ -1,6 +1,5 @@
 package com.example.studyprogressxp.ui.screens.spacificskill
 
-import android.R.attr.data
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,13 +33,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.studyprogressxp.R
 import com.example.studyprogressxp.ui.navigation.NavBarRoutes
 import com.example.studyprogressxp.ui.theme.ElectricPurple
 import com.example.studyprogressxp.ui.viewmodel.SkillViewModel
+import com.example.studyprogressxp.utils.getLevelTitle
+import com.example.studyprogressxp.utils.getRequiredXpForLevel
+import com.example.studyprogressxp.utils.goalToMinutes
 
 
 @Composable
@@ -50,9 +51,12 @@ fun Skill(
     viewModel: SkillViewModel
 ) {
 
-
     val skill by viewModel.getSkillById(skillId)
         .collectAsState(initial = null)
+
+    val totalStudiedMinutes by viewModel
+        .getTotalStudiedMinutesBySkill(skillId)
+        .collectAsState(initial = 0)
 
 
     if (skill == null) {
@@ -64,6 +68,42 @@ fun Skill(
         }
         return
     }
+
+    val data = skill!!
+
+    val level = data.level
+    val levelTitle = getLevelTitle(level)
+
+    val currentLevelXp = getRequiredXpForLevel(level)
+    val nextLevelXp = getRequiredXpForLevel(level + 1)
+
+    val currentXpInLevel = data.xp - currentLevelXp
+    val xpNeededForLevel = nextLevelXp - currentLevelXp
+    val xpMore = nextLevelXp - data.xp
+
+    val levelProgress = (currentXpInLevel.toFloat() / xpNeededForLevel.toFloat())
+        .coerceIn(0f, 1f)
+
+    val goalMinutes = goalToMinutes(data.goal)
+
+    val goalSeconds = goalMinutes * 60
+
+    val timeLeft = if (data.timeLeftSeconds > 0) {
+        data.timeLeftSeconds
+    } else {
+        goalSeconds
+    }
+
+    val elapsedSeconds = (goalSeconds - timeLeft).coerceAtLeast(0)
+
+    val progress = (elapsedSeconds.toFloat() / goalSeconds.toFloat())
+        .coerceIn(0f, 1f)
+
+    val streakDays by viewModel.streakDays.collectAsState()
+
+
+//    val skillLevel = skill.level
+
 
     Column(
         modifier = Modifier
@@ -142,7 +182,7 @@ fun Skill(
                             )
 
                             Text(
-                                text = "Level ${skill!!.level}",
+                                text = "Level $level",
                                 color = Color.LightGray,
                                 fontWeight = FontWeight.Bold
                             )
@@ -181,14 +221,9 @@ fun Skill(
 
                                 Row {
                                     Text(
-                                        text ="${skill!!.xp} XP",
+                                        text = "${data.goalXp} XP",
                                         color = Color.White
                                     )
-
-//                                    Text(
-//                                        "1200 XP",
-//                                        color = Color.White
-//                                    )
                                 }
                             }
 
@@ -199,19 +234,29 @@ fun Skill(
                                     .fillMaxWidth()
                                     .height(10.dp)
                                     .background(
-                                        color = Color.White,
+                                        color = Color.White.copy(alpha = 0.4f),
                                         shape = RoundedCornerShape(50.dp)
                                     )
-                            )
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth(progress)
+                                        .height(10.dp)
+                                        .background(
+                                            color = Color.White,
+                                            shape = RoundedCornerShape(50.dp)
+                                        )
+                                )
+                            }
 
                             Row() {
                                 Text(
-                                    text = "380 XP more to reach",
+                                    text = "${data.goalXp} XP more to reach ",
                                     color = Color.LightGray
                                 )
 
                                 Text(
-                                    text = "Level 5",
+                                    text =  "Level ${level + 1}",
                                     color = Color.LightGray
                                 )
                             }
@@ -222,7 +267,11 @@ fun Skill(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TotalStudy()
+            TotalStudy(
+                streakDays = streakDays,
+                studiedMinutes = data.totalStudiedMinutes,
+                sessions = if (data.goalXp > 0) data.xp / data.goalXp else 0
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
 

@@ -83,15 +83,6 @@ fun HomeScreen(
     val uiState by skillViewModel.sessionState.collectAsState()
 
 
-
-    val trackedSkill = listOf(
-        TrackedSkill(id = 1, R.drawable.code_icon, "DSA", "Level 3", ". 48%"),
-        TrackedSkill(id = 2, R.drawable.android_icon, "Android", "Level 4", ". 68%"),
-        TrackedSkill(id = 3, R.drawable.functions_icon, "Aptitude", "Level 4", ". 93%"),
-        TrackedSkill(id = 4, R.drawable.android_icon, "Web Development", "Level 2", ". 58%"),
-        TrackedSkill(id = 5, R.drawable.functions_icon, "Database", "Level 5", ". 70%")
-    )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -136,13 +127,6 @@ fun HomeScreen(
             }
 
             item {
-//                LevelUI(
-//                    totalXp = totalXp,
-//                    level = level,
-//                    levelTitle = levelTitle,
-//                    nextLevelXp = nextLevelXp
-//                )
-
                 LevelUI(
                     totalXp = totalXp,
                     level = level,
@@ -203,7 +187,7 @@ fun HomeScreen(
                     EmptySkill(navController)
                 }
             } else {
-                items(skills.take(3)) { skill ->
+                items(skills.takeLast(3).reversed()) { skill ->
                     CardItem(
                         skill = skill,
                         onClick = {
@@ -225,14 +209,6 @@ fun HomeScreen(
 
             item {
                 Spacer(modifier = Modifier.height(16.dp))
-//                LazyRow {
-//                    item {
-//                        trackedSkill.forEach { tracked ->
-//                            TrackSkillCard(tracked)
-//                        }
-//                        Spacer(modifier = Modifier.height(16.dp))
-//                    }
-//                }
 
                 LazyRow {
                     items(skills) { skill ->

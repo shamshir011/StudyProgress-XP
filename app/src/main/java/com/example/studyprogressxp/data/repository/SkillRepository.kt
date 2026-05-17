@@ -39,7 +39,6 @@ class SkillRepository(private val dao: SkillDao) {
 
     fun getTotalXp() = dao.getTotalXp()
 
-//    fun getStreakDays() = dao.getStreakDays()
 
     suspend fun getAllSessionDates() = dao.getAllSessionDates()
 
@@ -51,8 +50,22 @@ class SkillRepository(private val dao: SkillDao) {
         dao.updateSkillProgress(id, minutes)
     }
 
-    suspend fun updateSkillTimerProgress(id: Int, timeLeft: Int, studiedMinutes: Int) {
-        dao.updateSkillTimerProgress(id, timeLeft, studiedMinutes)
+//    suspend fun updateSkillTimerProgress(id: Int, timeLeft: Int, studiedMinutes: Int) {
+//        dao.updateSkillTimerProgress(id, timeLeft, studiedMinutes)
+//    }
+
+    suspend fun updateSkillTimerProgress(
+        id: Int,
+        timeLeft: Int,
+        studiedMinutes: Int,
+        newMinutes: Int
+    ) {
+        dao.updateSkillTimerProgress(
+            id = id,
+            timeLeft = timeLeft,
+            studiedMinutes = studiedMinutes,
+            newMinutes = newMinutes
+        )
     }
 
 
@@ -66,4 +79,7 @@ class SkillRepository(private val dao: SkillDao) {
             )
         )
     }
+
+    fun getTotalStudiedMinutesBySkill(skillId: Int) =
+        dao.getTotalStudiedMinutesBySkill(skillId)
 }

@@ -178,7 +178,11 @@ fun SessionScreen(
                                 Text(
                                     text = "$streakDays",
                                     fontWeight = FontWeight.Bold,
-                                    color = PrimaryOrange,
+                                    color = if (streakDays > 0) {
+                                        PrimaryOrange
+                                    } else {
+                                        Color.Gray
+                                    },
                                     fontSize = 22.sp
                                 )
                                 Text(

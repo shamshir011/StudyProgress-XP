@@ -23,9 +23,17 @@ interface SkillDao {
     @Query("UPDATE skills SET xp = xp + :xpToAdd WHERE id = :id")
     suspend fun updateXp(id: Int, xpToAdd: Int)
 
+//    @Query("""
+//UPDATE skills
+//SET xp = xp + :xp
+//WHERE id = :id
+//""")
+//    suspend fun updateSession(id: Int, xp: Int)
+
     @Query("""
 UPDATE skills
-SET xp = xp + :xp
+SET xp = xp + :xp,
+    level = level + 1
 WHERE id = :id
 """)
     suspend fun updateSession(id: Int, xp: Int)
@@ -54,11 +62,28 @@ WHERE id = :id
     @Query("UPDATE skills SET studiedMinutes = :minutes WHERE id = :id")
     suspend fun updateSkillProgress(id: Int, minutes: Int)
 
-    @Query("UPDATE skills SET timeLeftSeconds = :timeLeft, studiedMinutes = :studiedMinutes WHERE id = :id")
+//    @Query("UPDATE skills SET timeLeftSeconds = :timeLeft, studiedMinutes = :studiedMinutes WHERE id = :id")
+//    suspend fun updateSkillTimerProgress(
+//        id: Int,
+//        timeLeft: Int,
+//        studiedMinutes: Int
+//    )
+
+    @Query("""
+UPDATE skills 
+SET timeLeftSeconds = :timeLeft,
+    studiedMinutes = :studiedMinutes,
+    totalStudiedMinutes = totalStudiedMinutes + :newMinutes
+WHERE id = :id
+""")
     suspend fun updateSkillTimerProgress(
         id: Int,
         timeLeft: Int,
-        studiedMinutes: Int
+        studiedMinutes: Int,
+        newMinutes: Int
     )
+
+    @Query("SELECT SUM(minutes) FROM sessions WHERE skillId = :skillId")
+    fun getTotalStudiedMinutesBySkill(skillId: Int): Flow<Int?>
 
 }

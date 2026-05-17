@@ -99,8 +99,16 @@ fun toggleTimer() {
 
                 val elapsedSeconds = state.totalSeconds - newTime
 
-                val sessionMinutes = (elapsedSeconds / 60)
+
+
+                val currentStudiedMinutes = (elapsedSeconds / 60)
                     .coerceAtMost(goalToMinutes(state.goal))
+
+                val newMinutes = (currentStudiedMinutes - state.studiedMinutes)
+                    .coerceAtLeast(0)
+
+                val sessionMinutes = currentStudiedMinutes - state.baseMinutes
+
 
                 val progress = elapsedSeconds.toFloat() / state.totalSeconds
                 val percent = (progress * 100).toInt().coerceAtMost(100)
@@ -110,20 +118,14 @@ fun toggleTimer() {
                     progress = progress,
                     percent = percent,
                     sessionMinutes = sessionMinutes,
-                    studiedMinutes = state.baseMinutes + sessionMinutes
+                    studiedMinutes = currentStudiedMinutes
                 )
 
                 repo.updateSkillTimerProgress(
                     id = state.skillId,
                     timeLeft = newTime,
-                    studiedMinutes = state.baseMinutes + sessionMinutes
-                )
-
-                sessionPrefs.saveSession(
-                    skillId = state.skillId,
-                    timeLeft = newTime,
-                    sessionMinutes = sessionMinutes,
-                    isActive = true
+                    studiedMinutes = currentStudiedMinutes,
+                    newMinutes = newMinutes
                 )
 
                 if (newTime == 0) {
@@ -192,7 +194,13 @@ fun toggleTimer() {
             repo.updateSession(id, minutes, xp)
 
             // reset skill card progress after goal complete
-            repo.resetSkillProgress(id)
+
+            repo.updateSkillTimerProgress(
+                id = id,
+                timeLeft = state.totalSeconds,
+                studiedMinutes = 0,
+                newMinutes = 0
+            )
             // goal completed or stop clicked = clear saved running session
             sessionPrefs.clearSession()
         }
@@ -204,6 +212,8 @@ fun toggleTimer() {
 
         // Prevent unnecessary reset if already on same skill
         if (current.skillId == skill.id && current.totalSeconds > 0) return
+
+
 
         val totalSeconds = goalToMinutes(skill.goal) * 60
 
@@ -240,40 +250,17 @@ fun toggleTimer() {
         )
 
         viewModelScope.launch {
-            repo.updateSkillProgress(
+
+            repo.updateSkillTimerProgress(
                 id = state.skillId,
-                minutes = 0
+                timeLeft = state.totalSeconds,
+                studiedMinutes = 0,
+                newMinutes = 0
             )
 
             sessionPrefs.clearSession()
         }
     }
-
-//Just Comment
-//    fun restoreSavedSession(skill: SkillEntity) {
-//        viewModelScope.launch {
-//            val prefs = sessionPrefs.sessionData.first()
-//
-//            val savedSkillId = prefs[SessionPreferences.SKILL_ID]
-//            val savedTimeLeft = prefs[SessionPreferences.TIME_LEFT]
-//            val savedSessionMinutes = prefs[SessionPreferences.SESSION_MINUTES] ?: 0
-//
-//            if (savedSkillId == skill.id && savedTimeLeft != null && savedTimeLeft > 0) {
-//                restoreSession(
-//                    skill = skill,
-//                    savedTimeLeft = savedTimeLeft,
-//                    savedSessionMinutes = savedSessionMinutes
-//                )
-//            } else {
-//                // === KEY FIX ===
-//                if (savedSkillId != null && savedSkillId != skill.id) {
-//                    sessionPrefs.clearSession()   // Clear previous skill's paused session
-//                }
-//
-//                startSession(skill)   // Fresh start for new skill
-//            }
-//        }
-//    }
 
     fun restoreSavedSession(skill: SkillEntity) {
         val totalSeconds = goalToMinutes(skill.goal) * 60
@@ -303,111 +290,25 @@ fun toggleTimer() {
         )
     }
 
-
-    fun restoreSession(
-        skill: SkillEntity,
-        savedTimeLeft: Int,
-        savedSessionMinutes: Int
-    ) {
-        val totalSeconds = goalToMinutes(skill.goal) * 60
-
-        val elapsedSeconds = totalSeconds - savedTimeLeft
-
-        val progress = (elapsedSeconds.toFloat() / totalSeconds)
-            .coerceIn(0f, 1f)
-
-        _sessionState.value = SessionUiState(
-            skillId = skill.id,
-            skillName = skill.name,
-            goal = skill.goal,
-            totalSeconds = totalSeconds,
-            timeLeft = savedTimeLeft,
-            progress = progress,
-            percent = (progress * 100).toInt(),
-            baseMinutes = skill.studiedMinutes,
-            sessionMinutes = savedSessionMinutes,
-            studiedMinutes = skill.studiedMinutes + savedSessionMinutes,
-            rewardXp = skill.goalXp,
-            isRunning = false
-        )
-    }
-
-//    fun stopSession() {
-//        timerJob?.cancel()
-//
-//        val state = _sessionState.value
-//
-//        _sessionState.value = state.copy(
-//            isRunning = false
-//        )
-//
-//        viewModelScope.launch {
-//
-//            // SAVE CURRENT REMAINING TIME
-//            sessionPrefs.saveSession(
-//                skillId = state.skillId,
-//                timeLeft = state.timeLeft,
-//                sessionMinutes = state.sessionMinutes,
-//                isActive = true
-//            )
-//        }
-//    }
-
-
-
-//    Just commented
-//    fun stopSession() {
-//        timerJob?.cancel()
-//
-//        val state = _sessionState.value
-//
-//        _sessionState.value = state.copy(isRunning = false)
-//
-//        viewModelScope.launch {
-//            sessionPrefs.saveSession(
-//                skillId = state.skillId,
-//                timeLeft = state.timeLeft,
-//                sessionMinutes = state.sessionMinutes,
-//                isActive = true
-//            )
-//        }
-//    }
-
-
-//    Just added
     fun stopSession() {
         timerJob?.cancel()
 
         val state = _sessionState.value
 
-        _sessionState.value = state.copy(isRunning = false)
+        _sessionState.value = state.copy(
+            isRunning = false
+        )
 
         viewModelScope.launch {
-
-            // save timer/progress for this specific skill
             repo.updateSkillTimerProgress(
                 id = state.skillId,
                 timeLeft = state.timeLeft,
-                studiedMinutes = state.studiedMinutes
-            )
-
-            // save today studied time
-            if (state.sessionMinutes > 0) {
-                repo.insertStudySession(
-                    skillId = state.skillId,
-                    minutes = state.sessionMinutes,
-                    xp = 0
-                )
-            }
-
-            sessionPrefs.saveSession(
-                skillId = state.skillId,
-                timeLeft = state.timeLeft,
-                sessionMinutes = state.sessionMinutes,
-                isActive = true
+                studiedMinutes = state.studiedMinutes,
+                newMinutes = 0
             )
         }
     }
+
 
 
     fun loadStreak() {
@@ -419,4 +320,9 @@ fun toggleTimer() {
             _streakDays.value = calculateStreak(dates)
         }
     }
+
+    fun getTotalStudiedMinutesBySkill(skillId: Int) =
+        repo.getTotalStudiedMinutesBySkill(skillId)
+            .map { it ?: 0 }
+
 }

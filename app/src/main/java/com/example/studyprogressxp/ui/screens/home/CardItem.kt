@@ -42,13 +42,22 @@ fun CardItem(
 ) {
 
     val goalMinutes = goalToMinutes(skill.goal)
+    val goalSeconds = goalMinutes * 60
 
-    val remainingMinutes =
-        (goalMinutes - skill.studiedMinutes).coerceAtLeast(0)
+    val timeLeft = if (skill.timeLeftSeconds > 0) {
+        skill.timeLeftSeconds
+    } else {
+        goalSeconds
+    }
 
-    val progress =
-        (skill.studiedMinutes.toFloat() / goalMinutes.toFloat())
-            .coerceIn(0f, 1f)
+    val elapsedSeconds = (goalSeconds - timeLeft).coerceAtLeast(0)
+
+    val remainingMinutes = timeLeft / 60
+
+    val progress = (elapsedSeconds.toFloat() / goalSeconds.toFloat())
+        .coerceIn(0f, 1f)
+
+
 
     Box(
         modifier = Modifier
