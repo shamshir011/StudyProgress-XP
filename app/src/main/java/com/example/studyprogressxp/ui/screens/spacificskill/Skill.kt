@@ -102,6 +102,13 @@ fun Skill(
     val streakDays by viewModel.streakDays.collectAsState()
 
 
+    val bestSession by viewModel.getBestSession(skillId)
+        .collectAsState(initial = null)
+
+    val lastSession by viewModel.getLastSession(skillId)
+        .collectAsState(initial = null)
+
+
 //    val skillLevel = skill.level
 
 
@@ -282,43 +289,50 @@ fun Skill(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            SubjectInfo()
+            SubjectInfo(
+//                level = level,
+//                levelTitle = levelTitle,
+                bestSession = bestSession?.minutes ?: 0,
+                bestSessionTime = bestSession?.createdAt,
+                lastStudiedTime = lastSession?.createdAt,
+                dailyGoal = data.goal
+            )
 
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFFE2C27B),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-                    .background(
-                        color = Color(0xFFE9E2D3),
-                        shape = RoundedCornerShape(16.dp)
-                    )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(8.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-
-                    Text(
-                        text = "Next: Graph Master - +150 XP",
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFFA06A00)
-                    )
-
-                    Text(
-                        text = "Study 5 more sessions to unlock reward",
-                        color = Color(0xFFB88A3C)
-                    )
-                }
-            }
+//            Spacer(modifier = Modifier.height(24.dp))
+//
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(100.dp)
+//                    .border(
+//                        width = 1.dp,
+//                        color = Color(0xFFE2C27B),
+//                        shape = RoundedCornerShape(16.dp)
+//                    )
+//                    .background(
+//                        color = Color(0xFFE9E2D3),
+//                        shape = RoundedCornerShape(16.dp)
+//                    )
+//            ) {
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .padding(8.dp),
+//                    verticalArrangement = Arrangement.Center
+//                ) {
+//
+//                    Text(
+//                        text = "Next: Graph Master - +150 XP",
+//                        fontWeight = FontWeight.Bold,
+//                        color = Color(0xFFA06A00)
+//                    )
+//
+//                    Text(
+//                        text = "Study 5 more sessions to unlock reward",
+//                        color = Color(0xFFB88A3C)
+//                    )
+//                }
+//            }
 
 
             Spacer(modifier = Modifier.weight(1f))

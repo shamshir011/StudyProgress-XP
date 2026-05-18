@@ -18,12 +18,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.studyprogressxp.ui.theme.ElectricPurple
+import com.example.studyprogressxp.utils.formatMinutes
+import com.example.studyprogressxp.utils.formatDateTime
+import com.example.studyprogressxp.utils.goalToMinutes
 
 @Composable
-fun SubjectInfo() {
+fun SubjectInfo(
+//    level: Int,
+//    levelTitle: String,
+    bestSession: Int,
+    bestSessionTime: Long?,
+    lastStudiedTime: Long?,
+    dailyGoal: String
+) {
+
+    val bestSessionText = if (bestSession > 0) {
+        "${formatMinutes(bestSession)} • ${formatDateTime(bestSessionTime)}"
+    } else {
+        "No session yet"
+    }
+
+
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,31 +65,31 @@ fun SubjectInfo() {
         Column(modifier = Modifier) {
 
             Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Mastery Level",
-                    color = Color.DarkGray
-                )
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(8.dp),
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                Text(
+//                    text = "Mastery Level",
+//                    color = Color.DarkGray
+//                )
+//
+//                Text(
+//                    text = "Level $level - $levelTitle",
+//                    color = ElectricPurple,
+//                    fontWeight = FontWeight.Bold
+//                )
+//            }
 
-                Text(
-                    text = "Level 4 - Intermediate",
-                    color = ElectricPurple,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp),
-                thickness = 1.dp,
-                color = Color.LightGray
-            )
+//            HorizontalDivider(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 8.dp, bottom = 8.dp),
+//                thickness = 1.dp,
+//                color = Color.LightGray
+//            )
 
 
             Row(
@@ -86,7 +104,7 @@ fun SubjectInfo() {
                 )
 
                 Text(
-                    text = "3.0 hrs . Apr 20",
+                    text = bestSessionText,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
@@ -114,7 +132,7 @@ fun SubjectInfo() {
                 )
 
                 Text(
-                    text = "Today, 7:15 PM",
+                    text = formatDateTime(lastStudiedTime),
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
@@ -140,7 +158,7 @@ fun SubjectInfo() {
                 )
 
                 Text(
-                    text = "2hrs / day",
+                    text = "${formatMinutes(goalToMinutes(dailyGoal))} / day",
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )

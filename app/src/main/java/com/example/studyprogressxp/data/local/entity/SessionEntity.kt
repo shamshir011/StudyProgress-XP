@@ -10,5 +10,6 @@ data class SessionEntity(
     val skillId: Int,
     val date: String,
     val minutes: Int,
-    val xp: Int
+    val xp: Int,
+    val createdAt: Long = System.currentTimeMillis()
 )

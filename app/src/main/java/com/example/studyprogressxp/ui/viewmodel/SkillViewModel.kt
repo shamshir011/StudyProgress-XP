@@ -325,4 +325,9 @@ fun toggleTimer() {
         repo.getTotalStudiedMinutesBySkill(skillId)
             .map { it ?: 0 }
 
+
+    fun getBestSession(skillId: Int) = repo.getBestSession(skillId)
+
+    fun getLastSession(skillId: Int) = repo.getLastSession(skillId)
+
 }

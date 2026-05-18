@@ -82,4 +82,8 @@ class SkillRepository(private val dao: SkillDao) {
 
     fun getTotalStudiedMinutesBySkill(skillId: Int) =
         dao.getTotalStudiedMinutesBySkill(skillId)
+
+    fun getBestSession(skillId: Int) = dao.getBestSession(skillId)
+
+    fun getLastSession(skillId: Int) = dao.getLastSession(skillId)
 }

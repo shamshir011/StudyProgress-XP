@@ -38,3 +38,24 @@ fun formatStudyTime(minutes: Int): String {
 fun getTodayDate(): String {
     return java.time.LocalDate.now().toString()
 }
+
+
+
+fun formatDateTime(timeMillis: Long?): String {
+    if (timeMillis == null) return "Not studied yet"
+
+    val dateTime = java.time.Instant.ofEpochMilli(timeMillis)
+        .atZone(java.time.ZoneId.systemDefault())
+        .toLocalDateTime()
+
+    val today = java.time.LocalDate.now()
+
+    val time = dateTime.toLocalTime()
+        .format(java.time.format.DateTimeFormatter.ofPattern("h:mm a"))
+
+    return if (dateTime.toLocalDate() == today) {
+        "Today, $time"
+    } else {
+        dateTime.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd, h:mm a"))
+    }
+}

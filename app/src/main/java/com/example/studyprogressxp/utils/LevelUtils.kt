@@ -1,5 +1,7 @@
 package com.example.studyprogressxp.utils
 
+
+//Total subject
 fun getRequiredXpForLevel(level: Int): Int {
     return when (level) {
         1 -> 0
@@ -15,6 +17,8 @@ fun getRequiredXpForLevel(level: Int): Int {
         else -> 16000 + ((level - 10) * 4000)
     }
 }
+
+
 
 fun getLevelFromXp(totalXp: Int): Int {
     var level = 1

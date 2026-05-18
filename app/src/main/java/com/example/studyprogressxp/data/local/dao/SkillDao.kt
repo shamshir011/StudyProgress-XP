@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.studyprogressxp.data.local.entity.SessionEntity
 import com.example.studyprogressxp.data.local.entity.SkillEntity
+import com.example.studyprogressxp.data.local.model.SessionInfo
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -85,5 +86,24 @@ WHERE id = :id
 
     @Query("SELECT SUM(minutes) FROM sessions WHERE skillId = :skillId")
     fun getTotalStudiedMinutesBySkill(skillId: Int): Flow<Int?>
+
+
+    @Query("""
+SELECT minutes, createdAt 
+FROM sessions 
+WHERE skillId = :skillId 
+ORDER BY minutes DESC 
+LIMIT 1
+""")
+    fun getBestSession(skillId: Int): Flow<SessionInfo?>
+
+    @Query("""
+SELECT minutes, createdAt 
+FROM sessions 
+WHERE skillId = :skillId 
+ORDER BY createdAt DESC 
+LIMIT 1
+""")
+    fun getLastSession(skillId: Int): Flow<SessionInfo?>
 
 }
